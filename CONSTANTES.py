@@ -1,11 +1,16 @@
+import os
+
 """
 Constantes pour faire fonctionner l'application
 """
 # Repertoires de data
-DATA_FOLDER = "data/"
-REPORT_FILE = "data/report/"
-TOURNAMENT_FOLDER = "data/tournaments"
-TOURNAMENT_FILES_NAME = r"^data/tournaments/[A-Za-z0-9]{0,99}.json$"
+ABSOLUTE_PATH = os.path.dirname(os.path.abspath(__file__))
+DATA_FOLDER= f"{ABSOLUTE_PATH}/data/"
+file_tournament = f"{DATA_FOLDER}tournament.json"
+file_players = f"{DATA_FOLDER}players.json"
+REPORT_FILE = f"{DATA_FOLDER}report/"
+TOURNAMENT_FOLDER = f"{DATA_FOLDER}tournaments"
+#TOURNAMENT_FILES_NAME = r"^data/tournaments/[A-Za-z0-9]{0,99}.json$"
 
 # liste des caractères autorisés
 NATIONAL_IDENTIFIER_FORMAT = r"^[A-Z]{2}[0-9]{5}$"
@@ -20,4 +25,5 @@ MENU_JOUEURS = "1"
 MENU_TOURNOI = "2"
 MENU_GESTION = "3"
 COLOR = ["Blanc", "Noir"]
-QUIT = 4
+QUIT = "Q"
+

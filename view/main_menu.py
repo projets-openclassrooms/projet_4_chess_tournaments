@@ -10,6 +10,6 @@ class MainMenu:
             + "Taper 1 pour Gestion des joueurs\n"
             + "Taper 2 pour Gestion du tournoi\n"
             + "Taper 3 pour Gestion des rapports\n"
-            + "Ou taper 'q' pour quitter.\n"
-        ).upper()
+            + "Ou taper 0 pour quitter.\n"
+        )
         return menu

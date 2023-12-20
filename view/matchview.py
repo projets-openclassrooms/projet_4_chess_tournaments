@@ -1,4 +1,8 @@
-"""Define Match view"""
+"""Define Match view
+quel joueur a les blancs?
+Qui joue contre qui?
+Qui gagne?
+"""
 
 
 class MatchView:

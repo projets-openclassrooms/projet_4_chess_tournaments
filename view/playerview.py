@@ -13,14 +13,15 @@ class PlayerView:
         if len(players_saved) == 0:
             print("\nAucun joueur choisi.\n")
         else:
-            print("\nDétail de la liste des joueurs :\n")
+            print("\nListe des joueurs enregistrés :\n")
             for player in players_saved:
                 print(
-                    f"- {player.name} {player.firstname} - {player.birthday}"
-                    + f" - INE : {player.identifiant}"
+                    f"- {player.name} {player.firstname} - {player.date_of_birth}"
+                    + f" - INE : {player.identifier}"
                 )
             if len(players_saved) == 1:
-                print("Joueur n°1\n")
+                print("1 Joueur.\nVeuillez saisir les données d'un autre joueur\n")
+
             elif len(players_saved) > 1:
                 print(f"Total : {str(len(players_saved))} joueurs.\n")
 
@@ -37,16 +38,27 @@ class PlayerView:
             else:
                 print(f"{save_new_player} n'est pas valide\n")
 
+    def delete_player(self, players_saved):
+        i = 0
+        for player in players_saved:
+            i += 1
+            print(f"{i} - {player}")
+            while True:
+                choice = int(input("Saisir le numéro du joueur à supprimer :\n"))
+                if not choice:
+                    print("Merci de saisir un chiffre svp.")
+                else:
+                    return players_saved[choice - 1]
+
     def ask_for_name(self):
         name = ""
         while name != QUIT:
             name = input(
-                "\nSaisissez le nom de famille du joueur ou 'q'"
-                " pour quitter la création:\n> "
+                "\nSaisissez le nom de famille du joueur "
             ).upper()
             if name == "":
                 print("Ce champ ne peut pas être vide")
-            elif name == QUIT:
+            elif name == "Q":
                 print("Vous quittez la création\n")
                 return None
             else:
@@ -54,14 +66,13 @@ class PlayerView:
 
     def ask_for_firstname(self):
         firstname = ""
-        while firstname != QUIT:
+        while firstname != QUIT or firstname != "q":
             firstname = input(
                 "Veuillez saisir le prénom du joueur "
-                + " ou 'q' pour quitter la création :\n"
             ).upper()
             if firstname == "":
                 print("Ce champ ne peut pas être vide")
-            elif firstname == QUIT:
+            elif firstname == "Q":
                 print("Vous quittez la création\n")
                 return None
             else:
@@ -73,9 +84,7 @@ class PlayerView:
             birthday = input(
                 "Veuillez saisir la date de naissance du joueur.\n"
                 + "Elle doit être au format"
-                + " '__/__/____' "
-                + ", mais vous pouvez quitter la création"
-                + " à tout moment en tapant 'q':\n"
+                + " '__/__/____' \n"
             ).upper()
             if birthday == "":
                 print("Ce champ ne peut pas être vide")
@@ -85,32 +94,28 @@ class PlayerView:
             elif re.match(BIRTHDAY_FORMAT, birthday):
                 return birthday
             else:
-                print(+"La date doit être au format" + " '__/__/____'")
+                print("La date doit être au format" + " '__/__/____'")
 
     def ask_national_identification(self):
-        identifiant = ""
-        while identifiant != QUIT:
-            identifiant = input(
-                "Veuillez saisir l'identifiant national du joueur.\n"
+        identifier = ""
+        while identifier != QUIT:
+            identifier = input(
+                "Veuillez saisir l'identifier national du joueur.\n"
                 + "Il doit être au format"
                 + " 'AB12345'"
                 + ", mais vous pouvez également quitter"
                 + " la création en tapant 'q'.\n"
             ).upper()
-            if identifiant == "":
-                print("Vous quittez la création\n")
-            elif identifiant == QUIT:
+            if identifier == "" or identifier == "q":
                 print("Vous quittez la création\n")
                 return None
-            elif re.match(NATIONAL_IDENTIFIER_FORMAT, identifiant):
-                return identifiant
+            elif re.match(NATIONAL_IDENTIFIER_FORMAT, identifier):
+                return identifier
             else:
-                print("Le format attendu est" + " 'AB12345'\n")
+                print("Le format attendu est 'AB12345'\n")
 
-    def display_creation_error(self, identifiant):
-        print(
-            "L'indentifiant '" + identifiant + "' existe déjà dans la base de donnée.\n"
-        )
+    def display_creation_error(self, identifier):
+        print(f"L'indentifiant '{identifier} ' existe déjà dans la base de donnée.\n")
 
     def display_creation(self):
         print("Le joueur à été créé")

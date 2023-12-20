@@ -58,6 +58,7 @@ class ReportManager:
         :rtype: object
         :return tournament or None
         """
+        tournament = ""
         all_tournaments = self.all_tournaments_name()
         if not all_tournaments:
             return None
@@ -169,8 +170,10 @@ class ReportManager:
         tournament.turn_list = self.get_turn_list(tournament.name)
         title = [
             "Numéro du tour",
-            "Joueur",
-            "Opposant",
+            "Nom Joueur",
+            "INE du joueur",
+            "Nom Opposant",
+            "INE Opposant",
             "score joueur",
             "score opposant",
         ]
@@ -182,12 +185,14 @@ class ReportManager:
                 player_score = match.player_score
                 opponent_score = match.opponent_score
                 if not match.match_result:
-                    (player_score,) = "Not Played"
+                    (player_score, opponent_score) = "Not Played"
                     opponent_score = "Not Played"
                 match_list = [
                     turn.turn_nb,
-                    player.identifiant,
-                    opponent.identifiant,
+                    player.name,
+                    player.identifier,
+                    opponent.name,
+                    opponent.identifier,
                     player_score,
                     opponent_score,
                 ]
@@ -204,14 +209,14 @@ class ReportManager:
     def all_players_report(self):
         """Export a list of all players saved"""
         all_players = Player.get_players_saved()
-        title = ["Nom", "Prénom", "Date de Naissance", "Identifiant"]
+        title = ["Nom", "Prénom", "Date de Naissance", "identifier"]
         data = []
         for player in all_players:
             player_extract = [
                 player.name,
                 player.firstname,
-                player.birthday,
-                player.identifiant,
+                player.date_of_birth,
+                player.identifier,
             ]
             data.append(player_extract)
         file_name = REPORT_FILE + "all_players_saved.csv"
@@ -231,7 +236,7 @@ class ReportManager:
             return None
         title = [
             "Nom du Tournoi",
-            "INE Joueurs",
+            "Joueurs - INE",
         ]
         all_tournament_player = []
         for player_identity in tournament.players:
@@ -253,13 +258,16 @@ class ReportManager:
         end_execution = False
         while end_execution is False:
             selection = self.reportview.ask_type_report()
-            if selection is None:
+            if selection == 5:
                 end_execution = True
-            elif selection == "1":
+                break
+            elif selection == 1:
                 self.all_players_report()
-            elif selection == "2":
+            elif selection == 2:
                 self.all_tournaments_report()
-            elif selection == "3":
+            elif selection == 3:
                 self.all_matches_and_turns()
-            elif selection == "4":
+            elif selection == 4:
                 self.all_players_tournament_report()
+                
+

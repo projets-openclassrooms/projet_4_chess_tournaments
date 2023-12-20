@@ -74,7 +74,7 @@ class TournamentManager:
             elif len(players) % 2 == 0 and len(players) >= 2:
                 break
         for player in players:
-            renamed_player = f"{player.name} ({player.identifiant})"
+            renamed_player = f"{player.name} ({player.identifier})"
             player.name = renamed_player
         return players
 

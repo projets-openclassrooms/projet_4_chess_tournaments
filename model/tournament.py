@@ -3,7 +3,7 @@ import json
 import os
 import re
 from datetime import datetime
-from CONSTANTES import TOURNAMENT_FOLDER, TOURNAMENT_FILES_NAME
+from CONSTANTES import file_tournament
 
 
 class Tournament:
@@ -67,7 +67,7 @@ class Tournament:
             "name_of_tournament": self.name,
             "location": self.location,
             "turn": self._turn,
-            "tournament_players": [p.identifiant for p in self.players],
+            "tournament_players": [p.identifier for p in self.players],
             "total_of_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
@@ -87,9 +87,9 @@ class Tournament:
             all_information.update({"ending_date": str(self.ending_date)})
         else:
             all_information.update({"ending_date": None})
-        tournament_file = TOURNAMENT_FOLDER + "/" + tournament_name + ".json"
-        tournament_file = tournament_file.replace(" ", "")
-        with open(tournament_file, "w") as file:
+        # tournament_file = TOURNAMENT_FOLDER + "/" + tournament_name + ".json"
+        # tournament_file = tournament_file.replace(" ", "")
+        with open(file_tournament, "w") as file:
             json.dump(all_information, file)
 
     @classmethod
@@ -108,11 +108,11 @@ class Tournament:
     @classmethod
     def get_all_tournament_names(cls, with_finished=False):
         file_list = []
-        for root, _, files in os.walk(TOURNAMENT_FOLDER):
+        for root, _, files in os.walk(file_tournament):
             for file in files:
                 file_path = os.path.join(root, file)
                 file_path = file_path.replace("\\", "/")
-                if re.match(TOURNAMENT_FILES_NAME, file_path):
+                if re.match(file_tournament, file_path):
                     file_path = file_path.replace(TOURNAMENT_FOLDER + "/", "")
                     file_path = file_path.replace(".json", "")
                     file_list.append(file_path)

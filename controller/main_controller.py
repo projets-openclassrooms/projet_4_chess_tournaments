@@ -26,12 +26,11 @@ class MainController:
     def run(self):
         if not os.path.exists(DATA_FOLDER):
             os.mkdir(DATA_FOLDER)
-            os.mkdir(f"{DATA_FOLDER}player")
-            os.mkdir(f"{DATA_FOLDER}report")
-            os.mkdir(f"{DATA_FOLDER}tournaments")
+        print(DATA_FOLDER)
+
 
         menu = ""
-        while menu != "Q":
+        while menu != "0":
             menu = self.mainview.display_menu()
             if menu == "1":
                 self.player.run_player()
@@ -39,7 +38,7 @@ class MainController:
                 self.tournament.run_tournament()
             elif menu == "3":
                 self.report.run_report()
-            elif menu == "Q":
+            elif menu == "0":
                 break
             else:
-                print("Réponse (1/2/3/q) svp.")
+                print("Réponse (1/2/3/0) svp.")

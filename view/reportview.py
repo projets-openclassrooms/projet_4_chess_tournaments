@@ -1,3 +1,5 @@
+REPORT_FILE = "data/report/"
+
 """Define report views."""
 
 
@@ -14,7 +16,8 @@ class ReportView:
     """
 
     def display_empty(self):
-        print("Vous n'avez aucune donnée enregistrée.")
+        print("Vous n'avez aucune donnée enregistrée.\n")
+        print("Veuillez retourner dans le menu correspondant svp.")
 
     def display_import_error(self):
         print("Le tournoi saisi n'existe pas.\n")
@@ -27,21 +30,24 @@ class ReportView:
         """
         end_selection = False
         while not end_selection:
-            selection = input(
-                "\nQuel type de rapport aimeriez-vous créer?\n"
-                + "-Tous les joueurs.(1)\n"
-                + "-Tous les tournois.(2)\n"
-                + "-Tous les matchs d'un tournoi.(3)\n"
-                + "-Tous les joueurs d'un tournoi (4).\n"
-                + "-Ou tapez 'q' pour quitter.\n"
-            ).upper()
+            selection = int(
+                input(
+                    "\nQuel type de rapport aimeriez-vous créer?\n"
+                    + "- (1) Tous les joueurs.\n"
+                    + "- (2) Tous les tournois.\n"
+                    + "- (3) Tous les résultats de matchs de tournoi(s).\n"
+                    + "- (4) Tous les joueurs participant au(x) tournoi(s).\n"
+                    + "-Ou (5) pour revenir en arrière.\n"
+                )
+            )
+
             if selection in range(1, 5, 1):
                 return selection
-            elif selection == "Q":
+            elif selection == 5:
                 print("\nVous quittez maintenant la gestion de rapport.")
                 return None
             else:
-                print(selection + " n'est pas valide")
+                print(f"{selection} n'est pas valide")
 
     def tournament_choice(self, all_tournaments):
         """
@@ -49,19 +55,25 @@ class ReportView:
         :param all_tournaments:
         :return: choice
         """
+        i = 1
         print("Voici les tournois sauvegardés: ")
         for tournament in all_tournaments:
-            print("--> " + tournament)
-        choice = input(
-            "Taper le nom du tournoi dont vous souhaitez le rapport"
-            + " ou tapez 'q' pour quitter.\n> "
-        ).upper()
-        if choice == "Q":
-            return None
-        return choice
+            print(f"{i}-->  {tournament}")
+            i = i + 1
+
+        choice = int(
+            input(
+                "Taper le nom du tournoi dont vous souhaitez le rapport"
+                + " ou tapez 0 pour quitter.\n> "
+            )
+        )
+        choice_tournament = all_tournaments[choice - 1]
+
+        return choice_tournament
 
     def display_create_report(self):
-        print("Le rapport a bien été créé.")
+        print("Le rapport a bien été créé.\n")
+        print(f"Veuillez le trouver dans le dossier '{REPORT_FILE}'")
 
     def display_create_error(self):
         print("Le rapport n'a pas pu être créé.")
@@ -74,7 +86,7 @@ class ReportView:
         asking = True
         while asking:
             to_open = input(
-                "\nSouhaitez-vous visualiser le " + "contenu de ce rapport? (o/n)\n> "
+                "\nSouhaitez-vous visualiser le " + "contenu de ce rapport? (o/n)\n "
             ).upper()
             if to_open == "O":
                 return True

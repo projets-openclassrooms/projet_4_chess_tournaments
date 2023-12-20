@@ -27,4 +27,4 @@ class TurnView:
         print("\nVoici le classement actuel: ")
         sorted_player = tournament_data.ranking
         for player in sorted_player:
-            print(f"{player.name} avec " + str(player.score) + " points")
+            print(f"{player.name} avec {player.score} points")

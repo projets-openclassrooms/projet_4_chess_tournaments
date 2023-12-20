@@ -2,6 +2,8 @@
     new_player with attributes
 
 """
+import uuid
+
 from model.player import Player
 from view.playerview import PlayerView
 
@@ -10,6 +12,12 @@ class PlayerManager:
     def __init__(self):
         self.player_view = PlayerView()
         self.all_players = []
+
+    def player_score(self):
+        """Default created player's score."""
+        self.score = 0.0
+
+
 
     def new_player(self):
         another_add = True
@@ -30,18 +38,24 @@ class PlayerManager:
             birthday = self.player_view.ask_for_birthday()
             if not birthday:
                 return None
-            create_identifiant = True
-            while create_identifiant:
-                identifiant = self.player_view.ask_national_identification()
-                if not identifiant:
+            create_identifier = True
+            while create_identifier:
+                identifier = self.player_view.ask_national_identification()
+                if not identifier:
                     return None
-                control_identifiant = Player.identifiant_exists(identifiant)
-                if control_identifiant:
-                    self.player_view.display_creation_error(control_identifiant)
-                elif not control_identifiant:
+                control_identifier = Player.identifier_exists(identifier)
+                if control_identifier:
+                    self.player_view.display_creation_error(control_identifier)
+                elif not control_identifier:
                     self.player_view.display_creation()
-                    create_identifiant = False
-            new_player = Player(name, firstname, birthday, identifiant)
+                    # player_uuid = Player.set_player_uuid()
+                    create_identifier = False
+                    score = 0
+                    played_against =[]
+            new_player = Player(name, firstname, birthday, identifier, score)
+            print(new_player)
+
+            # new_player = Player(player_id, name, firstname, birthday, identifier, score)
             new_player.save_new_player()
             self.all_players = Player.get_players_saved()
         return new_player

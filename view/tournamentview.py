@@ -1,5 +1,6 @@
 import re
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
+from model.player import Player
 
 """Display Tournament view"""
 # TOURNAMENT_NAME = r"^[A-Za-z0-9]{0,99}$"
@@ -14,8 +15,8 @@ class TournamentView:
             + " utiliser les options suivantes : \n"
             + " -Taper 1 pour afficher la liste en cours d'entrée.\n"
             + " -Taper 2 pour sélectionner tous les joueurs.\n"
-            + " -Taper 3 pour finaliser la liste\n"
-            + " -Taper 'q' pour quitter la création.\n"
+            # + " -Taper 3 pour enlever un nom de la liste\n"
+            + " -Taper '0' pour quitter la création.\n"
         )
 
     def ask_for_players(self):
@@ -81,7 +82,7 @@ class TournamentView:
             turns = input(
                 "Combien de tours compte ce tournoi?\n-"
                 + "par défaut (4 tours)"
-                + f" (pour {perfect_choice} joueurs).\n"
+                + f" ({perfect_choice} *2 joueurs jouent).\n"
                 + " et tapez 'q' pour quitter,\n"
             ).upper()
             if not turns:
@@ -118,14 +119,11 @@ class TournamentView:
 
         :param players_saved:
         :return"{player.name} {player.firstname}"
-                + f", né le {player.birthday} et son identifiant: {player.identifiant}"
+                + f", né le {player.birthday} et son identifier: {player.identifier}"
         """
         print("Les joueurs déjà enregistrés sont: ")
         for player in players_saved:
-            print(
-                f"{player.name} {player.firstname}"
-                + f", né le {player.birthday} et son identifiant: {player.identifiant}"
-            )
+            print(repr(player))
 
     def display_current_list(self, current_list):
         """
@@ -180,9 +178,9 @@ class TournamentView:
                     print("La liste de tous les joueurs n'est pas paire.\n")
                 else:
                     return player_list
-            elif current_player == "3":
-                self.quit_select_current(player_list)
-                return player_list
+            # elif current_player == "3":
+            #     self.quit_select_current(player_list)
+            #     return player_list
             elif current_player == "Q":
                 return None
             elif current_player in player_list:
@@ -190,14 +188,14 @@ class TournamentView:
             else:
                 player_exist = False
                 for player in player_list:
-                    if current_player in player.identifiant:
+                    if current_player in player.identifier:
                         print("Le joueur est déjà enregistré.\n")
                         player_exist = True
                         break
                 if player_exist:
                     continue
                 for player in players_saved:
-                    if current_player == player.identifiant:
+                    if current_player == player.identifier:
                         player_list.append(player)
                         break
 
@@ -208,8 +206,8 @@ class TournamentView:
         """
         while True:
             ask_to_new = input(
-                "Voulez-vous créer un nouveau tournoi ('1'),\n"
-                + "reprendre un tournoi en cours ('2')\n"
+                "(1) Voulez-vous créer un nouveau tournoi,\n"
+                + "(2) reprendre un tournoi en cours\n"
                 + "Saisir 1/ 2/ ou 'q' pour quitter?\n"
             ).upper()
             if ask_to_new == "1":
@@ -219,7 +217,7 @@ class TournamentView:
             elif ask_to_new == "Q":
                 return None
             else:
-                print(ask_to_new + " n'est pas valide")
+                print(f"{ask_to_new} n'est pas valide")
 
     def select_previous_tournament(self, tournament_saved):
         """

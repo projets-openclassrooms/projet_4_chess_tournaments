@@ -32,8 +32,8 @@ class Turn:
             + self.tournament_name
             + "', turn_nb='"
             + str(self.turn_nb)
-            + "', match_list={},".format(self.match_list)
-            + "matches_result={})".format(self._match_list)
+            + f"', match_list={self.match_list},"
+            + f"matches_result={self._match_list})"
         )
         return representation
 
@@ -43,7 +43,7 @@ class Turn:
             + str(self.turn_nb)
             + "du tournoi: '"
             + self.tournament_name
-            + "', les matchs qui le compose sont: {}".format(self.match_list)
+            + f"', les matchs qui le compose sont: {self.match_list}"
         )
         return representation
 
@@ -72,8 +72,8 @@ class Turn:
             all_information["end"] = str(self.ending_turn)
         else:
             all_information.update({"end": None})
-        file_name = "{}/{}_turn{}.json".format(
-            TOURNAMENT_FOLDER, self.tournament_name, self.turn_nb
+        file_name = (
+            f"{TOURNAMENT_FOLDER}/{self.tournament_name}_turn{self.turn_nb}.json"
         )
         with open(file_name, "w") as file:
             json.dump(all_information, file, default=lambda x: x.to_dict())

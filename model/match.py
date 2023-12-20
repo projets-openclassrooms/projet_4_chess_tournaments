@@ -38,12 +38,7 @@ class Match:
         return representation
 
     def __str__(self):
-        return (
-            "Le match oppose: "
-            + str(self.player)
-            + " qui affrontera: "
-            + str(self.opponent)
-        )
+        return "Le match entre " + str(self.player) + " et " + str(self.opponent)
 
     def to_dict(self):
         return dict(

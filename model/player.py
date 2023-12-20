@@ -2,7 +2,8 @@
 import json
 import os
 import re
-from CONSTANTES import SEARCHING_INE
+from CONSTANTES import SEARCHING_INE, DATA_FOLDER, file_players, file_tournament
+import uuid
 
 # class Example:
 #     def __init__(self,param1,param2):
@@ -26,45 +27,49 @@ from CONSTANTES import SEARCHING_INE
 
 class Player:
     """Define player as an object:
-    A player has a name, a firstname, a birthday and a national identifiant, un score à 0
+    A player has a name, a firstname, a birthday and a national identifier, un score à 0
     """
 
-    PLAYER_DATA = "data/player/player_data.json"
 
-    def __init__(self, name, firstname, birthday, identifiant, score=0):
+    def __init__(self, name, firstname, birth, identifier, score=0):
+        self.player_uuid = str(uuid.uuid4())
         self.name = name
         self.firstname = firstname
-        self.birthday = birthday
-        self.identifiant = identifiant
+        self.date_of_birth = birth
+        self.identifier = identifier
         self.score = score
+        self.played_against = []
 
     def __repr__(self):
         """Define the representation for a player object"""
         representation = (
-            "Player(name='"
+
+            "Player(nom='"
             + self.name
-            + "', firstname='"
+            + "', prenom='"
             + self.firstname
-            + "', birthday='"
-            + self.birthday
-            + "', identifiant='"
-            + self.identifiant
+            + "', une date de naissance='"
+            + self.date_of_birth
+            + "', identifier (INE)='"
+            + self.identifier
             + "')"
         )
         return representation
 
     def __str__(self):
-        return "Le joueur {} (score: {})".format(self.name, self.score)
+        return f"Le joueur {self.name} (score: {self.score})"
 
     def __lt__(self, other):
         return self.score < other.score
 
+
     def to_dict(self):
         return {
+            "id": self.player_uuid,
             "name": self.name,
             "firstname": self.firstname,
-            "birthday": self.birthday,
-            "national_identification": self.identifiant,
+            "birthday": self.date_of_birth,
+            "national_identification": self.identifier,
         }
 
     def save_new_player(self):
@@ -73,23 +78,32 @@ class Player:
 
         """
         new_player = self.to_dict()
-        path_control = os.path.exists(self.PLAYER_DATA)
+        print(new_player)
+        path_control = os.path.exists(DATA_FOLDER)
         if path_control is True:
-            with open(self.PLAYER_DATA, "r") as file:
+            with open(file_players, "r") as file:
                 all_players = json.load(file)
-                all_players["players"].append(new_player)
+                if all_players.get("players") is not None:
+                    all_players["players"].append(new_player)
+                else:
+                    all_players = {"players": [new_player]}
         else:
             all_players = {"players": [new_player]}
-        with open(self.PLAYER_DATA, "w") as file:
+        with open(file_players, "w") as file:
             json.dump(all_players, file)
 
     @classmethod
-    def identifiant_exists(cls, identifiant):
-        """Return existing identifiant or None if not exist"""
+    def set_player_uuid():
+        player_uuid = uuid.uuid4()
+        return player_uuid
+
+    @classmethod
+    def identifier_exists(cls, identifier):
+        """Return existing identifier or None if not exist"""
         players_saved = cls.get_players_saved()
         for player in players_saved:
-            if identifiant == player.identifiant:
-                return identifiant
+            if identifier == player.identifier:
+                return identifier
         return None
 
     @classmethod
@@ -99,17 +113,22 @@ class Player:
         :return: players_saved
         """
         all_players_saved = {}
+        print(all_players_saved)
         players_saved = []
-        path_control = os.path.exists(cls.PLAYER_DATA)
+        path_control = os.path.exists(DATA_FOLDER)
         if path_control is True:
-            with open(cls.PLAYER_DATA, "r") as file:
+            with open(file_players, "r") as file:
                 all_players_saved = json.load(file)
             for player in all_players_saved["players"]:
+            #for player in all_players_saved:
+                print(player)
+                player_uuid = player['id']
                 name = player["name"]
                 firstname = player["firstname"]
-                birthday = player["birthday"]
-                identifiant = player["national_identification"]
-                players_to_return = cls(name, firstname, birthday, identifiant)
+                date_of_birth = player["birthday"]
+                identifier = player["national_identification"]
+                players_to_return = Player(name, firstname, date_of_birth, identifier, )
+                players_to_return.player_uuid = player_uuid
                 players_saved.append(players_to_return)
             return players_saved
         else:
@@ -122,9 +141,9 @@ class Player:
         :param player_ident:
         :return: player_to_return
         """
-        path_control = os.path.exists(cls.PLAYER_DATA)
+        path_control = os.path.exists(DATA_FOLDER)
         if path_control is True:
-            with open(cls.PLAYER_DATA, "r") as file:
+            with open(file_players, "r") as file:
                 all_players_saved = json.load(file)
             for player in all_players_saved["players"]:
                 ident = player["national_identification"]
@@ -132,7 +151,8 @@ class Player:
                     name = player["name"] + " (" + ident + ")"
                     firstname = player["firstname"]
                     birthday = player["birthday"]
-                    player_to_return = cls(name, firstname, birthday, ident)
+                    played_against = player["played_against"]
+                    player_to_return = Player(name, firstname, birthday, ident, played_against)
         return player_to_return
 
     @classmethod
@@ -142,12 +162,12 @@ class Player:
         :param player:
         :return: player_to_return
         """
-        identifiant = re.search(SEARCHING_INE, player)
-        identifiant = identifiant.group(1)
+        identifier = re.search(SEARCHING_INE, player)
+        identifier = identifier.group(1)
         all_players = cls.get_players_saved()
         for player in all_players:
-            if player.identifiant == identifiant:
+            if player.identifier == identifier:
                 player_to_return = player
-                player_to_return.name = player.name + " (" + identifiant + ")"
+                player_to_return.name = player.name + " (" + identifier + ")"
                 break
         return player_to_return
