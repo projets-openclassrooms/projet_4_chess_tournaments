@@ -1,15 +1,22 @@
-players_data = "data/players.json"
-tournaments_data = "data/tournaments.json"
-MAX_PLAYERS = 8
+from CONSTANTES import clear
+
 
 
 class MainMenu:
     def display_menu(self):
         menu = input(
-            "Quel menu souhaitez-vous sélectionner ?\n"
-            + "Taper 1 pour Gestion des joueurs\n"
-            + "Taper 2 pour Gestion du tournoi\n"
-            + "Taper 3 pour Gestion des rapports\n"
-            + "Ou taper 0 pour quitter.\n"
+            "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
+            + " 1 - Créer un nouveau joueur \n"
+            + " 2 - Gestion du tournoi\n"
+            + " 3 - Gestion des rapports\n"
+            + " 4 - Supprimer un joueur\n"
+            + " 5 - Modifier un joueur\n"
+            + " 6 - Voir les joueurs\n"
+            + " 7 - Créer un nouveau tournoi\n"
+            + " 8 - Voir un tournoi\n"
+            + " 9 - Voir les tournois\n"
+            + " 0 - quitter.\n"
         )
+        clear()
         return menu
+

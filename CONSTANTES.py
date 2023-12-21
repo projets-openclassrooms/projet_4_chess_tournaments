@@ -1,16 +1,18 @@
 import os
+# import only system from os
+from os import system, name, path
 
 """
 Constantes pour faire fonctionner l'application
 """
 # Repertoires de data
 ABSOLUTE_PATH = os.path.dirname(os.path.abspath(__file__))
-DATA_FOLDER= f"{ABSOLUTE_PATH}/data/"
+DATA_FOLDER = f"{ABSOLUTE_PATH}/data/"
 file_tournament = f"{DATA_FOLDER}tournament.json"
 file_players = f"{DATA_FOLDER}players.json"
 REPORT_FILE = f"{DATA_FOLDER}report/"
 TOURNAMENT_FOLDER = f"{DATA_FOLDER}tournaments"
-#TOURNAMENT_FILES_NAME = r"^data/tournaments/[A-Za-z0-9]{0,99}.json$"
+# TOURNAMENT_FILES_NAME = r"^data/tournaments/[A-Za-z0-9]{0,99}.json$"
 
 # liste des caractères autorisés
 NATIONAL_IDENTIFIER_FORMAT = r"^[A-Z]{2}[0-9]{5}$"
@@ -27,3 +29,12 @@ MENU_GESTION = "3"
 COLOR = ["Blanc", "Noir"]
 QUIT = "Q"
 
+
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')

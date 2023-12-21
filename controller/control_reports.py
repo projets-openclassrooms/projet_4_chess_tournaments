@@ -269,5 +269,3 @@ class ReportManager:
                 self.all_matches_and_turns()
             elif selection == 4:
                 self.all_players_tournament_report()
-                
-

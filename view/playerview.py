@@ -53,9 +53,7 @@ class PlayerView:
     def ask_for_name(self):
         name = ""
         while name != QUIT:
-            name = input(
-                "\nSaisissez le nom de famille du joueur "
-            ).upper()
+            name = input("\nSaisissez le nom de famille du joueur ").upper()
             if name == "":
                 print("Ce champ ne peut pas être vide")
             elif name == "Q":
@@ -67,9 +65,7 @@ class PlayerView:
     def ask_for_firstname(self):
         firstname = ""
         while firstname != QUIT or firstname != "q":
-            firstname = input(
-                "Veuillez saisir le prénom du joueur "
-            ).upper()
+            firstname = input("Veuillez saisir le prénom du joueur ").upper()
             if firstname == "":
                 print("Ce champ ne peut pas être vide")
             elif firstname == "Q":

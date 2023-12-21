@@ -17,8 +17,6 @@ class PlayerManager:
         """Default created player's score."""
         self.score = 0.0
 
-
-
     def new_player(self):
         another_add = True
         new_player = None
@@ -51,7 +49,7 @@ class PlayerManager:
                     # player_uuid = Player.set_player_uuid()
                     create_identifier = False
                     score = 0
-                    played_against =[]
+                    played_against = []
             new_player = Player(name, firstname, birthday, identifier, score)
             print(new_player)
 
@@ -61,7 +59,7 @@ class PlayerManager:
         return new_player
 
     def run_player(self):
-        all_player_saved = []
+        # all_player_saved = []
         self.new_player()
         all_player_saved = Player.get_players_saved()
         return all_player_saved

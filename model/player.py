@@ -30,7 +30,6 @@ class Player:
     A player has a name, a firstname, a birthday and a national identifier, un score à 0
     """
 
-
     def __init__(self, name, firstname, birth, identifier, score=0):
         self.player_uuid = str(uuid.uuid4())
         self.name = name
@@ -43,7 +42,6 @@ class Player:
     def __repr__(self):
         """Define the representation for a player object"""
         representation = (
-
             "Player(nom='"
             + self.name
             + "', prenom='"
@@ -61,7 +59,6 @@ class Player:
 
     def __lt__(self, other):
         return self.score < other.score
-
 
     def to_dict(self):
         return {
@@ -107,29 +104,36 @@ class Player:
         return None
 
     @classmethod
-    def get_players_saved(cls):
-        """
+    def get_players_saved(self):
+        # all_players_saved = {}
 
-        :return: players_saved
-        """
-        all_players_saved = {}
-        print(all_players_saved)
+        """:return: players_saved"""
+
+        # print(all_players_saved)
+        # all_players_saved = dict()
         players_saved = []
         path_control = os.path.exists(DATA_FOLDER)
+        # if not path_control:
         if path_control is True:
-            with open(file_players, "r") as file:
+            with open(file_players) as file:
                 all_players_saved = json.load(file)
-            for player in all_players_saved["players"]:
-            #for player in all_players_saved:
-                print(player)
-                player_uuid = player['id']
-                name = player["name"]
-                firstname = player["firstname"]
-                date_of_birth = player["birthday"]
-                identifier = player["national_identification"]
-                players_to_return = Player(name, firstname, date_of_birth, identifier, )
-                players_to_return.player_uuid = player_uuid
-                players_saved.append(players_to_return)
+            if all_players_saved.get("players") is not None:
+                for player in all_players_saved["players"]:
+                # for player in all_players_saved:
+                    print(player)
+                    player_uuid = player["id"]
+                    name = player["name"]
+                    firstname = player["firstname"]
+                    date_of_birth = player["birthday"]
+                    identifier = player["national_identification"]
+                    players_to_return = Player(
+                        name,
+                        firstname,
+                        date_of_birth,
+                        identifier,
+                    )
+                    players_to_return.player_uuid = player_uuid
+                    players_saved.append(players_to_return)
             return players_saved
         else:
             return players_saved
@@ -152,7 +156,9 @@ class Player:
                     firstname = player["firstname"]
                     birthday = player["birthday"]
                     played_against = player["played_against"]
-                    player_to_return = Player(name, firstname, birthday, ident, played_against)
+                    player_to_return = Player(
+                        name, firstname, birthday, ident, played_against
+                    )
         return player_to_return
 
     @classmethod
