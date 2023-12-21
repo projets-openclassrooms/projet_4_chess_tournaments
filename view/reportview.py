@@ -45,7 +45,7 @@ class ReportView:
                 return selection
             elif selection == 5:
                 print("\nVous quittez maintenant la gestion de rapport.")
-                return None
+                return selection
             else:
                 print(f"{selection} n'est pas valide")
 

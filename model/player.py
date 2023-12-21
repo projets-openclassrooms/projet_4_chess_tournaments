@@ -27,7 +27,7 @@ import uuid
 
 class Player:
     """Define player as an object:
-    A player has a name, a firstname, a birthday and a national identifier, un score à 0
+    A player has a name, a firstname, a date_of_birth and a national identifier chess, un score à 0
     """
 
     def __init__(self, name, firstname, birth, identifier, score=0):
@@ -55,8 +55,11 @@ class Player:
         return representation
 
     def __str__(self):
-        return f"Le joueur {self.name} (score: {self.score})"
-
+        return f"Le joueur {self.name} - INE , {self.identifier} (score: {self.score})"
+    
+    def full_name(self):
+        return f"- {self.first_name} {self.name} {self.identifier}"
+    
     def __lt__(self, other):
         return self.score < other.score
 
@@ -71,7 +74,7 @@ class Player:
 
     def save_new_player(self):
         """
-        json dumps
+        json dumps players
 
         """
         new_player = self.to_dict()

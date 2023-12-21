@@ -13,7 +13,7 @@ from view.turnview import TurnView
 """Define controller about tournament
     choice of pairs
     create_tournament
-    randomize
+    randomize for 1st turn
 
 
 """

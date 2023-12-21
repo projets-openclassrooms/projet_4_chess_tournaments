@@ -164,3 +164,7 @@ cython_debug/
 /data/fichier_dict.json
 /data/tournaments.json
 /tests
+/data/report/all_players_saved.csv
+/data/tournaments/TEST_turn1.json
+/data/players.json
+/data/tournament.json

@@ -15,7 +15,6 @@ class TournamentView:
             + " utiliser les options suivantes : \n"
             + " -Taper 1 pour afficher la liste en cours d'entrée.\n"
             + " -Taper 2 pour sélectionner tous les joueurs.\n"
-            # + " -Taper 3 pour enlever un nom de la liste\n"
             + " -Taper '0' pour quitter la création.\n"
         )
 
@@ -75,6 +74,7 @@ class TournamentView:
         :return final_turn_nb
         """
         perfect_choice = int(len(players) / 2)
+        perfect_choice = perfect_choice * 2
         valide_confirmation = ""
         turns = ""
         final_turn_nb = 0
@@ -82,7 +82,7 @@ class TournamentView:
             turns = input(
                 "Combien de tours compte ce tournoi?\n-"
                 + "par défaut (4 tours)"
-                + f" ({perfect_choice} *2 joueurs jouent).\n"
+                + f" ({perfect_choice} joueurs jouent).\n"
                 + " et tapez 'q' pour quitter,\n"
             ).upper()
             if not turns:
@@ -110,7 +110,7 @@ class TournamentView:
             print("Votre liste de joueurs sélectionnés est vide.")
         elif len(player_list) == 1:
             print("Votre liste comporte 1 joueur.")
-            +print("Ajouter d'autres joueurs svp.")
+            + print("Ajouter d'autres joueurs svp.")
         elif len(player_list) > 1:
             print(f"Votre liste de joueurs sélectionnés: {len(player_list)} joueurs")
 
@@ -123,7 +123,7 @@ class TournamentView:
         """
         print("Les joueurs déjà enregistrés sont: ")
         for player in players_saved:
-            print(repr(player))
+            print(str(player))
 
     def display_current_list(self, current_list):
         """

@@ -30,9 +30,9 @@ COLOR = ["Blanc", "Noir"]
 QUIT = "Q"
 
 
-def clear():
+def clear_console():
     # for windows
-    if name == 'nt':
+    if name == 'nt' or name =='win32':
         _ = system('cls')
 
     # for mac and linux(here, os.name is 'posix')
