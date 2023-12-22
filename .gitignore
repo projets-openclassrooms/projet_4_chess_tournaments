@@ -168,3 +168,10 @@ cython_debug/
 /data/tournaments/TEST_turn1.json
 /data/players.json
 /data/tournament.json
+/data/tournaments/TREGOR_turn1.json
+/data/tournaments/TREGOR_turn2.json
+/data/tournaments/TREGOR_turn3.json
+/data/tournaments/TREGOR_turn4.json
+/tester
+/repertoireNameNum.txt
+/repertoireNumName.txt
