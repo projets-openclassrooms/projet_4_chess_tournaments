@@ -55,7 +55,7 @@ class MainController:
                 pass
             elif menu == "6":
                 #Afficher tous les joueurs
-                self.player.display_all_player_save()
+                self.player.display_players()
             elif menu == "7":
                 #Cr�er un nouveau tournoi
                 self.tournament.run_tournament()

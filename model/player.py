@@ -177,6 +177,6 @@ class Player:
         for player in all_players:
             if player.identifier == identifier:
                 player_to_return = player
-                player_to_return.name = player.name + " (" + identifier + ")"
+                player_to_return.name = f"{player.name} + ({identifier})"
                 break
         return player_to_return

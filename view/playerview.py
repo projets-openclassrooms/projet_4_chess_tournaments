@@ -79,8 +79,7 @@ class PlayerView:
         while birthday != QUIT:
             birthday = input(
                 "Veuillez saisir la date de naissance du joueur.\n"
-                + "Elle doit être au format"
-                + " '__/__/____' \n"
+                + "Elle doit être au format '__/__/____' \n"
             ).upper()
             if birthday == "":
                 print("Ce champ ne peut pas être vide")
@@ -97,8 +96,7 @@ class PlayerView:
         while identifier != QUIT:
             identifier = input(
                 "Veuillez saisir l'identifier national du joueur.\n"
-                + "Il doit être au format"
-                + " 'AB12345'"
+                + "Il doit être au format 'AB12345'"
                 + ", mais vous pouvez également quitter"
                 + " la création en tapant 'q'.\n"
             ).upper()
