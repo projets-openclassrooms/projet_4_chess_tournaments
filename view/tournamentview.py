@@ -41,13 +41,13 @@ class TournamentView:
                 for tournament in all_existing_tournament:
                     print(tournament)
             name = input(
-                "Quel est le nom de ce tournoi?" + " ('q' pour revenir au menu)\n"
+                "Quel est le nom de ce tournoi?" + " ('0' pour revenir au menu)\n"
             ).upper()
             name = name.replace(" ", "")
             if not name:
                 print("Ce champ ne peut pas être vide")
             elif re.match(TOURNAMENT_NAME, name):
-                if name == "Q":
+                if name == "0":
                     return None
                 else:
                     return name
@@ -58,11 +58,11 @@ class TournamentView:
 
         while location_confirmation != "O" or location != "Q":
             location = input(
-                "Ou se passe ce tournoi? (tapez 'q' pour revenir au menu)\n"
+                "Ou se passe ce tournoi? (tapez '0' pour revenir au menu)\n"
             ).upper()
             if not location:
                 print("Ce champ ne peut pas être vide")
-            elif location == "Q":
+            elif location == "0":
                 return None
             else:
                 return location
@@ -83,14 +83,14 @@ class TournamentView:
                 "Combien de tours compte ce tournoi?\n-"
                 + "par défaut (4 tours)"
                 + f" ({perfect_choice} joueurs jouent).\n"
-                + " et tapez 'q' pour quitter,\n"
+                + " et tapez '0' pour quitter,\n"
             ).upper()
             if not turns:
                 print("Ce champ ne peut pas être vide")
             elif turns == "4":
                 final_turn_nb = 4
                 return final_turn_nb
-            elif turns == "Q":
+            elif turns == "0":
                 return None
             elif re.match(NB_TURN_FORMAT, turns):
                 try:
@@ -202,19 +202,19 @@ class TournamentView:
     def ask_to_continue(self):
         """
 
-        :return: 1/2/Q
+        :return: 1/2/0
         """
         while True:
             ask_to_new = input(
                 "(1) Voulez-vous créer un nouveau tournoi,\n"
                 + "(2) reprendre un tournoi en cours\n"
-                + "Saisir 1/ 2/ ou 'q' pour quitter?\n"
+                + "Saisir 1/ 2/ ou '0' pour quitter?\n"
             ).upper()
             if ask_to_new == "1":
                 return True
             elif ask_to_new == "2":
                 return False
-            elif ask_to_new == "Q":
+            elif ask_to_new == "0":
                 return None
             else:
                 print(f"{ask_to_new} n'est pas valide")
@@ -233,10 +233,10 @@ class TournamentView:
             print("Voici la liste de tous les tournois précédents :")
             for tournament in tournament_saved:
                 print("--" + tournament)
-            selected = input("Tapez le nom d'un tournoi ou 'q' pour quitter.\n").upper()
+            selected = input("Tapez le nom d'un tournoi ou '0' pour quitter.\n").upper()
             if selected in tournament_saved:
                 return selected
-            elif selected == "Q":
+            elif selected == "0":
                 return None
             else:
                 print(selected + " n'est pas valide")

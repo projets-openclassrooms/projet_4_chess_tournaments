@@ -2,10 +2,11 @@
     new_player with attributes
 
 """
-import uuid
+import uuid, json
 
 from model.player import Player
 from view.playerview import PlayerView
+from CONSTANTES import file_players 
 
 
 class PlayerManager:
@@ -57,6 +58,28 @@ class PlayerManager:
             new_player.save_new_player()
             self.all_players = Player.get_players_saved()
         return new_player
+
+    def modify_player(self):
+        self.all_players = Player.get_players_saved()
+        self.player_view.display_all_player_saved(self.all_players)
+        if self.all_players:
+            for key, value in all_players[player].items():
+                if all_players[0][0] == value:
+                    new_info = self.view.modification_player(value)
+                    if new_info[0] == "1":
+                        value["name"] = new_info[1]
+                    elif new_info[0] == "2":
+                        value["firstname"] = new_info[1]
+                    elif new_info[0] == "3":
+                        value["birthday"] = new_info[1]
+                    elif new_info[0] == "4":
+                        value["identifier"] = new_info[1]
+        with open(file_players, "w") as my_file:
+            json.dump(file_players, my_file, indent=4)
+        return None
+            
+            
+
 
     def run_player(self):
         # all_player_saved = []
