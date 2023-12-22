@@ -56,10 +56,10 @@ class Player:
 
     def __str__(self):
         return f"Le joueur {self.name} - INE , {self.identifier} (score: {self.score})"
-    
+
     def full_name(self):
         return f"- {self.first_name} {self.name}"
-    
+
     def __lt__(self, other):
         return self.score < other.score
 
@@ -78,7 +78,7 @@ class Player:
 
         """
         new_player = self.to_dict()
-        #print(new_player)
+        # print(new_player)
         path_control = os.path.exists(DATA_FOLDER)
         if path_control is True:
             with open(file_players, "r") as file:
@@ -122,8 +122,8 @@ class Player:
                 all_players_saved = json.load(file)
             if all_players_saved.get("players") is not None:
                 for player in all_players_saved["players"]:
-                # for player in all_players_saved:
-                    #print(player)
+                    # for player in all_players_saved:
+                    # print(player)
                     player_uuid = player["id"]
                     name = player["name"]
                     firstname = player["firstname"]

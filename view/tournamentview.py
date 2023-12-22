@@ -110,7 +110,7 @@ class TournamentView:
             print("Votre liste de joueurs sélectionnés est vide.")
         elif len(player_list) == 1:
             print("Votre liste comporte 1 joueur.")
-            + print("Ajouter d'autres joueurs svp.")
+            +print("Ajouter d'autres joueurs svp.")
         elif len(player_list) > 1:
             print(f"Votre liste de joueurs sélectionnés: {len(player_list)} joueurs")
 

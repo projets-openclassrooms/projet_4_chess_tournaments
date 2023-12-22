@@ -6,7 +6,7 @@ import uuid, json
 
 from model.player import Player
 from view.playerview import PlayerView
-from CONSTANTES import file_players 
+from CONSTANTES import file_players
 
 
 class PlayerManager:
@@ -78,21 +78,18 @@ class PlayerManager:
         with open(file_players, "w") as my_file:
             json.dump(file_players, my_file, indent=4)
         return None
-            
-            
-
 
     def run_player(self):
         # all_player_saved = []
         self.new_player()
         all_player_saved = Player.get_players_saved()
         return all_player_saved
-    
+
     def delete_player(self):
         self.modify_player()
-        delete_player  = self.player_view.ask_for_delete()
+        delete_player = self.player_view.ask_for_delete()
         return delete_player
-    
+
     def display_players(self):
         self.modify_player()
         modified_player = self.player_view.display_player()

@@ -7,6 +7,7 @@ from view.main_menu import MainMenu
 from view.playerview import PlayerView
 
 from CONSTANTES import DATA_FOLDER
+
 """"
 import random pour 1er round
 ensuite en fonction du scoring
@@ -39,27 +40,27 @@ class MainController:
         while menu != "0":
             menu = self.mainview.display_menu()
             if menu == "1":
-                #Cr�er un nouveau joueur 
+                # Cr�er un nouveau joueur
                 self.player.run_player()
             elif menu == "2":
-                #Gestion du tournoi
+                # Gestion du tournoi
                 self.tournament.run_tournament()
             elif menu == "3":
-                #Gestion des rapports
+                # Gestion des rapports
                 self.report.run_report()
             elif menu == "4":
-                #Supprimer un joueur
+                # Supprimer un joueur
                 self.player.delete_player()
             elif menu == "5":
-                #Modifier un joueur
+                # Modifier un joueur
                 pass
             elif menu == "6":
-                #Afficher tous les joueurs
+                # Afficher tous les joueurs
                 self.player.display_players()
             elif menu == "7":
-                #Cr�er un nouveau tournoi
+                # Cr�er un nouveau tournoi
                 self.tournament.run_tournament()
-                #Afficher tous les tournois
+                # Afficher tous les tournois
                 self.tournament.display_tournaments()
             elif menu == "0":
                 break

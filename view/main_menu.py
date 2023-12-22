@@ -1,5 +1,3 @@
-
-
 class MainMenu:
     def display_menu(self):
         menu = input(
@@ -15,4 +13,3 @@ class MainMenu:
             + " 0 - quitter.\n"
         )
         return menu
-

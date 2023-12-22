@@ -54,7 +54,6 @@ class Turn:
             "match_list": self._match_list,
         }
 
-
     def save_turn_data(self):
         """
         json dumps tournaments informations
