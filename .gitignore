@@ -175,3 +175,4 @@ cython_debug/
 /tester
 /repertoireNameNum.txt
 /repertoireNumName.txt
+/data/tournaments/SOFT_turn1.json
