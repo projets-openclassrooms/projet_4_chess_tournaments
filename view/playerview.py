@@ -89,7 +89,7 @@ class PlayerView:
             elif re.match(BIRTHDAY_FORMAT, birthday):
                 return birthday
             else:
-                print("La date doit être au format" + " '__/__/____'")
+                print("La date doit être au format '__/__/____'")
 
     def ask_national_identification(self):
         identifier = ""

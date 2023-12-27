@@ -8,8 +8,7 @@ class MainMenu:
             + " 4 - Supprimer un joueur\n"
             + " 5 - Modifier un joueur\n"
             + " 6 - Voir les joueurs\n"
-            + " 7 - Créer un nouveau tournoi\n"
-            + " 8 - Voir les tournois\n"
+            + " 7 - Créer un rapport sur les tournois ou les joueurs\n"
             + " 0 - quitter.\n"
         )
         return menu
