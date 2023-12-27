@@ -185,3 +185,5 @@ cython_debug/
 /view/reportview - Copie.py
 /view/tournamentview - Copie.py
 /view/turnview - Copie.py
+/^data/players.json
+/^data/tournaments.json
