@@ -187,3 +187,4 @@ cython_debug/
 /view/turnview - Copie.py
 /^data/players.json
 /^data/tournaments.json
+/.vscode/settings.json

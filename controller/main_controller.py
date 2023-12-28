@@ -46,21 +46,19 @@ class MainController:
                 # Gestion du tournoi
                 self.tournament.run_tournament()
             elif menu == "3":
-                # Gestion des rapports
+                # Créer un rapport sur les joueurs (format csv)
+                # Créer un rapport sur les tournois  (format csv)
                 self.report.run_report()
             elif menu == "4":
                 # Supprimer un joueur
-                self.player.delete_player()
+                self.player.dic
+                # self.player.delete_player()
             elif menu == "5":
                 # Modifier un joueur
                 self.player.modify_player()
             elif menu == "6":
                 # Afficher tous les joueurs
                 self.player.display_players()
-            elif menu == "7":
-                # Créer un rapport sur les joueurs (format csv)
-                # Créer un rapport sur les tournois  (format csv)
-                self.report.run_report()
             elif menu == "0":
                 break
             else:
