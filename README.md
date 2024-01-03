@@ -35,7 +35,7 @@ python3 -m venv env
 Activez votre environnement virtuel env nouvellement créé 
 Sous Windows :
 
-env\scripts\activate.bat
+env\scripts\activate.bat ou env\scripts\activate.ps1 selon votre IDE
 
 sous linux :
 

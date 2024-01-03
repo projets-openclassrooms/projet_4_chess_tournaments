@@ -218,7 +218,7 @@ class TournamentManager:
         new_turn = Turn(self.tournament.name, self.tournament.turn, matches)
         return new_turn
 
-    def run_tournament(self) -> object:
+    def run_tournament(self):
         """
         players_saved
         starting_turn

@@ -1,31 +1,18 @@
 """Player Model"""
 import json
+
 import os
 import re
 from CONSTANTES import SEARCHING_INE, DATA_FOLDER, file_players, file_tournament
 import uuid
 
-# class Example:
-#     def __init__(self,param1,param2):
-#         self.param1 = param1
-#         self.param2 = param2
-#     @classmethod
-#     def my_method(cls,param1,param2):
-#         return cls(param1,param2)
-#
-# example = Example.my_method(1,2)
-# print(example)
-# class GFG:
-# 	def __lt__(self, other):
-# 		return "YES"
-# obj1 = GFG()
-# obj2 = GFG()
-#
-# print(obj1 < obj2)
-# print(type(obj1 < obj2))
+# SEARCHING_INE = r"\((.*)\)"
+# DATA_FOLDER = r"data/"  ##f"{ABSOLUTE_PATH}data/"
+# file_tournament = f"{DATA_FOLDER}tournament.json"
+# file_players = f"{DATA_FOLDER}players.json"
 
 
-class Player:
+class Player(object):
     """Define player as an object:
     A player has a name, a firstname, a date_of_birth and a national identifier chess, un score à 0
     """
@@ -58,12 +45,28 @@ class Player:
         return f"Le joueur {self.name} - INE , {self.identifier} (score: {self.score})"
 
     def full_name(self):
-        return f"- {self.first_name} {self.name}"
+        """ """
+        return f"- {self.firstname} {self.name}"
 
     def __lt__(self, other):
         return self.score < other.score
 
+    def enlever(self, element):
+        if element in self:
+            self.remove(element)
+            return True
+        return False
+    
+    @classmethod
+    def sauvegarder(cls,self):
+        chemin = file_players
+        with open(chemin, "w") as f:
+            json.dump(self, f, indent=4)
+
+        return True
+    
     def to_dict(self):
+        """ """
         return {
             "id": self.player_uuid,
             "name": self.name,
@@ -74,26 +77,31 @@ class Player:
 
     def save_new_player(self):
         """
-        json dumps players
+        Save a new player object to a JSON file.
 
+        Args:
+            file_players (str): The path to the JSON file where the players are stored.
+
+        Returns:
+            None
         """
         new_player = self.to_dict()
-        # print(new_player)
-        path_control = os.path.exists(DATA_FOLDER)
-        if path_control is True:
+
+        if os.path.exists(file_players):
             with open(file_players, "r") as file:
                 all_players = json.load(file)
-                if all_players.get("players") is not None:
+                if "players" in all_players:
                     all_players["players"].append(new_player)
                 else:
-                    all_players = {"players": [new_player]}
+                    all_players["players"] = [new_player]
         else:
             all_players = {"players": [new_player]}
+
         with open(file_players, "w") as file:
-            json.dump(all_players, file)
+            json.dump(all_players, file, indent=4)
 
     @classmethod
-    def set_player_uuid():
+    def set_player_uuid(self):
         player_uuid = uuid.uuid4()
         return player_uuid
 
@@ -186,3 +194,22 @@ class Player:
                 player_to_return.name = f"{player.name} + ({identifier})"
                 break
         return player_to_return
+
+# player_store = {}
+# nom = "Nom2"
+# prenom = "prenom 2"
+# date = "14/01/1989"
+# identifiant = "id12355"
+
+# player_one = Player(nom, prenom, date, identifiant)
+# player_one_identity = player_one.identifier  # INE
+# dico_players = player_one.to_dict()
+
+# print(dico_players)  #   dictionnaire pour json
+# print(player_one.full_name())  # nom - prenom
+# print(
+#     player_one.identifier_exists(player_one_identity)
+# )  # None si non existant sinon INE
+# # print(player_one.restore_player(player_one.full_name()))
+# dico_players.save_new_player(file_players)
+# dico_players.sauvegarder()  # sauvegarde du dictionnaire dans json

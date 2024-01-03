@@ -122,8 +122,9 @@ class TournamentView:
                 + f", né le {player.birthday} et son identifier: {player.identifier}"
         """
         print("Les joueurs déjà enregistrés sont: ")
+        index = 1
         for player in players_saved:
-            print(str(player))
+            print(f"{index}-{str(player)}")
 
     def display_current_list(self, current_list):
         """

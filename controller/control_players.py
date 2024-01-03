@@ -9,7 +9,7 @@ from view.playerview import PlayerView
 from CONSTANTES import file_players
 
 
-class PlayerManager:
+class PlayerManager(object):
     def __init__(self):
         self.player_view = PlayerView()
         self.all_players = []
@@ -47,12 +47,14 @@ class PlayerManager:
                     self.player_view.display_creation_error(control_identifier)
                 elif not control_identifier:
                     self.player_view.display_creation()
-                    # player_uuid = Player.set_player_uuid()
+                    # player_id = Player.set_player_uuid()
                     create_identifier = False
-                    score = 0
-                    played_against = []
+                    score = self.player_score()  # default player score
+                    # played_against = []
             new_player = Player(name, firstname, birthday, identifier, score)
-            print("new_player",new_player)
+            # new_player.set_player_uuid()
+
+            print("new_player", new_player)
 
             # new_player = Player(player_id, name, firstname, birthday, identifier, score)
             new_player.save_new_player()
@@ -87,52 +89,10 @@ class PlayerManager:
 
     def delete_player(self):
         self.modify_player()
-        delete_player = self.player_view.ask_for_delete()
+        # delete_player = self.player_view.ask_for_delete()
         return delete_player
 
     def display_players(self):
-        self.modify_player()
+        self.run_player()
         modified_player = self.player_view.display_player()
         return modified_player
-
-
-class MyClass:
-    def __init__(self, json_file):
-        self.json_file = json_file
-
-    def json_to_list(self):
-        with open(self.json_file, 'r') as file:
-            data = json.load(file)
-
-        # Vérification que le fichier JSON n'est pas vide
-        if not data:
-            assert False, "Error: Le fichier JSON est vide."
-        else:
-            return list(data.values())
-
-    def dict_to_list(self):
-        with open(self.json_file, 'r') as file:
-            data = json.load(file)
-        players_to_read = []
-        index = 0
-        for player in data["players"]:
-            index += 1
-            national_identification = player["national_identification"]
-            player_name = player["name"]
-            player_firstname = player["firstname"]
-            player_birthday = player["birthday"]
-            players_to_read.append(index)
-            players_to_read.append(national_identification)
-            players_to_read.append(player_name)
-            players_to_read.append(player_firstname)
-            players_to_read.append(player_birthday)
-        return players_to_read
-
-
-
-# Exemple d'utilisation
-obj = MyClass(file_players)
-datas = obj.json_to_list()
-data_list = obj.dict_to_list()
-# print(datas)
-print(data_list)

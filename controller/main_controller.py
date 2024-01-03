@@ -1,10 +1,12 @@
 import os
 
+from model.tournament import Tournament
 from controller.control_players import PlayerManager
 from controller.control_reports import ReportManager
 from controller.control_tournaments import TournamentManager
 from view.main_menu import MainMenu
 from view.playerview import PlayerView
+from view.tournamentview import TournamentView
 
 from CONSTANTES import DATA_FOLDER
 
@@ -19,10 +21,11 @@ ensuite en fonction du scoring
 
 class MainController:
     def __init__(self):
+        self.mainview = MainMenu()
+        self.tournament_view = TournamentView()
         self.tournament = TournamentManager()
         self.player = PlayerManager()
         self.report = ReportManager()
-        self.mainview = MainMenu()
 
     def run(self):
         if not os.path.exists(DATA_FOLDER):
@@ -41,9 +44,11 @@ class MainController:
             menu = self.mainview.display_menu()
             if menu == "1":
                 # Cr�er un nouveau joueur
+
                 self.player.run_player()
             elif menu == "2":
                 # Gestion du tournoi
+                self.tournament_view.ask_to_continue()
                 self.tournament.run_tournament()
             elif menu == "3":
                 # Créer un rapport sur les joueurs (format csv)
@@ -51,8 +56,7 @@ class MainController:
                 self.report.run_report()
             elif menu == "4":
                 # Supprimer un joueur
-                self.player.dic
-                # self.player.delete_player()
+                self.player.delete_player()
             elif menu == "5":
                 # Modifier un joueur
                 self.player.modify_player()

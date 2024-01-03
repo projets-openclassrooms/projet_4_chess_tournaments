@@ -11,12 +11,14 @@ class PlayerView:
         :param players_saved:
         """
         if len(players_saved) == 0:
-            print("\nAucun joueur choisi.\n")
+            print("\nAucun joueur choisi. probleme dans le fichier\n")
         else:
             print("\nListe des joueurs enregistrés :\n")
+            i = 0
             for player in players_saved:
+                i += 1
                 print(
-                    f"- {player.name} {player.firstname} - {player.date_of_birth}"
+                    f"{i}- {player.name} {player.firstname} - {player.date_of_birth}"
                     + f" - INE : {player.identifier}"
                 )
             if len(players_saved) == 1:

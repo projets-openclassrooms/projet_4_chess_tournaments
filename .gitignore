@@ -188,3 +188,7 @@ cython_debug/
 /^data/players.json
 /^data/tournaments.json
 /.vscode/settings.json
+/copies
+/model/joueurs.py
+/model/tournois.py
+/pylama.ini

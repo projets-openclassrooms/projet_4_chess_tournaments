@@ -8,6 +8,8 @@ if __name__ == "__main__":
     maincontroller.run()
 
 # dict pour retourner objet
+# list to dict pour json
+# dict to list pour afficher, modifier
 # menu gestion joueur et tournoi
 # creation joueur
 # modification joueur
@@ -15,5 +17,4 @@ if __name__ == "__main__":
 # menu gestion tournoi
 # creation tournoi
 # modification tournoi (reprise du tournoi)
-# menu gestion rapport
-
+# menu gestion rappo
