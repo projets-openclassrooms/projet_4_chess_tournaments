@@ -4,6 +4,19 @@ from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFIER_FORMAT
 
 
 class PlayerView:
+     
+    def display_menu(self):
+        
+        menu = input(
+            "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
+            + " 1 - Créer un nouveau joueur \n"
+            + " 2 - Supprimer un joueur\n"
+            + " 3 - Modifier un joueur\n"
+            + " 4- Voir les joueurs\n"
+            + " 0 - quitter.\n"
+        )
+        return menu
+    
     def display_all_player_saved(self, players_saved):
         """
         display player's info saved
@@ -115,3 +128,4 @@ class PlayerView:
 
     def display_creation(self):
         print("Le joueur à été créé")
+

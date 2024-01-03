@@ -114,46 +114,42 @@ class Player(object):
                 return identifier
         return None
 
+
     @classmethod
     def get_players_saved(self):
+        # all_players_saved = {}
+    
+        """:return: players_saved"""
+    
+
+        # all_players_saved = dict()
         players_saved = []
-
-        return players_saved
-
-    # @classmethod
-    # def get_players_saved(self):
-    #     # all_players_saved = {}
-    #
-    #     """:return: players_saved"""
-    #
-    #     print(all_players_saved)
-    #     # all_players_saved = dict()
-    #     players_saved = []
-    #     path_control = os.path.exists(DATA_FOLDER)
-    #     # if not path_control:
-    #     if path_control is True:
-    #         with open(file_players) as file:
-    #             all_players_saved = json.load(file)
-    #         if not all_players_saved.get("players") is not None:
-    #             for player in all_players_saved["players"]:
-    #                 # for player in all_players_saved:
-    #                 # print(player)
-    #                 player_uuid = player["id"]
-    #                 name = player["name"]
-    #                 firstname = player["firstname"]
-    #                 date_of_birth = player["birthday"]
-    #                 identifier = player["national_identification"]
-    #                 players_to_return = Player(
-    #                     name,
-    #                     firstname,
-    #                     date_of_birth,
-    #                     identifier,
-    #                 )
-    #                 players_to_return.player_uuid = player_uuid
-    #                 players_saved.append(players_to_return)
-    #         return players_saved
-    #     else:
-    #         return players_saved
+        path_control = os.path.exists(DATA_FOLDER)
+        # if not path_control:
+        if path_control is True:
+            with open(file_players) as file:
+                all_players_saved = json.load(file)
+                print("liste des joueurs ",all_players_saved)
+            if all_players_saved.get("players") is not None:
+                for player in all_players_saved["players"]:
+                    # for player in all_players_saved:
+                    # print(player)
+                    player_uuid = player["id"]
+                    name = player["name"]
+                    firstname = player["firstname"]
+                    date_of_birth = player["birthday"]
+                    identifier = player["national_identification"]
+                    players_to_return = Player(
+                        name,
+                        firstname,
+                        date_of_birth,
+                        identifier,
+                    )
+                    players_to_return.player_uuid = player_uuid
+                    players_saved.append(players_to_return)
+            return players_saved
+        else:
+            return players_saved
 
     @classmethod
     def get_serialized_player(cls, player_ident):

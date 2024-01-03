@@ -19,47 +19,38 @@ class PlayerManager(object):
         self.score = 0.0
 
     def new_player(self):
-        another_add = True
-        new_player = None
-        while another_add:
-            self.all_players = Player.get_players_saved()
-            self.player_view.display_all_player_saved(self.all_players)
-            if self.all_players:
-                another_add = self.player_view.add_again()
-                if not another_add:
-                    break
-            name = self.player_view.ask_for_name()
-            if not name:
-                return None
-            firstname = self.player_view.ask_for_firstname()
-            if not firstname:
-                return None
-            birthday = self.player_view.ask_for_birthday()
-            if not birthday:
-                return None
-            create_identifier = True
-            while create_identifier:
-                identifier = self.player_view.ask_national_identification()
-                if not identifier:
-                    return None
-                control_identifier = Player.identifier_exists(identifier)
-                if control_identifier:
-                    self.player_view.display_creation_error(control_identifier)
-                elif not control_identifier:
-                    self.player_view.display_creation()
-                    # player_id = Player.set_player_uuid()
-                    create_identifier = False
-                    score = self.player_score()  # default player score
-                    # played_against = []
-            new_player = Player(name, firstname, birthday, identifier, score)
-            # new_player.set_player_uuid()
 
-            print("new_player", new_player)
+        name = self.player_view.ask_for_name()
+        if not name:
+            return None
+        firstname = self.player_view.ask_for_firstname()
+        if not firstname:
+            return None
+        birthday = self.player_view.ask_for_birthday()
+        if not birthday:
+            return None
+        create_identifier = True
+        while create_identifier:
+            identifier = self.player_view.ask_national_identification()
+            if not identifier:
+                return None
+            control_identifier = Player.identifier_exists(identifier)
+            if control_identifier:
+                self.player_view.display_creation_error(control_identifier)
+            elif not control_identifier:
+                self.player_view.display_creation()
+                # player_id = Player.set_player_uuid()
+                create_identifier = False
+                score = self.player_score()  # default player score
+                # played_against = []
+        new_player = Player(name, firstname, birthday, identifier, score)
+        # new_player.set_player_uuid()
 
-            # new_player = Player(player_id, name, firstname, birthday, identifier, score)
-            new_player.save_new_player()
-            self.all_players = Player.get_players_saved()
-        return new_player
+        print("new_player", new_player)
+
+        # new_player = Player(player_id, name, firstname, birthday, identifier, score)
+        new_player.save_new_player()
+        print("Sauvegarde avec succes.")
 
     def modify_player(self):
         all_players = []
@@ -83,9 +74,28 @@ class PlayerManager(object):
 
     def run_player(self):
         # all_player_saved = []
-        self.new_player()
-        all_player_saved = Player.get_players_saved()
-        return all_player_saved
+        menu = ""
+        while menu != "0":
+            menu = self.player_view.display_menu()
+            if menu == "1":
+                # nouveau joueur
+                
+                self.new_player()
+            elif menu == "2":
+                # Supprimer un joueur
+                self.delete_player()
+
+            elif menu == "3":
+                # modifier joueur
+                self.modify_player()
+            elif menu == "4":
+                self.display_players()
+            elif menu == "0":
+                break
+            else:
+                print("Recommencez svp.")
+
+
 
     def delete_player(self):
         self.modify_player()
@@ -93,6 +103,7 @@ class PlayerManager(object):
         return delete_player
 
     def display_players(self):
-        self.run_player()
-        modified_player = self.player_view.display_player()
-        return modified_player
+        players = Player.get_players_saved()
+        print("players", players)
+        self.player_view.display_all_player_saved(players)
+

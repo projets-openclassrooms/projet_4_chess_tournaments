@@ -43,8 +43,8 @@ class MainController:
         while menu != "0":
             menu = self.mainview.display_menu()
             if menu == "1":
-                # Cr�er un nouveau joueur
-
+                # menu joueur
+                
                 self.player.run_player()
             elif menu == "2":
                 # Gestion du tournoi
@@ -54,15 +54,6 @@ class MainController:
                 # Créer un rapport sur les joueurs (format csv)
                 # Créer un rapport sur les tournois  (format csv)
                 self.report.run_report()
-            elif menu == "4":
-                # Supprimer un joueur
-                self.player.delete_player()
-            elif menu == "5":
-                # Modifier un joueur
-                self.player.modify_player()
-            elif menu == "6":
-                # Afficher tous les joueurs
-                self.player.display_players()
             elif menu == "0":
                 break
             else:
