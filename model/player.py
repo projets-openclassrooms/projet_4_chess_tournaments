@@ -129,7 +129,7 @@ class Player(object):
         if path_control is True:
             with open(file_players) as file:
                 all_players_saved = json.load(file)
-                print("liste des joueurs ",all_players_saved)
+                #print("liste des joueurs ",all_players_saved)
             if all_players_saved.get("players") is not None:
                 for player in all_players_saved["players"]:
                     # for player in all_players_saved:
@@ -208,4 +208,4 @@ class Player(object):
 # )  # None si non existant sinon INE
 # # print(player_one.restore_player(player_one.full_name()))
 # dico_players.save_new_player(file_players)
-# dico_players.sauvegarder()  # sauvegarde du dictionnaire dans json
+# dico_players.__getattribute__()  # sauvegarde du dictionnaire dans json

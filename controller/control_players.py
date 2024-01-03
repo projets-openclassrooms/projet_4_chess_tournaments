@@ -46,18 +46,20 @@ class PlayerManager(object):
         new_player = Player(name, firstname, birthday, identifier, score)
         # new_player.set_player_uuid()
 
-        print("new_player", new_player)
+        # print("new_player", new_player)
 
         # new_player = Player(player_id, name, firstname, birthday, identifier, score)
         new_player.save_new_player()
         print("Sauvegarde avec succes.")
 
     def modify_player(self):
+        self.display_players()
         all_players = []
         self.all_players = Player.get_players_saved()
-        self.player_view.display_all_player_saved(self.all_players)
+        # self.player_view.display_all_player_saved(self.all_players)
+        all_players.append(self.all_players)
         if self.all_players:
-            for key, value in all_players[player].items():
+            for key, value in all_players[Player].items():
                 if all_players[0][0] == value:
                     new_info = self.view.modification_player(value)
                     if new_info[0] == "1":
@@ -104,6 +106,6 @@ class PlayerManager(object):
 
     def display_players(self):
         players = Player.get_players_saved()
-        print("players", players)
+        # print("players", players)
         self.player_view.display_all_player_saved(players)
 

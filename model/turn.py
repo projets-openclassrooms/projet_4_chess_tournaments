@@ -73,10 +73,16 @@ class Turn:
         else:
             all_information.update({"end": None})
         file_name = (
-            f"{TOURNAMENT_FOLDER}/{self.tournament_name}_turn{self.turn_nb}.json"
+            f"{file_tournament}.json"
         )
-        with open(file_name, "w") as file:
-            json.dump(all_information, file, default=lambda x: x.to_dict())
+        if file_name not in os.listdir(TOURNAMENT_FOLDER):
+            with open(file_name, "w") as file:
+                json.dump(all_information, file, default=lambda x: x.to_dict())
+        else:
+            with open(file_name, "w") as file:
+                json.dump(all_information, file, default=lambda x: x.to_dict())
+        # with open(file_name, "w") as file:
+        #     json.dump(all_information, file, default=lambda x: x.to_dict())
 
     @classmethod
     def get_all_turn_files(cls, t_name):

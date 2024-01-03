@@ -37,11 +37,9 @@ class ReportManager:
         :return boolean
         """
         open_verif = None
-        try:
-            with open(file, "w"):
+        if open_verif:
+            # with open(file, "w"):
                 pass
-        except PermissionError:
-            open_verif = False
         else:
             open_verif = True
         path_control = os.path.exists(file)
@@ -122,6 +120,7 @@ class ReportManager:
         """Export a list of all tournaments
         :return: reports
         """
+        extraction = []        
         all_tournaments = self.all_tournaments_name()
         if not all_tournaments:
             return None
@@ -133,7 +132,7 @@ class ReportManager:
             "date fin",
             "Commentaires",
         ]
-        extraction = []
+
         for tournament in all_tournaments:
             current = Tournament.get_tournament_info(tournament)
             if current is None:
@@ -227,6 +226,9 @@ class ReportManager:
                 writer.writerow(title)
                 writer.writerows(data)
             self.open_selected_report(file_name)
+        else:
+            # add a message if verification fails.
+            print("Verification échoue. Rapport non trouvé.")
 
     def all_players_tournament_report(self):
         """Export a list of players from a selected tournament
