@@ -207,6 +207,7 @@ class ReportManager:
 
     def all_players_report(self):
         """Export a list of all players saved"""
+        
         all_players = Player.get_players_saved()
         title = ["Nom", "Prénom", "Date de Naissance", "identifier"]
         data = []
@@ -245,7 +246,7 @@ class ReportManager:
             player_restored = Player.get_serialized_player(player_identity)
             all_tournament_player.append(player_restored.name)
         sorted_player = sorted(all_tournament_player, reverse=True)
-        file_name = REPORT_FILE + "_" + tournament.name + "all_players.csv"
+        file_name = f"{REPORT_FILE}/{tournament.name}_all_players.csv"
         file_name = file_name.replace(" ", "")
         verification = self.report_control(file_name)
         if verification:

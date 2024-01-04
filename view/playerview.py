@@ -93,8 +93,7 @@ class PlayerView:
         birthday = ""
         while birthday != QUIT:
             birthday = input(
-                "Veuillez saisir la date de naissance du joueur.\n"
-                + "Elle doit être au format '__/__/____' \n"
+                "Date de naissance (JJ/MM/AAAA): \n"
             ).upper()
             if birthday == "":
                 print("Ce champ ne peut pas être vide")
@@ -110,10 +109,9 @@ class PlayerView:
         identifier = ""
         while identifier != QUIT:
             identifier = input(
-                "Veuillez saisir l'identifier national du joueur.\n"
-                + "Il doit être au format 'AB12345'"
-                + ", mais vous pouvez également quitter"
-                + " la création en tapant 'q'.\n"
+                "Identifiant national du joueur (AB12345) :\n"
+                + "Quitter la création en tapant 'q'.\n"
+
             ).upper()
             if identifier == "" or identifier == "q":
                 print("Vous quittez la création\n")
@@ -122,6 +120,45 @@ class PlayerView:
                 return identifier
             else:
                 print("Le format attendu est 'AB12345'\n")
+    def select_player(self, players):
+        """
+        Permet à l'utilisateur de sélectionner un joueur parmi une liste de joueurs.
+
+        Args:
+            players (list): Liste des joueurs.
+
+        Returns:
+            int: L'indice du joueur sélectionné dans la liste.
+        """
+        print("\nSélectionnez un joueur : ")
+        players_reversed = list(reversed(players))
+        for i, player in enumerate(players_reversed):
+            print(
+                f"{i + 1} - "
+                f"{player['first_name']} "
+                f"{player['last_name']} - "
+                f"Né le {player['birth_date']} - "
+                f"ID: {player['national_chess_id']}"
+            )
+
+        while True:
+            try:
+                player_index = (
+                    int(
+                        input(
+                            "\nEntrez le numéro du joueur que vous voulez sélectionner : "
+                        )
+                    )
+                    - 1
+                )
+                if player_index < 0 or player_index >= len(players_reversed):
+                    print(
+                        "Numéro de joueur invalide. Veuillez entrer un numéro de joueur valide."
+                    )
+                else:
+                    return len(players) - 1 - player_index
+            except ValueError:
+                print("Entrée invalide. Veuillez entrer un numéro.")
 
     def display_creation_error(self, identifier):
         print(f"L'indentifiant '{identifier} ' existe déjà dans la base de donnée.\n")
