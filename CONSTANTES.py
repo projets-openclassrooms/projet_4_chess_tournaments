@@ -12,7 +12,7 @@ DATA_FOLDER = r"data/"  ##f"{ABSOLUTE_PATH}data/"
 file_tournament = f"{DATA_FOLDER}tournaments.json"
 file_players = f"{DATA_FOLDER}players.json"
 REPORT_FILE = f"{DATA_FOLDER}report/"
-TOURNAMENT_FOLDER = f"{DATA_FOLDER}tournaments"
+TOURNAMENT_FOLDER = f"{DATA_FOLDER}"
 # TOURNAMENT_FILES_NAME = r"^data/tournaments/[A-Za-z0-9]{0,99}.json$"
 
 # liste des caractères autorisés

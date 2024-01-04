@@ -82,12 +82,14 @@ class TournamentManager:
 
     def define_first_turn(self):
         """
-
+        define first turn  
         :return: first_turn
         """
-        restored_turn = self.restore_turn(self.tournament.name)
-        if restored_turn:
-            return restored_turn
+        # restored_turn = self.restore_turn(self.tournament.name)
+        # if restored_turn:
+        #     return restored_turn
+############ DEFINIR tournament.players
+        players = Player.get_players_saved()
         tournament_players = self.tournament.players.copy()
         random.shuffle(tournament_players)
         first_match_list = []

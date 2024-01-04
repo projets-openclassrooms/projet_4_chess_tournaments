@@ -36,12 +36,24 @@ class ReportManager:
         :rtype: object
         :return boolean
         """
+        tournaments = self.all_tournaments_name()
         open_verif = None
         if open_verif:
             # with open(file, "w"):
-                pass
-        else:
-            open_verif = True
+            for i, tournament in enumerate(tournaments):
+                print(f"{i + 1}. {tournament['name_of_tournament']}")
+
+            while True:
+                try:
+                    choice = int(input("\nSélectionnez un tournoi par son numéro : "))
+                    if 1 <= choice <= len(tournaments):
+                        return tournaments[choice - 1]
+                    else:
+                        print("Veuillez choisir un numéro valide.")
+                except ValueError:
+                    print("Veuillez choisir un numéro valide.")
+            else:
+                open_verif = True
         path_control = os.path.exists(file)
         if path_control and open_verif:
             self.reportview.display_create_report()

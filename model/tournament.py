@@ -113,7 +113,7 @@ class Tournament:
                 file_path = os.path.join(root, file)
                 file_path = file_path.replace("\\", "/")
                 if re.match(file_tournament, file_path):
-                    file_path = file_path.replace(TOURNAMENT_FOLDER + "/", "")
+                    file_path = file_path.replace(TOURNAMENT_FOLDER , "")
                     file_path = file_path.replace(".json", "")
                     file_list.append(file_path)
         final_list = []
@@ -141,7 +141,7 @@ class Tournament:
         :param name:
         :return: saved_tournament or None
         """
-        tournament_file = TOURNAMENT_FOLDER + "/" + name + ".json"
+        tournament_file = file_tournament
         path_control = os.path.exists(tournament_file)
         if path_control is True:
             with open(tournament_file, "r") as file:
