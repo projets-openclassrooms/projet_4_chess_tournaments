@@ -9,7 +9,7 @@ Constantes pour faire fonctionner l'application
 # Repertoires de data
 ABSOLUTE_PATH = os.path.dirname(os.path.abspath(__file__))
 DATA_FOLDER = r"data/"  ##f"{ABSOLUTE_PATH}data/"
-file_tournament = f"{DATA_FOLDER}tournament.json"
+file_tournament = f"{DATA_FOLDER}tournaments.json"
 file_players = f"{DATA_FOLDER}players.json"
 REPORT_FILE = f"{DATA_FOLDER}report/"
 TOURNAMENT_FOLDER = f"{DATA_FOLDER}tournaments"
