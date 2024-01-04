@@ -59,7 +59,7 @@ class PlayerManager(object):
         # self.player_view.display_all_player_saved(self.all_players)
         all_players.append(self.all_players)
         if self.all_players:
-            for key, value in all_players[Player].items():
+            for key, value in all_players.items():
                 if all_players[0][0] == value:
                     new_info = self.view.modification_player(value)
                     if new_info[0] == "1":
@@ -100,8 +100,9 @@ class PlayerManager(object):
 
 
     def delete_player(self):
-        self.modify_player()
-        # delete_player = self.player_view.ask_for_delete()
+        self.display_players()
+
+        delete_player = self.player_view.ask_for_delete()
         return delete_player
 
     def display_players(self):

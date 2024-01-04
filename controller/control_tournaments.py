@@ -73,9 +73,11 @@ class TournamentManager:
                 return None
             elif len(players) % 2 == 0 and len(players) >= 2:
                 break
+        i = 1
         for player in players:
-            renamed_player = f"{player.name} ({player.identifier})"
+            renamed_player = f"{i} - {player.name} ({player.identifier})"
             player.name = renamed_player
+            i += 1
         return players
 
     def define_first_turn(self):
@@ -228,37 +230,50 @@ class TournamentManager:
         :rtype: object
         :return:
         """
-        self.tournament = None
-        players_saved = Player.get_players_saved()
-        if not players_saved:
-            self.tournament_view.ask_for_players()
-            return None
-        ask_for_new = self.tournament_view.ask_to_continue()
-        if ask_for_new:
-            self.tournament = self.create_tournament(players_saved)
-        elif not ask_for_new:
-            self.tournament = self.select_tournament()
-        else:
-            return None
-        if not self.tournament:
-            return None
-        for _ in range(self.tournament.turn, self.tournament.nb_turn + 1):
-            if self.tournament.turn == 1:
-                starting_turn = self.define_first_turn()
+        menu = ""
+        while menu != "0":
+            menu = self.tournament_view.display_menu()
+            if menu == "1":
+                self.define_first_turn()
+                # self.create_tournament(Player.get_players_saved())
+            elif menu == "2":
+                self.select_tournament()
+            elif menu == "0":
+                break
             else:
-                starting_turn = self.define_match_list(self.tournament.turn)
-            self.turnview.display_match_list(starting_turn)
-            self.randomize_color(starting_turn)
-            ending_turn = self.sorting_by_score(starting_turn)
-            if ending_turn is None:
-                return None
-            ending_turn.end_of_the_turn = True
-            self.tournament.turn_list.append(ending_turn)
-            if self.tournament.turn < self.tournament.nb_turn:
-                self.tournament.turn = self.tournament.turn + 1
-        comment = self.tournament_view.ask_to_comment()
-        self.tournament.comment = comment
-        self.tournament.finished = True
+                print("Recommencez svp.")
+     
+        # self.tournament = None
+        # players_saved = Player.get_players_saved()
+        # if not players_saved:
+        #     self.tournament_view.ask_for_players()
+        #     return None
+        # ask_for_new = self.tournament_view.ask_to_continue()
+        # if ask_for_new:
+        #     self.tournament = self.create_tournament(players_saved)
+        # elif not ask_for_new:
+        #     self.tournament = self.select_tournament()
+        # else:
+        #     return None
+        # if not self.tournament:
+        #     return None
+        # for _ in range(self.tournament.turn, self.tournament.nb_turn + 1):
+        #     if self.tournament.turn == 1:
+        #         starting_turn = self.define_first_turn()
+        #     else:
+        #         starting_turn = self.define_match_list(self.tournament.turn)
+        #     self.turnview.display_match_list(starting_turn)
+        #     self.randomize_color(starting_turn)
+        #     ending_turn = self.sorting_by_score(starting_turn)
+        #     if ending_turn is None:
+        #         return None
+        #     ending_turn.end_of_the_turn = True
+        #     self.tournament.turn_list.append(ending_turn)
+        #     if self.tournament.turn < self.tournament.nb_turn:
+        #         self.tournament.turn = self.tournament.turn + 1
+        # comment = self.tournament_view.ask_to_comment()
+        # self.tournament.comment = comment
+        # self.tournament.finished = True
 
     def select_tournament(self):
         """Allow to resume an unfinished tournament

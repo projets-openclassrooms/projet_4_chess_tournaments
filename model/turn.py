@@ -3,8 +3,9 @@ import json
 import os
 import re
 from datetime import datetime
+from CONSTANTES import file_tournament  
 
-TOURNAMENT_FOLDER = "data/tournaments"
+#TOURNAMENT_FOLDER = "data/tournaments"
 
 
 class Turn:

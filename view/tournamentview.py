@@ -17,7 +17,16 @@ class TournamentView:
             + " -Taper 2 pour sélectionner tous les joueurs.\n"
             + " -Taper '0' pour quitter la création.\n"
         )
-
+        
+    def display_menu(self):
+        
+        menu = input(
+            "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
+            + " 1 - Voulez-vous créer un nouveau tournoi? \n"
+            + " 2 - reprendre un tournoi en cours?\n"
+            + " 0 - quitter.\n"
+        )
+        return menu
     def ask_for_players(self):
         return (
             "Vous n'avez pas encore de joueur.\n"
@@ -125,6 +134,7 @@ class TournamentView:
         index = 1
         for player in players_saved:
             print(f"{index}-{str(player)}")
+            index += 1
 
     def display_current_list(self, current_list):
         """
@@ -207,10 +217,10 @@ class TournamentView:
         """
         while True:
             ask_to_new = input(
-                "(1) Voulez-vous créer un nouveau tournoi,\n"
-                + "(2) reprendre un tournoi en cours\n"
-                + "Saisir 1/ 2/ ou '0' pour quitter?\n"
-            ).upper()
+                "(1) - Nouveau tournoi,\n"
+                + "(2) - Reprendre un tournoi en cours\n"
+                + "'1' '2' ou '0' pour quitter?\n"
+            )
             if ask_to_new == "1":
                 return True
             elif ask_to_new == "2":
