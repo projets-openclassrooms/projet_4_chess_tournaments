@@ -3,9 +3,9 @@ import json
 import os
 import re
 from datetime import datetime
-from CONSTANTES import file_tournament  
+from CONSTANTES import file_tournament
 
-#TOURNAMENT_FOLDER = "data/tournaments"
+# TOURNAMENT_FOLDER = "data/tournaments"
 
 
 class Turn:
@@ -73,9 +73,7 @@ class Turn:
             all_information["end"] = str(self.ending_turn)
         else:
             all_information.update({"end": None})
-        file_name = (
-            f"{file_tournament}.json"
-        )
+        file_name = f"{file_tournament}.json"
         if file_name not in os.listdir(TOURNAMENT_FOLDER):
             with open(file_name, "w") as file:
                 json.dump(all_information, file, default=lambda x: x.to_dict())

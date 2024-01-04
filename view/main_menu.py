@@ -8,5 +8,3 @@ class MainMenu:
             + " 0 - quitter.\n"
         )
         return menu
-    
-

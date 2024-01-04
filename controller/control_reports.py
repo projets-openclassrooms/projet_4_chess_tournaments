@@ -132,7 +132,7 @@ class ReportManager:
         """Export a list of all tournaments
         :return: reports
         """
-        extraction = []        
+        extraction = []
         all_tournaments = self.all_tournaments_name()
         if not all_tournaments:
             return None
@@ -219,7 +219,7 @@ class ReportManager:
 
     def all_players_report(self):
         """Export a list of all players saved"""
-        
+
         all_players = Player.get_players_saved()
         title = ["Nom", "Prénom", "Date de Naissance", "identifier"]
         data = []

@@ -19,7 +19,6 @@ class PlayerManager(object):
         self.score = 0.0
 
     def new_player(self):
-
         name = self.player_view.ask_for_name()
         if not name:
             return None
@@ -81,7 +80,7 @@ class PlayerManager(object):
             menu = self.player_view.display_menu()
             if menu == "1":
                 # nouveau joueur
-                
+
                 self.new_player()
             elif menu == "2":
                 # Supprimer un joueur
@@ -97,8 +96,6 @@ class PlayerManager(object):
             else:
                 print("Recommencez svp.")
 
-
-
     def delete_player(self):
         self.display_players()
 
@@ -109,4 +106,3 @@ class PlayerManager(object):
         players = Player.get_players_saved()
         # print("players", players)
         self.player_view.display_all_player_saved(players)
-

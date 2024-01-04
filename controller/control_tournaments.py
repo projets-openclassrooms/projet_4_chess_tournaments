@@ -17,6 +17,8 @@ from view.turnview import TurnView
 
 
 """
+
+
 # Constantes COLOR = ["Blanc", "Noir"]
 
 
@@ -82,16 +84,19 @@ class TournamentManager:
 
     def define_first_turn(self):
         """
-        define first turn  
+        define first turn
         :return: first_turn
         """
         # restored_turn = self.restore_turn(self.tournament.name)
         # if restored_turn:
         #     return restored_turn
-############ DEFINIR tournament.players
-        players = Player.get_players_saved()
-        tournament_players = self.tournament.players.copy()
-        random.shuffle(tournament_players)
+        ############ DEFINIR tournament.players
+
+        players = self.create_player_list(players_saved)
+        print(type(players))
+        #tournament_players = self.tournament.players.copy()
+        #random.shuffle(tournament_players)
+        tournament_players = random.shuffle(players)
         first_match_list = []
         while len(tournament_players) != 0:
             player = tournament_players[0]
@@ -244,7 +249,7 @@ class TournamentManager:
                 break
             else:
                 print("Recommencez svp.")
-     
+
         # self.tournament = None
         # players_saved = Player.get_players_saved()
         # if not players_saved:

@@ -38,7 +38,7 @@ class MainController:
         if not os.path.exists(os.path.join(DATA_FOLDER, "tournaments.json")):
             with open(os.path.join(DATA_FOLDER, "tournaments.json"), "w") as f:
                 f.write("{}")
-                # creer un dossier reporting    
+                # creer un dossier reporting
         if not os.path.exists(REPORT_FILE):
             os.mkdir(REPORT_FILE)
 
@@ -48,7 +48,7 @@ class MainController:
             menu = self.mainview.display_menu()
             if menu == "1":
                 # menu joueur
-                
+
                 self.player.run_player()
             elif menu == "2":
                 # Gestion du tournoi

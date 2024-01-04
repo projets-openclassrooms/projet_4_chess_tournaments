@@ -17,9 +17,8 @@ class TournamentView:
             + " -Taper 2 pour sélectionner tous les joueurs.\n"
             + " -Taper '0' pour quitter la création.\n"
         )
-        
+
     def display_menu(self):
-        
         menu = input(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Voulez-vous créer un nouveau tournoi? \n"
@@ -27,6 +26,7 @@ class TournamentView:
             + " 0 - quitter.\n"
         )
         return menu
+
     def ask_for_players(self):
         return (
             "Vous n'avez pas encore de joueur.\n"

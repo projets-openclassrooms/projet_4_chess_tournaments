@@ -113,7 +113,7 @@ class Tournament:
                 file_path = os.path.join(root, file)
                 file_path = file_path.replace("\\", "/")
                 if re.match(file_tournament, file_path):
-                    file_path = file_path.replace(TOURNAMENT_FOLDER , "")
+                    file_path = file_path.replace(TOURNAMENT_FOLDER, "")
                     file_path = file_path.replace(".json", "")
                     file_list.append(file_path)
         final_list = []

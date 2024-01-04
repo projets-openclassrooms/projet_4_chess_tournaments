@@ -4,9 +4,7 @@ from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFIER_FORMAT
 
 
 class PlayerView:
-     
     def display_menu(self):
-        
         menu = input(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Créer un nouveau joueur \n"
@@ -16,7 +14,7 @@ class PlayerView:
             + " 0 - quitter.\n"
         )
         return menu
-    
+
     def display_all_player_saved(self, players_saved):
         """
         display player's info saved
@@ -92,9 +90,7 @@ class PlayerView:
     def ask_for_birthday(self):
         birthday = ""
         while birthday != QUIT:
-            birthday = input(
-                "Date de naissance (JJ/MM/AAAA): \n"
-            ).upper()
+            birthday = input("Date de naissance (JJ/MM/AAAA): \n").upper()
             if birthday == "":
                 print("Ce champ ne peut pas être vide")
             elif birthday == QUIT:
@@ -111,7 +107,6 @@ class PlayerView:
             identifier = input(
                 "Identifiant national du joueur (AB12345) :\n"
                 + "Quitter la création en tapant 'q'.\n"
-
             ).upper()
             if identifier == "" or identifier == "q":
                 print("Vous quittez la création\n")
@@ -120,6 +115,7 @@ class PlayerView:
                 return identifier
             else:
                 print("Le format attendu est 'AB12345'\n")
+
     def select_player(self, players):
         """
         Permet à l'utilisateur de sélectionner un joueur parmi une liste de joueurs.
@@ -165,4 +161,3 @@ class PlayerView:
 
     def display_creation(self):
         print("Le joueur à été créé")
-
