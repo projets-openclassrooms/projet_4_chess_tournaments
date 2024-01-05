@@ -32,39 +32,40 @@ class TournamentManager:
         self.matchview = MatchView()
         self.tournament = None
 
-    def create_tournament(self, players_saved):
+    def create_tournament(self):
         """return self.tournament : New tournament with
         a name, a location, a list of players and
         a number of turns
         :param players_saved:
         :return: self.tournament"""
-        all_tournaments_names = Tournament.get_all_tournament_names()
-        name = self.tournament_view.ask_for_name(all_tournaments_names)
-        control_name = Tournament.control_name_exist(name)
-        if name is None:
-            return None
-        elif control_name is True:
-            self.tournament_view.display_saving_error()
-            return None
+        name = self.tournament_view.ask_for_name()
         location = self.tournament_view.ask_for_location()
-        if location is None:
-            return None
-        players = self.create_player_list(players_saved)
-        if not players:
-            return None
-        empty_list = []
-        self.tournament = Tournament(
-            name, location, players, ranking=empty_list, turn_list=empty_list
+        nb_turn = self.tournament_view.ask_for_nb_turn()
+        players = []
+        # lister les players et demander à l'utilisateur de choisir les players pour le tournoi
+        #lister les players
+        #boucle while avec id des joueurs
+        players_saved = Player.get_players_saved()
+        self.player_view.display_all_player_saved(players_saved)
+        choix = ""
+        while choix != "Q" and len(players) < 4:
+            choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?")
+            if choix != "Q":
+                # TODO verifier que l'index est pas de doublon
+                index = int(choix)-1
+                players.append(players_saved[index])
+
+
+        tournament = Tournament(
+            name, location, players, ranking=[], turn_list=[], nb_turn = nb_turn
         )
-        nb_turn = self.tournament_view.ask_for_nb_turn(players)
-        if nb_turn is None:
-            return None
-        self.tournament.nb_turn = nb_turn
-        return self.tournament
+    #
+        tournament.save_tournament()
+        print("Tournoi sauvegardé.")
 
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()
-        self.tournament_view.select_previous_tournament()
+        self.tournament_view.display_all_tournaments()
     def create_player_list(self, players_saved):
         """
 
@@ -243,90 +244,55 @@ class TournamentManager:
         while menu != "0":
             menu = self.tournament_view.display_menu()
             if menu == "1":
-                self.select_tournament()
-                
+                self.create_tournament()
             elif menu == "2":
+                self.list_tournament()
+            elif menu == "3":
                 # recherche du tournoi existant dans la base
-                restored = self.select_tournament()
-                if restored is None:
-                    print("Tournni non trouvé.")
-                    continue
-                self.select_tournament()
+                tournament = self.select_tournament()
+                if tournament == None:
+                    print("Vous n'avez pas choisi de tournoi.")
+                else:
+                    self.start_tournament(tournament)
+            elif menu == "4":
+                self.restore_tournament()
             elif menu == "0":
                 break
             else:
                 print("Recommencez svp.")
 
-        # self.tournament = None
-        # players_saved = Player.get_players_saved()
-        # if not players_saved:
-        #     self.tournament_view.ask_for_players()
-        #     return None
-        # ask_for_new = self.tournament_view.ask_to_continue()
-        # if ask_for_new:
-        #     self.tournament = self.create_tournament(players_saved)
-        # elif not ask_for_new:
-        #     self.tournament = self.select_tournament()
-        # else:
-        #     return None
-        # if not self.tournament:
-        #     return None
-        # for _ in range(self.tournament.turn, self.tournament.nb_turn + 1):
-        #     if self.tournament.turn == 1:
-        #         starting_turn = self.define_first_turn()
-        #     else:
-        #         starting_turn = self.define_match_list(self.tournament.turn)
-        #     self.turnview.display_match_list(starting_turn)
-        #     self.randomize_color(starting_turn)
-        #     ending_turn = self.sorting_by_score(starting_turn)
-        #     if ending_turn is None:
-        #         return None
-        #     ending_turn.end_of_the_turn = True
-        #     self.tournament.turn_list.append(ending_turn)
-        #     if self.tournament.turn < self.tournament.nb_turn:
-        #         self.tournament.turn = self.tournament.turn + 1
-        # comment = self.tournament_view.ask_to_comment()
-        # self.tournament.comment = comment
-        # self.tournament.finished = True
 
-    def select_tournament(self, tournament_saved=None):
+    def list_tournament(self):
+        tournaments = Tournament.loads_tournament()
+        # print("players", players)
+        self.tournament_view.display_all_tournaments(tournaments)
+
+
+
+
+
+    def select_tournament(self):
         """Allow to resume an unfinished tournament
         :return: restored
         """
-        if not tournament_saved:
+        tournaments = Tournament.loads_tournament()
+        self.tournament_view.display_all_tournaments(tournaments)
+        choix = ""
+        tournament = None
+        while choix != "Q" and tournament == None:
+            choix = input ("Choisir le tournoi à executer ou Q pour quitter?")
+            if choix != "Q":
+                # TODO verifier que l'index est pas de doublon
+                index = int(choix)-1
+                tournament  = tournaments[index]
+        return tournament
 
-            all_path = Tournament.get_all_tournament_names(with_finished=True)
-            choice = self.tournament_view.select_previous_tournament(all_path)
-            if choice is None:
-                return None
-            path_control = Tournament.control_name_exist(choice)
-            if path_control:
-                tournament_saved = self.restore_tournament(choice)
-                if not tournament_saved:
-                    return None
-            else:
-                self.tournament_view.display_import_error()
-                return None
-            return tournament_saved
-        else:
-            return None
+    def start_tournament(self, tournament):
+        print(f"Start du tournoi {tournament}")
 
-    def restore_tournament(self, tournament_name):
-        t_restored = Tournament.get_tournament_info(tournament_name)
-        tournament_player = []
-        for player in t_restored.players:
-            player_found = Player.get_serialized_player(player)
-            tournament_player.append(player_found)
-        t_restored.players = tournament_player
-        tournament_ranking = []
-        for player in t_restored.ranking:
-            player_restored = Player.restore_player(player)
-            tournament_ranking.append(player_restored)
-        t_restored.ranking = tournament_ranking
-        if t_restored.turn > 1:
-            turn_list = self.restore_turn(t_restored.name, listing=True)
-            t_restored.turn_list = turn_list
-        return t_restored
+    def restore_tournament(self):
+        pass
+
 
     def restore_turn(self, tournament_name, listing=False):
         """

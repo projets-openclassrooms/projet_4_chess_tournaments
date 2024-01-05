@@ -22,7 +22,9 @@ class TournamentView:
         menu = input(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Voulez-vous créer un nouveau tournoi? \n"
-            + " 2 - reprendre un tournoi en cours?\n"
+            + " 2 - Voulez-vous afficher le tournoi? \n"
+            + " 3 - lancer un tournoi\n"
+            + " 4 - reprendre un tournoi en cours?\n"
             + " 0 - quitter.\n"
         )
         return menu
@@ -42,80 +44,52 @@ class TournamentView:
             + "Veuillez entrer des joueurs à enregistrer.\n"
         )
 
-    def ask_for_name(self, all_existing_tournament) -> object:
+    def ask_for_name(self) -> object:
         """
 
         :rtype: object
         :return name
         """
-        name_confirmation = ""
+
         name = ""
-        while name_confirmation != "O" or name != "Q":
-            if not all_existing_tournament:
-                print("Vous n'avez pas encore enregistré de tournoi\n")
-            else:
-                print("Voici les noms de tournoi déjà créés:\n")
-                for tournament in all_existing_tournament:
-                    print(tournament)
+        while name == "":
             name = input(
-                "Quel est le nom de ce tournoi?" + " ('0' pour revenir au menu)\n"
+                "Quel est le nom de ce tournoi?\n"
             ).upper()
-            name = name.replace(" ", "")
+
             if not name:
                 print("Ce champ ne peut pas être vide")
-            elif re.match(TOURNAMENT_NAME, name):
-                if name == "0":
-                    return None
-                else:
-                    return name
+        return name
 
     def ask_for_location(self):
-        location_confirmation = ""
+
         location = ""
 
-        while location_confirmation != "O" or location != "Q":
+        while location == "":
             location = input(
                 "Ou se passe ce tournoi? (tapez '0' pour revenir au menu)\n"
             ).upper()
             if not location:
                 print("Ce champ ne peut pas être vide")
-            elif location == "0":
-                return None
-            else:
-                return location
 
-    def ask_for_nb_turn(self, players):
+        return location
+
+    def ask_for_nb_turn(self):
         """
 
         :rtype: object
         :return final_turn_nb
         """
-        perfect_choice = int(len(players) / 2)
-        perfect_choice = perfect_choice * 2
-        valide_confirmation = ""
-        turns = ""
-        final_turn_nb = 0
-        while valide_confirmation != "O" or turns != "Q":
-            turns = input(
-                "Combien de tours compte ce tournoi?\n-"
-                + "par défaut (4 tours)"
-                + f" ({perfect_choice} joueurs jouent).\n"
-                + " et tapez '0' pour quitter,\n"
-            ).upper()
-            if not turns:
-                print("Ce champ ne peut pas être vide")
-            elif turns == "4":
-                final_turn_nb = 4
-                return final_turn_nb
-            elif turns == "0":
-                return None
-            elif re.match(NB_TURN_FORMAT, turns):
-                try:
-                    final_turn_nb = int(turns)
-                except ValueError:
-                    print(f"'{final_turn_nb}' n'est pas valide")
-            else:
-                return final_turn_nb
+#TODO verifier que c'est digit
+        turns = input(
+            "Combien de tours compte ce tournoi?\n-"
+            + "par défaut (4 tours)\n"
+        )
+        if not turns:
+            turns = 4
+        else:
+            turns = int(turns)
+        return turns
 
     def list_players(self, player_list) -> object:
         """
@@ -130,6 +104,22 @@ class TournamentView:
             +print("Ajouter d'autres joueurs svp.")
         elif len(player_list) > 1:
             print(f"Votre liste de joueurs sélectionnés: {len(player_list)} joueurs")
+
+
+    def display_all_tournaments(self, tournaments):
+        """
+        display player's info saved
+
+        :param players_saved:
+        """
+        if len(tournaments) == 0:
+            print("\nAucun tournoi\n")
+        else:
+            print("\nListe des joueurs enregistrés :\n")
+            i = 0
+            for tournament in tournaments:
+                i += 1
+                print(f"{i}- {tournament.name}")
 
     def display_tournament_players(self, players_saved):
         """
@@ -238,29 +228,29 @@ class TournamentView:
             else:
                 print(f"{ask_to_new} n'est pas valide")
 
-    def select_previous_tournament(self, tournament_saved):
-        """
-
-        :param tournament_saved:
-        :return: selected or None
-        """
-        if not tournament_saved:
-            print("Il n'y a aucun tournoi commencé ou sauvegardé.\n")
-            return None
-        selected = ""
-        while selected not in tournament_saved:
-            print("Voici la liste de tous les tournois précédents :")
-            i = 0
-            for tournament in tournament_saved:
-                i += 1
-                print("{i}--" + tournament)
-            selected = input("Tapez le numero d'un tournoi ou '0' pour quitter.\n")
-            if selected in tournament_saved:
-                return selected
-            elif selected == "0":
-                return None
-            else:
-                print(selected + " n'est pas valide")
+    # def select_previous_tournament(self, tournament_saved):
+    #     """
+    #
+    #     :param tournament_saved:
+    #     :return: selected or None
+    #     """
+    #     if not tournament_saved:
+    #         print("Il n'y a aucun tournoi commencé ou sauvegardé.\n")
+    #         return None
+    #     selected = ""
+    #     while selected not in tournament_saved:
+    #         print("Voici la liste de tous les tournois précédents :")
+    #         i = 0
+    #         for tournament in tournament_saved:
+    #             i += 1
+    #             print("{i}--" + tournament)
+    #         selected = input("Tapez le numero d'un tournoi ou '0' pour quitter.\n")
+    #         if selected in tournament_saved:
+    #             return selected
+    #         elif selected == "0":
+    #             return None
+    #         else:
+    #             print(selected + " n'est pas valide")
 
     def display_saving_error(self):
         print("Le nom est déjà pris. Ressaisir un autre nom de tournoi svp.\n")
