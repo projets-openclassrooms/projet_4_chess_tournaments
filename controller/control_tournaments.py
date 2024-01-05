@@ -228,23 +228,26 @@ class TournamentManager:
 
     def run_tournament(self):
         """
-        players_saved
-        starting_turn
-        ending_turn
-        comment
+        Run the tournament management system.
 
-        :rtype: object
+        Displays a menu to the user and allows them to select various options,
+        such as creating a new tournament or resuming an existing one.
+
+        :rtype: None
         :return:
         """
-        menu = ""
+        menu = 0
         while menu != "0":
             menu = self.tournament_view.display_menu()
             if menu == "1":
                 self.select_tournament()
-                #self.define_first_turn()
-                # self.create_tournament(Player.get_players_saved())
+                
             elif menu == "2":
                 # recherche du tournoi existant dans la base
+                restored = self.select_tournament()
+                if restored is None:
+                    print("Tournni non trouvé.")
+                    continue
                 self.select_tournament()
             elif menu == "0":
                 break

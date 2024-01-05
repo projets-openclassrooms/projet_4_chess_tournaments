@@ -3,7 +3,7 @@ import json
 import os
 import re
 from datetime import datetime
-from CONSTANTES import file_tournament
+from CONSTANTES import file_tournament, REPORT_FILE, TOURNAMENT_FOLDER
 
 # TOURNAMENT_FOLDER = "data/tournaments"
 
@@ -90,7 +90,7 @@ class Turn:
         :param t_name:
         :return: file_list
         """
-        turn_file = rf"^data/tournaments/{t_name}_turn[0-9]{{0,99}}.json$"
+        turn_file = f"{REPORT_FILE}{t_name}_turn[0-9]{0,99}.json$"
         file_list = []
         for root, _, files in os.walk(TOURNAMENT_FOLDER):
             for file in files:

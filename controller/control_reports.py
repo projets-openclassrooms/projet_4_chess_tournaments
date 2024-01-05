@@ -169,7 +169,7 @@ class ReportManager:
             self.open_selected_report(file_name)
         else:
             # add a message if verification fails.
-            print("Verification échoue. Rapport non créé.")
+            self.reportview.display_create_error()
 
     def all_matches_and_turns(self):
         """Export a list of all matches
@@ -221,7 +221,7 @@ class ReportManager:
         """Export a list of all players saved"""
 
         all_players = Player.get_players_saved()
-        title = ["Nom", "Prénom", "Date de Naissance", "identifier"]
+        title = ["Nom", "Prénom", "Date de Naissance", "identifiant"]
         data = []
         for player in all_players:
             player_extract = [
@@ -241,7 +241,7 @@ class ReportManager:
             self.open_selected_report(file_name)
         else:
             # add a message if verification fails.
-            print("Verification échoue. Rapport non trouvé.")
+            self.reportview.display_create_error()
 
     def all_players_tournament_report(self):
         """Export a list of players from a selected tournament

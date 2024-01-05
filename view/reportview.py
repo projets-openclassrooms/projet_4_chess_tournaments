@@ -55,11 +55,12 @@ class ReportView:
         :param all_tournaments:
         :return: choice
         """
-        i = 1
+        i = 0
         print("Voici les tournois sauvegardés: ")
         for tournament in all_tournaments:
-            print(f"{i}-->  {tournament}")
             i = i + 1
+            print(f"{i}-->  {tournament}")
+            
 
         choice = int(
             input(
