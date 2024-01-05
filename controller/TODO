@@ -5,19 +5,56 @@
 # # Quel menu souhaitez-vous selectionner ?
 # # Taper
 
-# #  1 - Cr�er un nouveau joueur
+OK 1 - Cr�er un nouveau joueur ok
+Identifiant national du joueur (AB12345) :
+Quitter la création en tapant 'q'.
+
 # #  2 - Supprimer un joueur #bug pas obligatoire
 # #  3 - Modifier un joueur # liste puis bug sur cle, valeur lues pas obligatoire
-# #  4- Voir les joueurs
+OK 4- Voir les joueurs ok
 # #  0 - quitter.
+CLEAR CONSOLE
+ 1 - Voulez-vous créer un nouveau tournoi?
+ Quel est le nom de ce tournoi?
+console
+Ou se passe ce tournoi? (tapez '0' pour revenir au menu)
+paris
+Combien de tours compte ce tournoi?
+-par défaut (4 tours)
+7
+Liste des joueurs enregistrés :
 
-# 2 - Gestion du tournoi
-# # (1) Voulez-vous cr�er un nouveau tournoi, #bug pas 1st turn
-# message
-# Quel est le nom de ce tournoi? ('0' pour revenir au menu)
-# Ou se passe ce tournoi? (tapez '0' pour revenir au menu)
-# Votre liste de joueurs selectionnes est vide.
-# Les joueurs deja enregistres sont:
+1- TEST JOUEUR - 01/01/2023 - INE : TJ14214
+2- KHOUSSA MAMADOU - 01/01/2000 - INE : MK14211
+3- BURR RAY - 01/01/1900 - INE : RB12457
+4- YT ET - 01/07/1998 - INE : YT45632
+5- TEST JOUEUR - 01/01/2023 - INE : TT14214
+6- MONDE JENNY - 01/01/2001 - INE : MJ14211
+7- BURTON RAY - 01/01/1990 - INE : BR12457
+8- YTI ETIENNE - 01/07/1988 - INE : YT45631
+Total : 8 joueurs.
+
+Ajouter un joueur en indiquant son numéro ou Q pour quitter?1
+Ajouter un joueur en indiquant son numéro ou Q pour quitter?2
+Ajouter un joueur en indiquant son numéro ou Q pour quitter?3
+Ajouter un joueur en indiquant son numéro ou Q pour quitter?4
+ajout clear console dans control tournament
+ 2 - Voulez-vous afficher le tournoi?
+ Liste des joueurs enregistrés :
+
+1- PRES
+2- ICI
+3- AZE
+4- REZ
+5- CONSOLE
+Quel menu souhaitez-vous sélectionner ?
+Taper
+revient au menu tournois
+ 3 - lancer un tournoi
+ Start du tournoi Tournament(name='PRES', lieu='PARIS', players=[], nb_turn='4', turn='1', turn_list=None)
+reprendre __repr__
+ 4 - reprendre un tournoi en cours?
+ 0 - quitter.
 # 1-Le joueur DRE - INE , DD11111 (score: 0)
 # 2-Le joueur PASTEUR - INE , LP00010 (score: 0)
 # 3-Le joueur DIA - INE , SD12456 (score: 0)
@@ -34,6 +71,8 @@
 # 3 - Gestion des rapports
 # # Quel type de rapport aimeriez-vous creer?
 # # - (1) Tous les joueurs. #bug
+    name = all_infos["name_of_tournament"]
+KeyError: 'name_of_tournament'
 # # - (2) Tous les tournois. #bug
 # # - (3) Tous les resultats de matchs de tournoi(s). #bug
 # # - (4) Tous les joueurs participant au(x) tournoi(s). #bug

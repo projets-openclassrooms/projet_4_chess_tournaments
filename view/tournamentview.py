@@ -2,6 +2,8 @@ import re
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
 from model.player import Player
 
+from projet_4_chess_tournaments.utils.settings import clear_console
+
 """Display Tournament view"""
 # TOURNAMENT_NAME = r"^[A-Za-z0-9]{0,99}$"
 # NB_TURN_FORMAT = r"^[0-9]{1,2}$"
@@ -76,15 +78,16 @@ class TournamentView:
 
     def ask_for_nb_turn(self):
         """
+        turns isdigit() ok
 
         :rtype: object
         :return final_turn_nb
         """
-#TODO verifier que c'est digit
+
         turns = input(
             "Combien de tours compte ce tournoi?\n-"
             + "par défaut (4 tours)\n"
-        )
+        ).isdigit()
         if not turns:
             turns = 4
         else:
@@ -100,11 +103,10 @@ class TournamentView:
         if not player_list:
             print("Votre liste de joueurs sélectionnés est vide.")
         elif len(player_list) == 1:
-            print("Votre liste comporte 1 joueur.")
-            +print("Ajouter d'autres joueurs svp.")
+            print("Ajouter d'autres joueurs svp., 1 joueur saisi")
         elif len(player_list) > 1:
             print(f"Votre liste de joueurs sélectionnés: {len(player_list)} joueurs")
-
+        return player_list
 
     def display_all_tournaments(self, tournaments):
         """
@@ -115,12 +117,12 @@ class TournamentView:
         if len(tournaments) == 0:
             print("\nAucun tournoi\n")
         else:
-            print("\nListe des joueurs enregistrés :\n")
+            print("\nListe des tournois enregistrés :\n")
             i = 0
             for tournament in tournaments:
                 i += 1
                 print(f"{i}- {tournament.name}")
-
+        clear_console()
     def display_tournament_players(self, players_saved):
         """
 
@@ -138,7 +140,7 @@ class TournamentView:
         """
 
         :param current_list:
-        :return str(len(current_list)) + " joueur(s)
+        :return str (len(current_list)) + " joueur(s)
         """
         print("La liste en cours d'entrée actuelle est :")
         if not current_list:

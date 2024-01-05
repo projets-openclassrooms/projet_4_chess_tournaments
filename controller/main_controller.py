@@ -10,6 +10,8 @@ from view.tournamentview import TournamentView
 
 from CONSTANTES import DATA_FOLDER, REPORT_FILE
 
+from utils.settings import clear_console
+
 """"
 import random pour 1er round
 ensuite en fonction du scoring
@@ -41,6 +43,7 @@ class MainController:
         self.report = ReportManager()
 
     def run(self):
+        clear_console()
 
         # afficher le menu
         menu = ""
