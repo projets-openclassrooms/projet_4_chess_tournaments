@@ -241,9 +241,11 @@ class TournamentManager:
         while menu != "0":
             menu = self.tournament_view.display_menu()
             if menu == "1":
+                # execution tour aleatoire
                 self.define_first_turn()
                 # self.create_tournament(Player.get_players_saved())
             elif menu == "2":
+                # recherche du tournoi existant dans la base
                 self.select_tournament()
             elif menu == "0":
                 break
