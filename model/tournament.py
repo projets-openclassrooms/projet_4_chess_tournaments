@@ -204,3 +204,4 @@ class Tournament:
         if self._finished:
             self.ending_date = datetime.now()
         self.save_tournament()
+
