@@ -17,18 +17,18 @@ if __name__ == "__main__":
 # # Quel menu souhaitez-vous selectionner ?
 # # Taper
 
-# #  1 - Cr?er un nouveau joueur
+# #  1 - Cr�er un nouveau joueur
 # #  2 - Supprimer un joueur #bug pas obligatoire
 # #  3 - Modifier un joueur # liste puis bug sur cle, valeur lues pas obligatoire
 # #  4- Voir les joueurs
 # #  0 - quitter.
 
 # 2 - Gestion du tournoi
-# # (1) Voulez-vous creer un nouveau tournoi, #bug pas 1st turn
+# # (1) Voulez-vous cr�er un nouveau tournoi, #bug pas 1st turn
 # message
 # Quel est le nom de ce tournoi? ('0' pour revenir au menu)
 # Ou se passe ce tournoi? (tapez '0' pour revenir au menu)
-# Votre liste de joueurs s?lectionn?s est vide.
+# Votre liste de joueurs selectionnes est vide.
 # Les joueurs deja enregistres sont:
 # 1-Le joueur DRE - INE , DD11111 (score: 0)
 # 2-Le joueur PASTEUR - INE , LP00010 (score: 0)

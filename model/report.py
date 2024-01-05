@@ -1,6 +1,7 @@
 import json
 from CONSTANTES import file_players, file_tournament
 
+
 class Report:
     def __init__(self):
         self.players = []
@@ -10,8 +11,8 @@ class Report:
 
     def load_players(self):
         """
-        Charge la liste des joueurs depuis le fichier players.json. 
-        Fichier introuvable ou erreur de décodage JSON)
+        Charge la liste des joueurs depuis le fichier players.json.
+        Fichier introuvable ou erreur de decodage JSON)
         Message d'erreur s'affiche.
 
         Returns:
@@ -29,8 +30,9 @@ class Report:
     # Optionnellement, si vous voulez aussi charger les tournois :
     def load_tournaments(self):
         """
-        Charge la liste des tournois depuis le fichier tournaments.json. En cas d'erreur (fichier introuvable ou erreur
-        de décodage JSON), un message d'erreur est affiché.
+        Charge la liste des tournois depuis le fichier tournaments.json.
+        En cas d'erreur (fichier introuvable ou erreur
+        de decodage JSON), affiche un message d'erreur.
 
         Returns:
             list: Liste des tournois. Retourne une liste vide en cas d'erreur.
