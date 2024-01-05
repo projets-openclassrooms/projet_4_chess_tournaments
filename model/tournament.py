@@ -108,14 +108,15 @@ class Tournament:
     @classmethod
     def get_all_tournament_names(cls, with_finished=False):
         file_list = []
-        for root, _, files in os.walk(file_tournament):
-            for file in files:
-                file_path = os.path.join(root, file)
-                file_path = file_path.replace("\\", "/")
-                if re.match(file_tournament, file_path):
-                    file_path = file_path.replace(TOURNAMENT_FOLDER , "")
-                    file_path = file_path.replace(".json", "")
-                    file_list.append(file_path)
+        file_list.append(file_tournament)
+        # for root, _, files in os.walk(file_tournament):
+        #     for file in files:
+        #         file_path = os.path.join(root, file)
+        #         file_path = file_path.replace("\\", "/")
+        #         if re.match(file_tournament, file_path):
+        #             file_path = file_path.replace(TOURNAMENT_FOLDER, "")
+        #             file_path = file_path.replace(".json", "")
+        #             file_list.append(file_path)
         final_list = []
         if with_finished:
             for tournament in file_list:

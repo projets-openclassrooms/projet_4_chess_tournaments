@@ -82,15 +82,17 @@ class TournamentManager:
 
     def define_first_turn(self):
         """
-        define first turn  
+
+        :param players_saved:
+        :return: first_turn
+
+        define first turn
         :return: first_turn
         """
-        # restored_turn = self.restore_turn(self.tournament.name)
-        # if restored_turn:
-        #     return restored_turn
-############ DEFINIR tournament.players
+        
+        ############ DEFINIR tournament.players
         players = Player.get_players_saved()
-        tournament_players = self.tournament.players.copy()
+        tournament_players = players.copy()
         random.shuffle(tournament_players)
         first_match_list = []
         while len(tournament_players) != 0:
@@ -236,7 +238,8 @@ class TournamentManager:
         while menu != "0":
             menu = self.tournament_view.display_menu()
             if menu == "1":
-                self.define_first_turn()
+                self.select_tournament()
+                #self.define_first_turn()
                 # self.create_tournament(Player.get_players_saved())
             elif menu == "2":
                 self.select_tournament()
@@ -244,7 +247,7 @@ class TournamentManager:
                 break
             else:
                 print("Recommencez svp.")
-     
+
         # self.tournament = None
         # players_saved = Player.get_players_saved()
         # if not players_saved:

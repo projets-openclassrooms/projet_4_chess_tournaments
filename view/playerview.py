@@ -4,9 +4,7 @@ from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFIER_FORMAT
 
 
 class PlayerView:
-     
     def display_menu(self):
-        
         menu = input(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Créer un nouveau joueur \n"
@@ -16,7 +14,7 @@ class PlayerView:
             + " 0 - quitter.\n"
         )
         return menu
-    
+
     def display_all_player_saved(self, players_saved):
         """
         display player's info saved
@@ -53,13 +51,25 @@ class PlayerView:
             else:
                 print(f"{save_new_player} n'est pas valide\n")
 
-    def delete_player(self, players_saved):
+    def ask_to_delete_player(self, players_saved):
         i = 0
         for player in players_saved:
             i += 1
             print(f"{i} - {player}")
             while True:
                 choice = int(input("Saisir le numéro du joueur à supprimer :\n"))
+                if not choice:
+                    print("Merci de saisir un chiffre svp.")
+                else:
+                    return players_saved[choice - 1]
+
+    def ask_to_modify_player(self, players_saved):
+        i = 0
+        for player in players_saved:
+            i += 1
+            print(f"{i} - {player}")
+            while True:
+                choice = int(input("Saisir le numéro du joueur à modifier :\n"))
                 if not choice:
                     print("Merci de saisir un chiffre svp.")
                 else:
@@ -92,9 +102,7 @@ class PlayerView:
     def ask_for_birthday(self):
         birthday = ""
         while birthday != QUIT:
-            birthday = input(
-                "Date de naissance (JJ/MM/AAAA): \n"
-            ).upper()
+            birthday = input("Date de naissance (JJ/MM/AAAA): \n").upper()
             if birthday == "":
                 print("Ce champ ne peut pas être vide")
             elif birthday == QUIT:
@@ -111,7 +119,6 @@ class PlayerView:
             identifier = input(
                 "Identifiant national du joueur (AB12345) :\n"
                 + "Quitter la création en tapant 'q'.\n"
-
             ).upper()
             if identifier == "" or identifier == "q":
                 print("Vous quittez la création\n")
@@ -120,6 +127,7 @@ class PlayerView:
                 return identifier
             else:
                 print("Le format attendu est 'AB12345'\n")
+
     def select_player(self, players):
         """
         Permet à l'utilisateur de sélectionner un joueur parmi une liste de joueurs.
@@ -132,13 +140,14 @@ class PlayerView:
         """
         print("\nSélectionnez un joueur : ")
         players_reversed = list(reversed(players))
+        print(players_reversed)
         for i, player in enumerate(players_reversed):
             print(
                 f"{i + 1} - "
-                f"{player['first_name']} "
-                f"{player['last_name']} - "
-                f"Né le {player['birth_date']} - "
-                f"ID: {player['national_chess_id']}"
+                f"{player['nom']} "
+                f"{player['prenom']} - "
+                f"Né le {player['birthday']} - "
+                f"ID: {player['national_identification']}"
             )
 
         while True:
@@ -165,4 +174,3 @@ class PlayerView:
 
     def display_creation(self):
         print("Le joueur à été créé")
-

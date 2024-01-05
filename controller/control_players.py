@@ -19,7 +19,6 @@ class PlayerManager(object):
         self.score = 0.0
 
     def new_player(self):
-
         name = self.player_view.ask_for_name()
         if not name:
             return None
@@ -54,25 +53,41 @@ class PlayerManager(object):
 
     def modify_player(self):
         self.display_players()
-        all_players = []
-        self.all_players = Player.get_players_saved()
-        # self.player_view.display_all_player_saved(self.all_players)
-        all_players.append(self.all_players)
-        if self.all_players:
-            for key, value in all_players.items():
-                if all_players[0][0] == value:
-                    new_info = self.view.modification_player(value)
-                    if new_info[0] == "1":
-                        value["name"] = new_info[1]
-                    elif new_info[0] == "2":
-                        value["firstname"] = new_info[1]
-                    elif new_info[0] == "3":
-                        value["birthday"] = new_info[1]
-                    elif new_info[0] == "4":
-                        value["identifier"] = new_info[1]
-        with open(file_players, "w") as my_file:
-            json.dump(file_players, my_file, indent=4)
-        return None
+        players_to_modify = Player.get_players_saved()
+        player_modified = False
+        self.player_view.ask_to_modify_player(players_to_modify)
+        i = 1
+        for player in players_to_modify:
+            print(i, "player", player.identifier)
+            i += 1
+            self.player_view.select_player(players_to_modify)
+        #     for key, value in all_players.items():
+        #         if all_players[0][0] == value:
+        #             new_info = self.view.modification_player(value)
+        #             if new_info[0] == "1":
+        #                 value["name"] = new_info[1]
+        #             elif new_info[0] == "2":
+        #                 value["firstname"] = new_info[1]
+        #             elif new_info[0] == "3":
+        #                 value["birthday"] = new_info[1]
+        #             elif new_info[0] == "4":
+        #                 value["identifier"] = new_info[1]
+        # with open(file_players, "w") as my_file:
+        #     json.dump(file_players, my_file, indent=4)
+        # return None
+
+    def delete_player(self):
+        self.display_players()
+        players_to_delete = Player.get_players_saved()
+        player_deleted = False
+        self.player_view.ask_to_delete_player(players_to_delete)
+        for player in players_to_delete:
+            print("player", player.identifier)
+
+    def display_players(self):
+        players = Player.get_players_saved()
+        # print("players", players)
+        self.player_view.display_all_player_saved(players)
 
     def run_player(self):
         # all_player_saved = []
@@ -81,7 +96,7 @@ class PlayerManager(object):
             menu = self.player_view.display_menu()
             if menu == "1":
                 # nouveau joueur
-                
+
                 self.new_player()
             elif menu == "2":
                 # Supprimer un joueur
@@ -96,17 +111,3 @@ class PlayerManager(object):
                 break
             else:
                 print("Recommencez svp.")
-
-
-
-    def delete_player(self):
-        self.display_players()
-
-        delete_player = self.player_view.ask_for_delete()
-        return delete_player
-
-    def display_players(self):
-        players = Player.get_players_saved()
-        # print("players", players)
-        self.player_view.display_all_player_saved(players)
-

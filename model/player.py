@@ -56,15 +56,15 @@ class Player(object):
             self.remove(element)
             return True
         return False
-    
+
     @classmethod
-    def sauvegarder(cls,self):
+    def sauvegarder(cls, self):
         chemin = file_players
         with open(chemin, "w") as f:
             json.dump(self, f, indent=4)
 
         return True
-    
+
     def to_dict(self):
         """ """
         return {
@@ -114,13 +114,11 @@ class Player(object):
                 return identifier
         return None
 
-
     @classmethod
     def get_players_saved(self):
         # all_players_saved = {}
-    
+
         """:return: players_saved"""
-    
 
         # all_players_saved = dict()
         players_saved = []
@@ -129,7 +127,7 @@ class Player(object):
         if path_control is True:
             with open(file_players) as file:
                 all_players_saved = json.load(file)
-                #print("liste des joueurs ",all_players_saved)
+                # print("liste des joueurs ",all_players_saved)
             if all_players_saved.get("players") is not None:
                 for player in all_players_saved["players"]:
                     # for player in all_players_saved:
@@ -159,6 +157,7 @@ class Player(object):
         :return: player_to_return
         """
         path_control = os.path.exists(DATA_FOLDER)
+        player_to_return = None
         if path_control is True:
             with open(file_players, "r") as file:
                 all_players_saved = json.load(file)
@@ -184,12 +183,14 @@ class Player(object):
         identifier = re.search(SEARCHING_INE, player)
         identifier = identifier.group(1)
         all_players = cls.get_players_saved()
+        player_to_return = None
         for player in all_players:
             if player.identifier == identifier:
                 player_to_return = player
                 player_to_return.name = f"{player.name} + ({identifier})"
                 break
         return player_to_return
+
 
 # player_store = {}
 # nom = "Nom2"
