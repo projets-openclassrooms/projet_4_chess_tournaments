@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 from CONSTANTES import TOURNAMENT_FOLDER
 from controller.main_controller import MainController
 
