@@ -53,7 +53,7 @@ class TournamentManager:
         choix = ""
         while choix != "Q" and len(players) < 8:
             clear_console()
-            choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?")
+            choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
             if choix != "Q":
                 # TODO verifier que l'index est pas de doublon
                 index = int(choix)-1

@@ -24,11 +24,11 @@ if not os.path.exists(DATA_FOLDER):
 # creer un fichier vierge json pour les players
 if not os.path.exists(os.path.join(DATA_FOLDER, "players.json")):
     with open(os.path.join(DATA_FOLDER, "players.json"), "w") as f:
-        f.write("{}")
-# creer un fichier vierge json pour les tournois
-# if not os.path.exists(os.path.join(DATA_FOLDER, "tournaments.json")):
-#     with open(os.path.join(DATA_FOLDER, "tournaments.json"), "w") as f:
-#         f.write("{}")
+        f.write('{"players":[]}')
+#creer un fichier vierge json pour les tournois
+if not os.path.exists(os.path.join(DATA_FOLDER, "tournaments.json")):
+    with open(os.path.join(DATA_FOLDER, "tournaments.json"), "w") as f:
+        f.write('{"tournaments": []}')
 # creer un dossier reporting
 if not os.path.exists(REPORT_FILE):
     os.mkdir(REPORT_FILE)

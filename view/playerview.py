@@ -34,7 +34,7 @@ class PlayerView:
                     + f" - INE : {player.identifier}"
                 )
             if len(players_saved) == 1:
-                print("1 Joueur.\nVeuillez saisir les données d'un autre joueur\n")
+                print("1 Joueur.\nVeuillez saisir les données d'un autre joueur.\n")
 
             elif len(players_saved) > 1:
                 print(f"Total : {str(len(players_saved))} joueurs.\n")
@@ -79,7 +79,7 @@ class PlayerView:
     def ask_for_name(self):
         name = ""
         while name != QUIT:
-            name = input("\nSaisissez le nom de famille du joueur ").upper()
+            name = input("\nSaisissez le nom de famille du joueur ").capitalize()
             if name == "":
                 print("Ce champ ne peut pas être vide")
             elif name == "Q":
@@ -91,7 +91,7 @@ class PlayerView:
     def ask_for_firstname(self):
         firstname = ""
         while firstname != QUIT or firstname != "q":
-            firstname = input("Veuillez saisir le prénom du joueur ").upper()
+            firstname = input("Veuillez saisir le prénom du joueur ").capitalize()
             if firstname == "":
                 print("Ce champ ne peut pas être vide")
             elif firstname == "Q":
