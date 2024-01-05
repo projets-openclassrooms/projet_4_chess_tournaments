@@ -110,7 +110,9 @@ class Tournament:
     @classmethod
     def get_all_tournament_names(cls, with_finished=False):
         file_list = []
-        file_list.append(file_tournament)
+        tournament_list = Tournament.get_tournament_info(file_tournament)
+        for list_of_tournament in tournament_list:
+            file_list.append(list_of_tournament)
         # for root, _, files in os.walk(file_tournament):
         #     for file in files:
         #         file_path = os.path.join(root, file)
@@ -144,10 +146,10 @@ class Tournament:
         :param name:
         :return: saved_tournament or None
         """
-        tournament_file = file_tournament
-        path_control = os.path.exists(tournament_file)
+        #tournament_file = file_tournament
+        path_control = os.path.exists(file_tournament)
         if path_control is True:
-            with open(tournament_file, "r") as file:
+            with open(file_tournament, "r") as file:
                 all_infos = json.load(file)
             name = all_infos["name_of_tournament"]
             location = all_infos["location"]

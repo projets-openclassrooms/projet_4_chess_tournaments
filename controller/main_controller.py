@@ -35,9 +35,9 @@ class MainController:
             with open(os.path.join(DATA_FOLDER, "players.json"), "w") as f:
                 f.write("{}")
         # creer un fichier vierge json pour les tournois
-        if not os.path.exists(os.path.join(DATA_FOLDER, "tournaments.json")):
-            with open(os.path.join(DATA_FOLDER, "tournaments.json"), "w") as f:
-                f.write("{}")
+        # if not os.path.exists(os.path.join(DATA_FOLDER, "tournaments.json")):
+        #     with open(os.path.join(DATA_FOLDER, "tournaments.json"), "w") as f:
+        #         f.write("{}")
                 # creer un dossier reporting
         if not os.path.exists(REPORT_FILE):
             os.mkdir(REPORT_FILE)

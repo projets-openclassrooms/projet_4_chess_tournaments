@@ -296,13 +296,13 @@ class TournamentManager:
             return None
         path_control = Tournament.control_name_exist(choice)
         if path_control:
-            restored = self.restore_tournament(choice)
-            if not restored:
+            tournament_saved = self.restore_tournament(choice)
+            if not tournament_saved:
                 return None
         else:
             self.tournament_view.display_import_error()
             return None
-        return restored
+        return tournament_saved
 
     def restore_tournament(self, tournament_name):
         t_restored = Tournament.get_tournament_info(tournament_name)
