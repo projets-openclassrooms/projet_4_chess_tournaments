@@ -111,25 +111,30 @@ class Tournament:
     def get_all_tournament_names(cls, with_finished=False):
         file_list = []
         tournament_list = Tournament.get_tournament_info(file_tournament)
-        for list_of_tournament in tournament_list:
-            file_list.append(list_of_tournament)
-        # for root, _, files in os.walk(file_tournament):
-        #     for file in files:
-        #         file_path = os.path.join(root, file)
-        #         file_path = file_path.replace("\\", "/")
-        #         if re.match(file_tournament, file_path):
-        #             file_path = file_path.replace(TOURNAMENT_FOLDER, "")
-        #             file_path = file_path.replace(".json", "")
-        #             file_list.append(file_path)
-        final_list = []
-        if with_finished:
-            for tournament in file_list:
-                tournament_control = cls.control_finished(tournament)
-                if not tournament_control:
-                    final_list.append(tournament)
-            return final_list
+        if tournament_list:
+
+            #TypeError: 'NoneType' object is not iterable
+            for list_of_tournament in tournament_list:
+                file_list.append(list_of_tournament)
+            # for root, _, files in os.walk(file_tournament):
+            #     for file in files:
+            #         file_path = os.path.join(root, file)
+            #         file_path = file_path.replace("\\", "/")
+            #         if re.match(file_tournament, file_path):
+            #             file_path = file_path.replace(TOURNAMENT_FOLDER, "")
+            #             file_path = file_path.replace(".json", "")
+            #             file_list.append(file_path)
+            final_list = []
+            if with_finished:
+                for tournament in file_list:
+                    tournament_control = cls.control_finished(tournament)
+                    if not tournament_control:
+                        final_list.append(tournament)
+                return final_list
+            else:
+                return file_list
         else:
-            return file_list
+            file_list
 
     @classmethod
     def control_name_exist(cls, tournament_name):

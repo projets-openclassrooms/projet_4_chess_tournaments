@@ -62,6 +62,9 @@ class TournamentManager:
         self.tournament.nb_turn = nb_turn
         return self.tournament
 
+    def display_tournaments(self):
+        tournaments = Tournament.loads_tournament()
+        self.tournament_view.select_previous_tournament()
     def create_player_list(self, players_saved):
         """
 
@@ -286,23 +289,27 @@ class TournamentManager:
         # self.tournament.comment = comment
         # self.tournament.finished = True
 
-    def select_tournament(self):
+    def select_tournament(self, tournament_saved=None):
         """Allow to resume an unfinished tournament
         :return: restored
         """
-        all_path = Tournament.get_all_tournament_names(with_finished=True)
-        choice = self.tournament_view.select_previous_tournament(all_path)
-        if choice is None:
-            return None
-        path_control = Tournament.control_name_exist(choice)
-        if path_control:
-            tournament_saved = self.restore_tournament(choice)
-            if not tournament_saved:
+        if not tournament_saved:
+
+            all_path = Tournament.get_all_tournament_names(with_finished=True)
+            choice = self.tournament_view.select_previous_tournament(all_path)
+            if choice is None:
                 return None
+            path_control = Tournament.control_name_exist(choice)
+            if path_control:
+                tournament_saved = self.restore_tournament(choice)
+                if not tournament_saved:
+                    return None
+            else:
+                self.tournament_view.display_import_error()
+                return None
+            return tournament_saved
         else:
-            self.tournament_view.display_import_error()
             return None
-        return tournament_saved
 
     def restore_tournament(self, tournament_name):
         t_restored = Tournament.get_tournament_info(tournament_name)
