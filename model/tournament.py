@@ -1,9 +1,11 @@
 """Define Tournament"""
 import json
 import os
-import re
+
 from datetime import datetime
 from CONSTANTES import file_tournament
+
+from projet_4_chess_tournaments.model.report import Report
 
 
 class Tournament:
@@ -94,8 +96,8 @@ class Tournament:
 
     @classmethod
     def control_finished(cls, tournament):
-        path_control = os.path.exists(tournament)
-        if path_control is True:
+
+        if Report.load_tournaments(tournament):
             with open(tournament, "r") as file:
                 all_infos = json.load(file)
                 if all_infos["ending_date"]:

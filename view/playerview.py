@@ -8,11 +8,12 @@ class PlayerView:
         menu = input(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Créer un nouveau joueur \n"
-            + " 2 - Supprimer un joueur\n"
-            + " 3 - Modifier un joueur\n"
-            + " 4- Voir les joueurs\n"
+
+            + " 2- Voir les joueurs\n"
             + " 0 - quitter.\n"
         )
+        # + " 2 - Supprimer un joueur\n"
+        # + " 3 - Modifier un joueur\n"
         return menu
 
     def display_all_player_saved(self, players_saved):

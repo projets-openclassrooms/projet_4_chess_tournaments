@@ -58,7 +58,7 @@ class PlayerManager(object):
         self.player_view.ask_to_modify_player(players_to_modify)
         i = 1
         for player in players_to_modify:
-            print(i, "player", player.identifier)
+            print(i, "player", player.full_name())
             i += 1
             self.player_view.select_player(players_to_modify)
         #     for key, value in all_players.items():
@@ -81,8 +81,9 @@ class PlayerManager(object):
         players_to_delete = Player.get_players_saved()
         player_deleted = False
         self.player_view.ask_to_delete_player(players_to_delete)
+        i = 1
         for player in players_to_delete:
-            print("player", player.identifier)
+            print(i, "player", player.full_name())
 
     def display_players(self):
         players = Player.get_players_saved()
@@ -98,14 +99,14 @@ class PlayerManager(object):
                 # nouveau joueur
 
                 self.new_player()
-            elif menu == "2":
+            elif menu == "3":
                 # Supprimer un joueur
                 self.delete_player()
 
-            elif menu == "3":
+            elif menu == "4":
                 # modifier joueur
                 self.modify_player()
-            elif menu == "4":
+            elif menu == "2":
                 self.display_players()
             elif menu == "0":
                 break

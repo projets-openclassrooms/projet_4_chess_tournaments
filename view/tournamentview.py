@@ -250,9 +250,11 @@ class TournamentView:
         selected = ""
         while selected not in tournament_saved:
             print("Voici la liste de tous les tournois précédents :")
+            i = 0
             for tournament in tournament_saved:
-                print("--" + tournament)
-            selected = input("Tapez le nom d'un tournoi ou '0' pour quitter.\n").upper()
+                i += 1
+                print("{i}--" + tournament)
+            selected = input("Tapez le numero d'un tournoi ou '0' pour quitter.\n")
             if selected in tournament_saved:
                 return selected
             elif selected == "0":
