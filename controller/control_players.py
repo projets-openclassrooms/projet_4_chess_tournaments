@@ -94,6 +94,8 @@ class PlayerManager(object):
         # all_player_saved = []
         menu = ""
         while menu != "0":
+            clear_console()
+
             menu = self.player_view.display_menu()
             if menu == "1":
                 # nouveau joueur

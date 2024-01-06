@@ -10,7 +10,7 @@ from view.playerview import PlayerView
 from view.tournamentview import TournamentView
 from view.turnview import TurnView
 
-from projet_4_chess_tournaments.utils.settings import clear_console
+from utils.settings import clear_console
 
 """Define controller about tournament
     choice of pairs
@@ -48,16 +48,13 @@ class TournamentManager:
         #TODO lister les players
         #TODO boucle while avec id des joueurs
 
-        #
-        list_of_players_t = []
-
-
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
+
         choix = ""
+        player_tournament = []
         nb_players = len(players)
         while choix != "Q" and nb_players < 8:
-            clear_console()
             choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
             if choix != "Q":
                 # TODO verifier que l'index est pas de doublon

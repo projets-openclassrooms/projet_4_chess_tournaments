@@ -2,7 +2,7 @@ import re
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
 from model.player import Player
 
-from projet_4_chess_tournaments.utils.settings import clear_console
+from utils.settings import clear_console
 
 """Display Tournament view"""
 # TOURNAMENT_NAME = r"^[A-Za-z0-9]{0,99}$"

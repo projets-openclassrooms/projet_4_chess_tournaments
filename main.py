@@ -5,6 +5,5 @@ from controller.main_controller import MainController
 
 
 if __name__ == "__main__":
-    # TODO couleur ecran
-    maincontroller = MainController()
-    maincontroller.run()
+    main_controller = MainController()
+    main_controller.run()

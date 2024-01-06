@@ -4,7 +4,7 @@ import os
 import uuid
 from datetime import datetime
 
-from projet_4_chess_tournaments.CONSTANTES import file_tournament
+from CONSTANTES import file_tournament
 
 
 class Tournament:
@@ -13,16 +13,16 @@ class Tournament:
     and a number total of turns, init nb_turn=4"""
 
     def __init__(
-        self,
-        name=None,
-        location=None,
-        players=None,
-        nb_turn=4,
-        turn=1,
-        turn_list=None,
-        ranking=None,
-        comment=None,
-        finished=False,
+            self,
+            name=None,
+            location=None,
+            players=None,
+            nb_turn=4,
+            turn=1,
+            turn_list=None,
+            ranking=None,
+            comment=None,
+            finished=False,
     ):
         self.id = str(uuid.uuid4())
         self.name = name
@@ -37,7 +37,6 @@ class Tournament:
         self.starting_date = datetime.now()
         self.ending_date = None
 
-
     def __repr__(self):
         """Define the representation of a tournament object
         :rtype: object
@@ -47,12 +46,12 @@ class Tournament:
             for player in self.players:
                 player_list.append(player.name)
         representation = (
-            f"Tournament(name='{self.name}"
-            + f"', lieu='{self.location}"
-            + f"', players={player_list}, nb_turn='"
-            + str(self.nb_turn)
-            + f"', turn='{str(self.turn)}"
-            + f"', turn_list={self.turn_list})"
+                f"Tournament(name='{self.name}"
+                + f"', lieu='{self.location}"
+                + f"', players={player_list}, nb_turn='"
+                + str(self.nb_turn)
+                + f"', turn='{str(self.turn)}"
+                + f"', turn_list={self.turn_list})"
         )
         return representation
 
@@ -64,7 +63,7 @@ class Tournament:
         :return:
         """
         return {
-            "id" : self.id,
+            "id": self.id,
             "name_of_tournament": self.name,
             "location": self.location,
             "turn": self._turn,
@@ -94,7 +93,7 @@ class Tournament:
 
     @classmethod
     def loads_tournament(self):
-        #meme methode que players
+        # meme methode que players
         all_tournaments_returned = []
         with open(file_tournament) as file:
             all_tournaments_saved = json.load(file)
@@ -117,6 +116,7 @@ class Tournament:
     @classmethod
     def control_finished(cls, tournament):
 
+
         pass
 
     @classmethod
@@ -125,7 +125,7 @@ class Tournament:
         tournament_list = Tournament.get_tournament_info(file_tournament)
         if tournament_list:
 
-            #TypeError: 'NoneType' object is not iterable
+            # TypeError: 'NoneType' object is not iterable
             for list_of_tournament in tournament_list:
                 file_list.append(list_of_tournament)
             # for root, _, files in os.walk(file_tournament):
@@ -163,7 +163,7 @@ class Tournament:
         :param name:
         :return: saved_tournament or None
         """
-        #tournament_file = file_tournament
+        # tournament_file = file_tournament
         path_control = os.path.exists(file_tournament)
         if path_control is True:
             with open(file_tournament, "r") as file:
@@ -209,7 +209,6 @@ class Tournament:
     def ranking(self, value):
         self._ranking = value
 
-
     @property
     def finished(self):
         return self._finished
@@ -219,5 +218,3 @@ class Tournament:
         self._finished = value
         if self._finished:
             self.ending_date = datetime.now()
-
-

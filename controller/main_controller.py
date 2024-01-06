@@ -48,6 +48,8 @@ class MainController:
         # afficher le menu
         menu = ""
         while menu != "0":
+            clear_console()
+            
             menu = self.mainview.display_menu()
             if menu == "1":
                 # menu joueur
