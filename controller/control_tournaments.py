@@ -48,18 +48,36 @@ class TournamentManager:
         #TODO lister les players
         #TODO boucle while avec id des joueurs
 
+        #
+        list_of_players_t = []
+
+
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
         choix = ""
-        while choix != "Q" and len(players) < 8:
+        nb_players = len(players)
+        while choix != "Q" and nb_players < 8:
             clear_console()
             choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
             if choix != "Q":
                 # TODO verifier que l'index est pas de doublon
                 index = int(choix)-1
                 players.append(players_saved[index])
+            for i in range(nb_players):
+                while True:
+                    i_p = int(input("numero joueur"))
+                    i+=1
+                    if i_p in list_of_players_t:
+                        print("joueur choisi")
+                    else:
+                        break
+                list_of_players_t.append(i_p)
+
+        print("nombre de joueurs choisis ",list_of_players_t)
 
 
+
+        print("nombre de parties saisies ",nb_turn)
         tournament = Tournament(
             name, location, players, ranking=[], turn_list=[], nb_turn = nb_turn
         )
