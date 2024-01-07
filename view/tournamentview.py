@@ -22,7 +22,7 @@ class TournamentView:
 
     def display_menu(self):
         menu = input(
-            "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
+            "Que souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Voulez-vous créer un nouveau tournoi? \n"
             + " 2 - Voulez-vous afficher le tournoi? \n"
             + " 3 - lancer un tournoi\n"

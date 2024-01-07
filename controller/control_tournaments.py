@@ -77,7 +77,7 @@ class TournamentManager:
 
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()
-        self.tournament_view.display_all_tournaments()
+        self.tournament_view.display_all_tournaments(tournaments)
 
     def create_player_list(self, players_saved):
         """
@@ -301,7 +301,15 @@ class TournamentManager:
         print(f"Start du tournoi {tournament}")
 
     def restore_tournament(self):
-        pass
+        self.display_tournaments()
+        tournaments_input = int(input())
+        for i in range(len(list_tournament)):
+            if tournaments_input == str(list_tournament[i]["id"]):
+                t = list_tournament[i]
+                t = Tournament(t["id"])
+
+                self.run_tournament()
+
 
     def restore_turn(self, tournament_name, listing=False):
         """
