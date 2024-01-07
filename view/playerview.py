@@ -103,7 +103,7 @@ class PlayerView:
     def ask_for_birthday(self):
         birthday = ""
         while birthday != QUIT:
-            birthday = input("Date de naissance (JJ/MM/AAAA): \n").upper()
+            birthday = input("Date de naissance (JJ/MM/AAAA): \n")
             if birthday == "":
                 print("Ce champ ne peut pas être vide")
             elif birthday == QUIT:

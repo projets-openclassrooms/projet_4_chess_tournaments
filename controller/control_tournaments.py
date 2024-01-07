@@ -1,6 +1,6 @@
 import random
 
-from CONSTANTES import COLOR
+from CONSTANTES import COLOR, MAX_PLAYERS
 from model.match import Match
 from model.player import Player
 from model.tournament import Tournament
@@ -16,10 +16,7 @@ from utils.settings import clear_console
     choice of pairs
     create_tournament
     randomize for 1st turn
-
-
 """
-
 
 # Constantes COLOR = ["Blanc", "Noir"]
 
@@ -39,48 +36,64 @@ class TournamentManager:
         a name, a location, a list of players and
         a number of turns
         :param players_saved:
-        :return: self.tournament"""
+        :return: None"""
+        # prompt user nom du tournoi, endroit, nombre de tours pour get liste des players
         name = self.tournament_view.ask_for_name()
         location = self.tournament_view.ask_for_location()
         nb_turn = self.tournament_view.ask_for_nb_turn()
+        players_saved = Player.get_players_saved()
+        self.player_view.display_all_player_saved(players_saved)
+        
+        # initialise liste players du tournoi depuis playeers_saved
         players = []
-        #todo lister les players et demander à l'utilisateur de choisir les players pour le tournoi
         #TODO lister les players
         #TODO boucle while avec id des joueurs
 
-        players_saved = Player.get_players_saved()
-        self.player_view.display_all_player_saved(players_saved)
+        #
+        list_of_players_t  = []
+        print(type(players_saved))
+
 
         choix = ""
-        player_tournament = []
-        nb_players = len(players)
-        while choix != "Q" and nb_players < 8:
+        nb_players = len(players_saved)
+        # loop pour atteindre 8 players max ou Q pour quitter
+        while True:
             choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
-            if choix != "Q":
-                # TODO verifier que l'index est pas de doublon
+            if choix == "Q":
+                break
+            # verifier que index = choix (choix - 1 pour avoir index)
+            try:
                 index = int(choix)-1
-                players.append(players_saved[index])
-            for i in range(nb_players):
-                while True:
-                    i_p = int(input("numero joueur"))
-                    i+=1
-                    if i_p in list_of_players_t:
-                        print("joueur choisi")
-                    else:
-                        break
-                list_of_players_t.append(i_p)
+                if 0 <= index < nb_players  and players_saved[index] not in players:
+                    list_of_players_t = players.append(players_saved[index])
+                else:
+                    print("Veuillez entre un numéro valide")
+            except ValueError:
+                print("Veuillez entre un numéro valide")    
+                    
+                
+        # while choix != "Q" and nb_players < MAX_PLAYERS:
+        #     choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
+        #     if choix != "Q":
+        #         # verifier que l'index est doublon ou pas
+        #         is_duplicate = False
+        #         for player in players:
+        #             if player.id == int(choix) - 1:
+        #                 is_duplicate = True
+        #                 break
+        #         if not is_duplicate:
+        #             # ajout du player dans liste
+        #             index = int(choix)-1
+                    # list_of_players_t = players.append(players_saved[index])
 
-        print("nombre de joueurs choisis ",list_of_players_t)
-
-
-
+        print(f"nombre de joueurs choisis {players} \n{list_of_players_t}")
         print("nombre de parties saisies ",nb_turn)
         tournament = Tournament(
             name, location, players, ranking=[], turn_list=[], nb_turn = nb_turn
         )
-    #
         tournament.save_tournament()
         print("Tournoi sauvegardé.")
+
 
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()

@@ -8,6 +8,8 @@ from model.player import Player
 from view.playerview import PlayerView
 from CONSTANTES import file_players
 
+from utils.settings import clear_console
+
 
 class PlayerManager(object):
     def __init__(self):

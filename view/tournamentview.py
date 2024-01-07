@@ -87,7 +87,7 @@ class TournamentView:
         turns = input(
             "Combien de tours compte ce tournoi?\n-"
             + "par défaut (4 tours)\n"
-        ).isdigit()
+        )
         if not turns:
             turns = 4
         else:

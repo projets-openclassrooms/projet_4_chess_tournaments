@@ -116,7 +116,6 @@ class Tournament:
     @classmethod
     def control_finished(cls, tournament):
 
-
         pass
 
     @classmethod

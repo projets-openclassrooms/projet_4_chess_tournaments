@@ -79,8 +79,22 @@ KeyError: 'name_of_tournament'
 # # -Ou (5) pour revenir en arriere.
 
 # 0 - quitter.
+        #todo lister les players et demander à l'utilisateur de choisir les players pour le tournoi dans control_tournaments
 
+        #TODO boucle while avec id des joueurs
+        # TODO verifier que l'index est pas de doublon ligne 57
 
 recuperer id
 faire correspondre id avec le nom du joueur correspondant à l'ID
 ajouter le nom du joueur recupere pour le tournoi
+#todo correction
+probleme player_uuid cree à la place de score
+0 = {Player} Le joueur 83a9273e-b73c-4d8a-b3b1-66364afbcf91 - INE , 12/12/1988 (score: DD12345)
+ date_of_birth = {str} 'DUPONT'
+ firstname = {str} 'DURAND'
+ identifier = {str} '12/12/1988'
+ name = {str} '83a9273e-b73c-4d8a-b3b1-66364afbcf91'
+ played_against = {list: 0} []
+ player_uuid = {str} '5805f94a-c3f7-4678-89be-bc155854c858'
+ score = {str} 'DD12345'
+

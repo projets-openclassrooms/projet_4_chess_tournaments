@@ -138,12 +138,13 @@ class Player(object):
                     date_of_birth = player["birthday"]
                     identifier = player["national_identification"]
                     players_to_return = Player(
+                        player_uuid,
                         name,
                         firstname,
                         date_of_birth,
                         identifier,
                     )
-                    players_to_return.player_uuid = player_uuid
+                    # players_to_return.player_uuid = player_uuid
                     players_saved.append(players_to_return)
             return players_saved
         else:
