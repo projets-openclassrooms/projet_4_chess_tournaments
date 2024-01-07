@@ -119,9 +119,9 @@ class PlayerView:
         while identifier != QUIT:
             identifier = input(
                 "Identifiant national du joueur (AB12345) :\n"
-                + "Quitter la création en tapant 'q'.\n"
             ).upper()
             if identifier == "" or identifier == "q":
+                print("Quitter la création en tapant 'q'.\n")
                 print("Vous quittez la création\n")
                 return None
             elif re.match(NATIONAL_IDENTIFIER_FORMAT, identifier):

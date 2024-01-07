@@ -18,6 +18,7 @@ from utils.settings import clear_console
     randomize for 1st turn
 """
 
+
 # Constantes COLOR = ["Blanc", "Noir"]
 
 
@@ -43,61 +44,41 @@ class TournamentManager:
         nb_turn = self.tournament_view.ask_for_nb_turn()
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
-        
+
         # initialise liste players du tournoi depuis playeers_saved
         players = []
-        #TODO lister les players
-        #TODO boucle while avec id des joueurs
+        list_of_players_t = []
+        # print(type(players_saved))
 
-        #
-        list_of_players_t  = []
-        print(type(players_saved))
-
-
-        choix = ""
         nb_players = len(players_saved)
         # loop pour atteindre 8 players max ou Q pour quitter
         while True:
-            choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
+            choix = input("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
             if choix == "Q":
                 break
             # verifier que index = choix (choix - 1 pour avoir index)
             try:
-                index = int(choix)-1
-                if 0 <= index < nb_players  and players_saved[index] not in players:
+                index = int(choix) - 1
+                if 0 <= index < nb_players and players_saved[index] not in players:
                     list_of_players_t = players.append(players_saved[index])
                 else:
                     print("Veuillez entre un numéro valide")
             except ValueError:
-                print("Veuillez entre un numéro valide")    
-                    
-                
-        # while choix != "Q" and nb_players < MAX_PLAYERS:
-        #     choix = input ("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
-        #     if choix != "Q":
-        #         # verifier que l'index est doublon ou pas
-        #         is_duplicate = False
-        #         for player in players:
-        #             if player.id == int(choix) - 1:
-        #                 is_duplicate = True
-        #                 break
-        #         if not is_duplicate:
-        #             # ajout du player dans liste
-        #             index = int(choix)-1
-                    # list_of_players_t = players.append(players_saved[index])
+                print("Veuillez entre un numéro valide")
 
-        print(f"nombre de joueurs choisis {players} \n{list_of_players_t}")
-        print("nombre de parties saisies ",nb_turn)
+
+        #print(f"nombre de joueurs choisis {players} \n{list_of_players_t}")
+        #print("nombre de parties saisies ", nb_turn)
         tournament = Tournament(
-            name, location, players, ranking=[], turn_list=[], nb_turn = nb_turn
+            name, location, players, ranking=[], turn_list=[], nb_turn=nb_turn
         )
         tournament.save_tournament()
         print("Tournoi sauvegardé.")
 
-
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()
         self.tournament_view.display_all_tournaments()
+
     def create_player_list(self, players_saved):
         """
 
@@ -127,7 +108,7 @@ class TournamentManager:
         define first turn
         :return: first_turn
         """
-        
+
         ############ DEFINIR tournament.players
         players = Player.get_players_saved()
         tournament_players = players.copy()
@@ -293,15 +274,10 @@ class TournamentManager:
             else:
                 print("Recommencez svp.")
 
-
     def list_tournament(self):
         tournaments = Tournament.loads_tournament()
         # print("players", players)
         self.tournament_view.display_all_tournaments(tournaments)
-
-
-
-
 
     def select_tournament(self):
         """Allow to resume an unfinished tournament
@@ -312,10 +288,10 @@ class TournamentManager:
         choix = ""
         tournament = None
         while choix != "Q" and tournament == None:
-            choix = input ("Choisir le tournoi à executer ou Q pour quitter?").upper()
+            choix = input("Choisir le tournoi à executer ou Q pour quitter?").upper()
             if choix != "Q":
                 # TODO verifier que l'index est pas de doublon
-                index = int(choix)-1
+                index = int(choix) - 1
                 tournament = tournaments[index]
             else:
                 break
@@ -326,7 +302,6 @@ class TournamentManager:
 
     def restore_tournament(self):
         pass
-
 
     def restore_turn(self, tournament_name, listing=False):
         """
