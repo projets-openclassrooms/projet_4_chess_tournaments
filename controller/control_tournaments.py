@@ -53,7 +53,9 @@ class TournamentManager:
         nb_players = len(players_saved)
         # loop pour atteindre 8 players max ou Q pour quitter
         while True:
-            choix = input("Ajouter un joueur en indiquant son numéro ou Q pour quitter?").upper()
+            choix = input(
+                "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
+            ).upper()
             if choix == "Q":
                 break
             # verifier que index = choix (choix - 1 pour avoir index)
@@ -61,14 +63,16 @@ class TournamentManager:
                 index = int(choix) - 1
                 if 0 <= index < nb_players and players_saved[index] not in players:
                     list_of_players_t = players.append(players_saved[index])
+                    return list_of_players_t
+
                 else:
                     print("Veuillez entre un numéro valide")
+
             except ValueError:
                 print("Veuillez entre un numéro valide")
 
-
-        #print(f"nombre de joueurs choisis {players} \n{list_of_players_t}")
-        #print("nombre de parties saisies ", nb_turn)
+        # print(f"nombre de joueurs choisis {players} \n{list_of_players_t}")
+        # print("nombre de parties saisies ", nb_turn)
         tournament = Tournament(
             name, location, players, ranking=[], turn_list=[], nb_turn=nb_turn
         )
@@ -310,7 +314,6 @@ class TournamentManager:
                 t = Tournament(t["id"])
 
                 self.run_tournament()
-
 
     def restore_turn(self, tournament_name, listing=False):
         """

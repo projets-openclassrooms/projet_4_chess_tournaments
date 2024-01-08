@@ -31,10 +31,10 @@ class MatchView:
         while end_turn is False:
             match_result = input(
                 "Qui est le vainqueur entre"
-                + f" {match.player} \033[1;34;41mvs {match.opponent}\n "
+                + f" {match.player} vs {match.opponent}\n "
                 + f"\033[0;31m '1' pour {match.player}, "
                 + f"'2' pour {match.opponent} ou "
-                + "\033[0;31m 'e' pour déclarer une égalité. \n"
+                + " 'e' pour déclarer une égalité. \n"
                 + "(1/2/e/q) : "
             ).upper()
             if match_result == "1":

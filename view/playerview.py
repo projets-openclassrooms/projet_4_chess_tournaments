@@ -8,7 +8,6 @@ class PlayerView:
         menu = input(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Créer un nouveau joueur \n"
-
             + " 2- Voir les joueurs\n"
             + " 0 - quitter.\n"
         )
@@ -117,11 +116,8 @@ class PlayerView:
     def ask_national_identification(self):
         identifier = ""
         while identifier != QUIT:
-            identifier = input(
-                "Identifiant national du joueur (AB12345) :\n"
-            ).upper()
+            identifier = input("Identifiant national du joueur (AB12345) :\n").upper()
             if identifier == "" or identifier == "q":
-                print("Quitter la création en tapant 'q'.\n")
                 print("Vous quittez la création\n")
                 return None
             elif re.match(NATIONAL_IDENTIFIER_FORMAT, identifier):

@@ -25,7 +25,7 @@ if not os.path.exists(DATA_FOLDER):
 if not os.path.exists(os.path.join(DATA_FOLDER, "players.json")):
     with open(os.path.join(DATA_FOLDER, "players.json"), "w") as f:
         f.write('{"players":[]}')
-#creer un fichier vierge json pour les tournois
+# creer un fichier vierge json pour les tournois
 if not os.path.exists(os.path.join(DATA_FOLDER, "tournaments.json")):
     with open(os.path.join(DATA_FOLDER, "tournaments.json"), "w") as f:
         f.write('{"tournaments": []}')
@@ -49,7 +49,7 @@ class MainController:
         menu = ""
         while menu != "0":
             clear_console()
-            
+
             menu = self.main_view.display_menu()
             if menu == "1":
                 # menu joueur

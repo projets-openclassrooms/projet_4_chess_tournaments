@@ -33,11 +33,11 @@ class ReportView:
             selection = int(
                 input(
                     "\nQuel type de rapport aimeriez-vous créer?\n"
-                    + "- (1) Tous les joueurs.\n"
-                    + "- (2) Tous les tournois.\n"
-                    + "- (3) Tous les résultats de matchs de tournoi(s).\n"
-                    + "- (4) Tous les joueurs participant au(x) tournoi(s).\n"
-                    + "-Ou (5) pour revenir en arrière.\n"
+                    + "- 1 Tous les joueurs.\n"
+                    + "- 2 Tous les tournois.\n"
+                    + "- 3 Tous les résultats de matchs de tournoi(s).\n"
+                    + "- 4 Tous les joueurs participant au(x) tournoi(s).\n"
+                    + "- 5 pour revenir en arrière.\n"
                 )
             )
 
@@ -60,12 +60,11 @@ class ReportView:
         for tournament in all_tournaments:
             i = i + 1
             print(f"{i}-->  {tournament}")
-            
 
         choice = int(
             input(
                 "Taper le nom du tournoi dont vous souhaitez le rapport"
-                + " ou tapez 0 pour quitter.\n> "
+                + " ou tapez 0 pour revenir en arrière.\n> "
             )
         )
         choice_tournament = all_tournaments[choice - 1]

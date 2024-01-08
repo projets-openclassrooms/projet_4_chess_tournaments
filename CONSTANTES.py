@@ -1,5 +1,6 @@
 import os
 import datetime
+
 # import only system from os
 
 """
@@ -30,6 +31,7 @@ MENU_TOURNOI = "2"
 MENU_GESTION = "3"
 COLOR = ["Blanc", "Noir"]
 QUIT = "Q"
+
 
 def birth_format(d):
     try:

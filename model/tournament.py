@@ -13,16 +13,16 @@ class Tournament:
     and a number total of turns, init nb_turn=4"""
 
     def __init__(
-            self,
-            name=None,
-            location=None,
-            players=None,
-            nb_turn=4,
-            turn=1,
-            turn_list=None,
-            ranking=None,
-            comment=None,
-            finished=False,
+        self,
+        name=None,
+        location=None,
+        players=None,
+        nb_turn=4,
+        turn=1,
+        turn_list=None,
+        ranking=None,
+        comment=None,
+        finished=False,
     ):
         self.id = str(uuid.uuid4())
         self.name = name
@@ -46,12 +46,12 @@ class Tournament:
             for player in self.players:
                 player_list.append(player.name)
         representation = (
-                f"Tournament(name='{self.name}"
-                + f"', lieu='{self.location}"
-                + f"', players={player_list}, nb_turn='"
-                + str(self.nb_turn)
-                + f"', turn='{str(self.turn)}"
-                + f"', turn_list={self.turn_list})"
+            f"Tournament(name='{self.name}"
+            + f"', lieu='{self.location}"
+            + f"', players={player_list}, nb_turn='"
+            + str(self.nb_turn)
+            + f"', turn='{str(self.turn)}"
+            + f"', turn_list={self.turn_list})"
         )
         return representation
 
@@ -71,7 +71,6 @@ class Tournament:
             "total_of_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
-
         }
 
     def save_tournament(self):
@@ -115,7 +114,6 @@ class Tournament:
 
     @classmethod
     def control_finished(cls, tournament):
-
         pass
 
     @classmethod
@@ -123,7 +121,6 @@ class Tournament:
         file_list = []
         tournament_list = Tournament.get_tournament_info(file_tournament)
         if tournament_list:
-
             # TypeError: 'NoneType' object is not iterable
             for list_of_tournament in tournament_list:
                 file_list.append(list_of_tournament)
