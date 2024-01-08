@@ -98,3 +98,4 @@ probleme player_uuid cree à la place de score
  player_uuid = {str} '5805f94a-c3f7-4678-89be-bc155854c858'
  score = {str} 'DD12345'
 
+player_view enlever select_player fait doublon avec choix du tournament_control dedie au choix du player pour le 1er tour

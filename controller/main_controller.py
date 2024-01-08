@@ -36,7 +36,7 @@ if not os.path.exists(REPORT_FILE):
 
 class MainController:
     def __init__(self):
-        self.mainview = MainMenu()
+        self.main_view = MainMenu()
         self.tournament_view = TournamentView()
         self.tournament = TournamentManager()
         self.player = PlayerManager()
@@ -50,7 +50,7 @@ class MainController:
         while menu != "0":
             clear_console()
             
-            menu = self.mainview.display_menu()
+            menu = self.main_view.display_menu()
             if menu == "1":
                 # menu joueur
 

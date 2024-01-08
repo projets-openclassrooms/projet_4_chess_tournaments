@@ -302,6 +302,7 @@ class TournamentManager:
 
     def restore_tournament(self):
         self.display_tournaments()
+        list_tournament = self.tournament.loads_tournament()
         tournaments_input = int(input())
         for i in range(len(list_tournament)):
             if tournaments_input == str(list_tournament[i]["id"]):
