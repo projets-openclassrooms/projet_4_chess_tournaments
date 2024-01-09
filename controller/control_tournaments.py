@@ -45,7 +45,7 @@ class TournamentManager:
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
 
-        # initialise liste players du tournoi depuis playeers_saved
+        # initialise liste players du tournoi depuis players_saved
         players = []
         list_of_players_t = []
         # print(type(players_saved))
@@ -73,7 +73,7 @@ class TournamentManager:
         # print(f"nombre de joueurs choisis {players} \n{list_of_players_t}")
         # print("nombre de parties saisies ", nb_turn)
         tournament = Tournament(
-            name, location, players, ranking=[], turn_list=[], nb_turn=nb_turn
+            name, location, list_of_players_t, ranking=[], turn_list=[], nb_turn=nb_turn
         )
         tournament.save_tournament()
         print("Tournoi sauvegardé.")
