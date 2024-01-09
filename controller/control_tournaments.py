@@ -267,7 +267,7 @@ class TournamentManager:
             elif menu == "3":
                 # recherche du tournoi existant dans la base
                 tournament = self.select_tournament()
-                if tournament == None:
+                if tournament is None:
                     print("Vous n'avez pas choisi de tournoi.")
                 else:
                     self.start_tournament(tournament)
@@ -287,6 +287,24 @@ class TournamentManager:
         """Allow to resume an unfinished tournament
         :return: restored
         """
+        for _ in range(self.tournament.turn, self.tournament.nb_turn + 1):
+            if self.tournament.turn == 1:
+                starting_turn = self.define_first_turn()
+            else:
+                starting_turn = self.define_match_list(self.tournament.turn)
+            self.turnview.display_match_list(starting_turn)
+            self.randomize_color(starting_turn)
+            ending_turn = self.sorting_by_score(starting_turn)
+            if ending_turn is None:
+                return None
+            ending_turn.end_of_the_turn = True
+            self.tournament.turn_list.append(ending_turn)
+            if self.tournament.turn < self.tournament.nb_turn:
+                self.tournament.turn = self.tournament.turn + 1
+        comment = self.tournament_view.ask_to_comment()
+        self.tournament.comment = comment
+        self.tournament.finished = True
+
         tournaments = Tournament.loads_tournament()
         self.tournament_view.display_all_tournaments(tournaments)
         choix = ""

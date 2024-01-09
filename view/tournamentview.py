@@ -26,7 +26,7 @@ class TournamentView:
         menu = input(
             "Que souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Voulez-vous créer un nouveau tournoi? \n"
-            + " 2 - Voulez-vous afficher le tournoi? \n"
+            + " 2 - Voulez-vous afficher les tournois? \n"
             + " 3 - lancer un tournoi\n"
             + " 4 - reprendre un tournoi en cours?\n"
             + " 0 - revenir en arrière.\n"
@@ -119,7 +119,7 @@ class TournamentView:
             for tournament in tournaments:
                 i += 1
                 print(f"{i}- {tournament.name}")
-        sleep(5)
+        sleep(2)
         clear_console()
 
 
