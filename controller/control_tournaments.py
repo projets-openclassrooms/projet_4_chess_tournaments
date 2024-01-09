@@ -63,7 +63,6 @@ class TournamentManager:
                 index = int(choix) - 1
                 if 0 <= index < nb_players and players_saved[index] not in players:
                     list_of_players_t = players.append(players_saved[index])
-                    return list_of_players_t
 
                 else:
                     print("Veuillez entre un numéro valide")
@@ -82,6 +81,7 @@ class TournamentManager:
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()
         self.tournament_view.display_all_tournaments(tournaments)
+
 
     def create_player_list(self, players_saved):
         """

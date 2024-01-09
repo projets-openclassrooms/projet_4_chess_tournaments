@@ -1,4 +1,6 @@
 import re
+from time import sleep
+
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
 from model.player import Player
 
@@ -117,7 +119,9 @@ class TournamentView:
             for tournament in tournaments:
                 i += 1
                 print(f"{i}- {tournament.name}")
+        sleep(5)
         clear_console()
+
 
     def display_tournament_players(self, players_saved):
         """

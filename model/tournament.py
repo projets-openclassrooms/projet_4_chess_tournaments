@@ -16,6 +16,7 @@ class Tournament:
         self,
         name=None,
         location=None,
+        description=None,
         players=None,
         nb_turn=4,
         turn=1,
@@ -24,9 +25,11 @@ class Tournament:
         comment=None,
         finished=False,
     ):
+
         self.id = str(uuid.uuid4())
         self.name = name
         self.location = location
+        self.description = description
         self.players = players
         self.nb_turn = nb_turn
         self._turn = turn
@@ -46,14 +49,22 @@ class Tournament:
             for player in self.players:
                 player_list.append(player.name)
         representation = (
-            f"Tournament(name='{self.name}"
-            + f"', lieu='{self.location}"
-            + f"', players={player_list}, nb_turn='"
-            + str(self.nb_turn)
-            + f"', turn='{str(self.turn)}"
-            + f"', turn_list={self.turn_list})"
+                f"Tournament(name='{self.name}"
+                + f"', lieu='{self.location}"
+                + f"', description='{self.description}"
+
+                + f"', players={player_list}, nb_turn='"
+                + str(self.nb_turn)
+                + f"', turn='{str(self.turn)}"
+                + f"', turn_list={self.turn_list})"
         )
         return representation
+
+    def get_tournament_id(self):
+        return self.id
+
+    def set_tournament_id(self):
+        self.id = id
 
     def to_dict(self):
         """

@@ -51,6 +51,13 @@ class Player(object):
     def __lt__(self, other):
         return self.score < other.score
 
+    def get_player_id(self):
+        return self.player_uuid
+
+    def set_player_id(self):
+        self.player_uuid = player_uuid
+
+
     def enlever(self, element):
         if element in self:
             self.remove(element)
