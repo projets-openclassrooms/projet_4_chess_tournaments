@@ -201,3 +201,4 @@ cython_debug/
 /flake-report/index.html
 /flake-report/styles.css
 /flake-report/index.html
+/setup.cfg
