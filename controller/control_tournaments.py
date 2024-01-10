@@ -50,9 +50,7 @@ class TournamentManager:
 
         nb_players = len(players_saved)
         # loop pour atteindre 8 players max ou Q pour quitter
-        if nb_players <= MAX_PLAYERS:
-            self.tournament_view.incomplete_list(nb_players)
-        else:
+        if nb_players >= MAX_PLAYERS:
             while True:
                 choix = input(
                     "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
@@ -71,7 +69,8 @@ class TournamentManager:
             )
             tournament.save_tournament()
             print("Tournoi sauvegardé.")
-
+        else:
+            self.tournament_view.incomplete_list(nb_players)
 
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()
