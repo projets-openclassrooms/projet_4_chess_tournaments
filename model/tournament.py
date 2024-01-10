@@ -52,7 +52,6 @@ class Tournament:
                 f"Tournament(name='{self.name}"
                 + f"', lieu='{self.location}"
                 + f"', description='{self.description}"
-
                 + f"', players={player_list}, nb_turn='"
                 + str(self.nb_turn)
                 + f"', turn='{str(self.turn)}"

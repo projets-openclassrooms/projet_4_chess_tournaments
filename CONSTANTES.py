@@ -32,6 +32,10 @@ MENU_GESTION = "3"
 COLOR = ["Blanc", "Noir"]
 QUIT = "Q"
 
+#statuts tournoi
+STATUS_ONE = "Start"
+STATUS_TWO = "Pending"
+STATUS_THREE = "End"
 
 def birth_format(d):
     try:

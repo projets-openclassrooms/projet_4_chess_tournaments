@@ -125,46 +125,7 @@ class PlayerView:
             else:
                 print("Le format attendu est 'AB12345'\n")
 
-    def select_player(self, players):
-        """
-        Permet à l'utilisateur de sélectionner un joueur parmi une liste de joueurs.
 
-        Args:
-            players (list): Liste des joueurs.
-
-        Returns:
-            int: L'indice du joueur sélectionné dans la liste.
-        """
-        print("\nSélectionnez un joueur : ")
-        players_reversed = list(reversed(players))
-        print(players_reversed)
-        for i, player in enumerate(players_reversed):
-            print(
-                f"{i + 1} - "
-                f"{player['nom']} "
-                f"{player['prenom']} - "
-                f"Né le {player['birthday']} - "
-                f"ID: {player['national_identification']}"
-            )
-
-        while True:
-            try:
-                player_index = (
-                    int(
-                        input(
-                            "\nEntrez le numéro du joueur que vous voulez sélectionner : "
-                        )
-                    )
-                    - 1
-                )
-                if player_index < 0 or player_index >= len(players_reversed):
-                    print(
-                        "Numéro de joueur invalide. Veuillez entrer un numéro de joueur valide."
-                    )
-                else:
-                    return len(players) - 1 - player_index
-            except ValueError:
-                print("Entrée invalide. Veuillez entrer un numéro.")
 
     def display_creation_error(self, identifier):
         print(f"L'indentifiant '{identifier} ' existe déjà dans la base de donnée.\n")

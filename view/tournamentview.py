@@ -17,9 +17,9 @@ class TournamentView:
             "\nChoix des joueurs :"
             + " taper l'identification du joueur ou "
             + " utiliser les options suivantes : \n"
-            + " -Taper 1 pour afficher la liste en cours d'entrée.\n"
-            + " -Taper 2 pour sélectionner tous les joueurs.\n"
-            + " -Taper '0' pour revenir en arrière.\n"
+            + " 1 - Afficher la liste en cours d'entrée.\n"
+            + " 2 - Sélectionner tous les joueurs.\n"
+            + " 0 - Menu précédent.\n"
         )
 
     def display_menu(self):
@@ -73,7 +73,19 @@ class TournamentView:
                 print("Ce champ ne peut pas être vide")
 
         return location
+    
+    def ask_for_description(self):
+        description = ""
 
+        while description == "":
+            description = input(
+                "Description du tournoi?\n"
+            ).upper()
+            if not description:
+                print("Ce champ ne peut pas être vide")
+
+        return description
+    
     def ask_for_nb_turn(self):
         """
         turns isdigit() ok

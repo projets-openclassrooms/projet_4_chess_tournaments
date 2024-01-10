@@ -41,6 +41,7 @@ class TournamentManager:
         # prompt user nom du tournoi, endroit, nombre de tours pour get liste des players
         name = self.tournament_view.ask_for_name()
         location = self.tournament_view.ask_for_location()
+        description = self.tournament_view.ask_for_description()
         nb_turn = self.tournament_view.ask_for_nb_turn()
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
@@ -65,7 +66,7 @@ class TournamentManager:
                 else:
                     print("Veuillez entre un numéro valide")
             tournament = Tournament(
-                name, location, players, ranking=[], turn_list=[], nb_turn=nb_turn
+                name, location, description, players, ranking=[], turn_list=[], nb_turn=nb_turn
             )
             tournament.save_tournament()
             print("Tournoi sauvegardé.")
