@@ -16,7 +16,6 @@ class PlayerView:
         # + " 2 - Supprimer un joueur\n"
         # + " 3 - Modifier un joueur\n"
         return menu
-    
 
     def display_all_player_saved(self, players_saved):
         """
@@ -127,8 +126,6 @@ class PlayerView:
                 return identifier
             else:
                 print("Le format attendu est 'AB12345'\n")
-
-
 
     def display_creation_error(self, identifier):
         print(f"L'indentifiant '{identifier} ' existe déjà dans la base de donnée.\n")

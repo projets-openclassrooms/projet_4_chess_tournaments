@@ -26,7 +26,6 @@ class Tournament:
         comment=None,
         finished=False,
     ):
-
         self.id = str(uuid.uuid4())
         self.name = name
         self.location = location
@@ -46,9 +45,10 @@ class Tournament:
         :rtype: object
         """
         representation = (
-                f"Tournament(name='{self.name}"
-                + f"', lieu='{self.location}"
-                + f"', description='{self.description}")
+            f"Tournament(name='{self.name}"
+            + f"', lieu='{self.location}"
+            + f"', description='{self.description}"
+        )
 
         return representation
 
@@ -70,10 +70,10 @@ class Tournament:
             "name_of_tournament": self.name,
             "location": self.location,
             "description": self.description,
-            "status":"not started",
+            "status": "not started",
             "turn": self._turn,
             "tournament_players": [p.player_uuid for p in self.players],
-            "total_of_turn": self.nb_turn,
+            "nb_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
         }
@@ -111,11 +111,11 @@ class Tournament:
                 # TODO charger les objets players pour recreer objet
                 t.players = []
                 for player_id in tournament["tournament_players"]:
-                    print(player_id)
+                    # print(player_id)
                     p = Player.get_player_by_id(player_id)
                     t.players.append(p)
-                t.status= tournament["status"]
-                t.nb_turn = tournament["total_of_turn"]
+                t.status = tournament["status"]
+                t.nb_turn = tournament["nb_turn"]
                 t.ranking = tournament["ranking"]
                 t.comment = tournament["comment"]
 
@@ -174,12 +174,12 @@ class Tournament:
         if path_control is True:
             with open(file_tournament, "r") as file:
                 all_infos = json.load(file)
-            #all_infos.
+            # all_infos.
             id = all_infos["id"]
             name = all_infos["name_of_tournament"]
             location = all_infos["location"]
             players = all_infos["tournament_players"]
-            nb_turn = all_infos["total_of_turn"]
+            nb_turn = all_infos["nb_turn"]
             ranking = all_infos["ranking"]
             turn = all_infos["turn"]
             turn_list = []

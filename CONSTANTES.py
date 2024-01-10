@@ -32,10 +32,10 @@ MENU_GESTION = "3"
 COLOR = ["Blanc", "Noir"]
 QUIT = "Q"
 
-#statuts tournoi
-STATUS_start = "not started"
-STATUS_TWO = "Pending"
-STATUS_THREE = "End"
+# statuts tournoi
+STATUS_START = "not started"
+STATUS_PENDING = "Pending"
+STATUS_END = "End"
 STATUS_ALL = "ALL"
 
 

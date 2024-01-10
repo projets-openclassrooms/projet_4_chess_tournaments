@@ -1,5 +1,6 @@
 from utils.settings import clear_console
 
+
 class MainMenu:
     def display_menu(self):
         menu = input(

@@ -45,11 +45,6 @@ class PlayerManager(object):
                 score = self.player_score()  # default player score
                 # played_against = []
         new_player = Player(name, firstname, birthday, identifier, score)
-        # new_player.set_player_uuid()
-
-        # print("new_player", new_player)
-
-        # new_player = Player(player_id, name, firstname, birthday, identifier, score)
         new_player.save_new_player()
         print("Sauvegarde avec succes.")
 
@@ -63,20 +58,6 @@ class PlayerManager(object):
             print(i, "player", player.full_name())
             i += 1
             self.player_view.select_player(players_to_modify)
-        #     for key, value in all_players.items():
-        #         if all_players[0][0] == value:
-        #             new_info = self.view.modification_player(value)
-        #             if new_info[0] == "1":
-        #                 value["name"] = new_info[1]
-        #             elif new_info[0] == "2":
-        #                 value["firstname"] = new_info[1]
-        #             elif new_info[0] == "3":
-        #                 value["birthday"] = new_info[1]
-        #             elif new_info[0] == "4":
-        #                 value["identifier"] = new_info[1]
-        # with open(file_players, "w") as my_file:
-        #     json.dump(file_players, my_file, indent=4)
-        # return None
 
     def delete_player(self):
         self.display_players()

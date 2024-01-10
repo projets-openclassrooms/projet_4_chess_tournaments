@@ -12,5 +12,6 @@ def clear_console():
     else:
         _ = system("clear")
 
+
 def is_odd(length):
-    return length % 2 !=0 
+    return length % 2 != 0

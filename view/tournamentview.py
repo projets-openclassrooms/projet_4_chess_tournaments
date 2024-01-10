@@ -29,7 +29,7 @@ class TournamentView:
             + " 2 - Voulez-vous afficher les tournois? \n"
             + " 3 - lancer un tournoi\n"
             + " 4 - reprendre un tournoi en cours?\n"
-            + " 0 - revenir en arrière.\n"
+            + " 0 - menu précédent.\n"
         )
         clear_console()
         return menu
@@ -74,19 +74,17 @@ class TournamentView:
                 print("Ce champ ne peut pas être vide")
 
         return location
-    
+
     def ask_for_description(self):
         description = ""
 
         while description == "":
-            description = input(
-                "Description du tournoi?\n"
-            ).upper()
+            description = input("Description du tournoi?\n").upper()
             if not description:
                 print("Ce champ ne peut pas être vide")
 
         return description
-    
+
     def ask_for_nb_turn(self):
         """
         turns isdigit() ok
@@ -135,7 +133,6 @@ class TournamentView:
         sleep(2)
         clear_console()
 
-
     def display_tournament_players(self, players_saved):
         """
 
@@ -166,7 +163,7 @@ class TournamentView:
 
     def incomplete_list(self, current_list):
         print(f"\n{current_list} joueurs inscrits.")
-        if is_odd(current_list) and current_list<8:
+        if is_odd(current_list) and current_list < 8:
             print("votre liste n'est pas paire ou incomplète.\nA compléter svp.")
 
     def quit_select_current(self, current_list):

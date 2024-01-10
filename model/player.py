@@ -57,7 +57,6 @@ class Player(object):
     def set_player_id(self):
         self.player_uuid = player_uuid
 
-
     def enlever(self, element):
         if element in self:
             self.remove(element)
@@ -159,10 +158,8 @@ class Player(object):
 
     @classmethod
     def get_player_by_id(cls, player_id):
-
-
         """:return: player_to_return"""
-        player_to_return= None
+        player_to_return = None
         path_control = os.path.exists(DATA_FOLDER)
         # if not path_control:
         if path_control is True:
@@ -170,8 +167,7 @@ class Player(object):
                 file_json = json.load(file)
             if file_json.get("players") is not None:
                 for player in file_json["players"]:
-
-                    if player['id'] == player_id:
+                    if player["id"] == player_id:
                         player_uuid = player["id"]
                         name = player["name"]
                         firstname = player["firstname"]
@@ -185,7 +181,6 @@ class Player(object):
                             identifier,
                         )
             return player_to_return
-
 
     @classmethod
     def get_serialized_player(cls, player_ident):

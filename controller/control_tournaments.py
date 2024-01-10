@@ -1,6 +1,6 @@
 import random
 
-from CONSTANTES import COLOR, MAX_PLAYERS
+from CONSTANTES import COLOR, MAX_PLAYERS, STATUS_START, STATUS_PENDING, STATUS_ALL
 from model.match import Match
 from model.player import Player
 from model.tournament import Tournament
@@ -48,9 +48,9 @@ class TournamentManager:
 
         # initialise liste players du tournoi depuis players_saved
         players = []
-
+        nb_players_chosen = len(players_saved)
         # loop pour atteindre 8 players max ou Q pour quitte
-        while len(players) < MAX_PLAYERS:
+        while nb_players_chosen < MAX_PLAYERS:
             choix = input(
                 "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
             ).upper()
@@ -59,22 +59,25 @@ class TournamentManager:
             # verifier que index = choix (choix - 1 pour avoir index)
 
             index = int(choix) - 1
-            if 0 <= index < len(players) and players_saved[index] not in players:
+            if 0 <= index < nb_players_chosen and players_saved[index] not in players:
                 players.append(players_saved[index])
             else:
                 print("Veuillez entre un numéro valide")
         tournament = Tournament(
-            name, location, description, players, ranking=[], turn_list=[], nb_turn=nb_turn
+            name,
+            location,
+            description,
+            players,
+            ranking=[],
+            turn_list=[],
+            nb_turn=nb_turn,
         )
         tournament.save_tournament()
         print("Tournoi sauvegardé.")
 
-
     def display_tournaments(self):
         tournaments = Tournament.loads_tournament()
         self.tournament_view.display_all_tournaments(tournaments)
-
-
 
     def run_tournament(self):
         """
@@ -94,17 +97,18 @@ class TournamentManager:
             elif menu == "2":
                 self.list_tournament()
             elif menu == "3":
-                # recherche du tournoi existant dans la base
-                tournament = self.select_tournament() #status
+                # lancer un tournoi
+                tournament = self.select_tournament(status=STATUS_START)  # status
                 if tournament is None:
                     print("Vous n'avez pas choisi de tournoi.")
                 else:
                     self.start_tournament(tournament)
             elif menu == "4":
-                tournament = self.select_tournament()
+                # rappeler un tournoi
+                tournament = self.select_tournament(status=STATUS_PENDING)
                 if tournament is None:
                     print("Vous n'avez pas choisi de tournoi.")
-                else:                
+                else:
                     self.restore_turn(tournament)
             elif menu == "0":
                 break
@@ -116,7 +120,7 @@ class TournamentManager:
         # print("players", players)
         self.tournament_view.display_all_tournaments(tournaments)
 
-    def select_tournament(self):
+    def select_tournament(self, status=STATUS_ALL):
         """Allow to resume an unfinished tournament
         :return: restored
         """
@@ -125,7 +129,7 @@ class TournamentManager:
         self.tournament_view.display_all_tournaments(tournaments)
         choix = ""
         tournament = None
-        while choix != "Q" and tournament == None:
+        while choix != "Q" and tournament is None:
             choix = input("Choisir le tournoi à executer ou Q pour quitter?").upper()
             if choix != "Q":
                 # TODO verifier que l'index est pas de doublon
@@ -140,6 +144,6 @@ class TournamentManager:
         print(tournament.nb_turn)
         for tour in range(tournament.nb_turn):
             print(f"Pour {tour}")
-        
+
     def resume_tournament(self, tournament):
         print(f"resume du tournoi {tournament}")
