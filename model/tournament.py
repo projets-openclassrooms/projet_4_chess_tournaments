@@ -175,6 +175,7 @@ class Tournament:
         if path_control is True:
             with open(file_tournament, "r") as file:
                 all_infos = json.load(file)
+            all_infos.
             name = all_infos["name_of_tournament"]
             location = all_infos["location"]
             players = all_infos["tournament_players"]
