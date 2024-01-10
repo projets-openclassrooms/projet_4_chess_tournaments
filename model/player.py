@@ -158,6 +158,36 @@ class Player(object):
             return players_saved
 
     @classmethod
+    def get_player_by_id(cls, player_id):
+
+
+        """:return: player_to_return"""
+        player_to_return= None
+        path_control = os.path.exists(DATA_FOLDER)
+        # if not path_control:
+        if path_control is True:
+            with open(file_players) as file:
+                file_json = json.load(file)
+            if file_json.get("players") is not None:
+                for player in file_json["players"]:
+
+                    if player['id'] == player_id:
+                        player_uuid = player["id"]
+                        name = player["name"]
+                        firstname = player["firstname"]
+                        date_of_birth = player["birthday"]
+                        identifier = player["national_identification"]
+                        player_to_return = Player(
+                            player_uuid,
+                            name,
+                            firstname,
+                            date_of_birth,
+                            identifier,
+                        )
+            return player_to_return
+
+
+    @classmethod
     def get_serialized_player(cls, player_ident):
         """INE unique pour serialiser players
 

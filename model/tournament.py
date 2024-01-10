@@ -4,7 +4,8 @@ import os
 import uuid
 from datetime import datetime
 
-from CONSTANTES import file_tournament
+from CONSTANTES import file_tournament, STATUS_ALL
+from .player import Player
 
 
 class Tournament:
@@ -44,19 +45,11 @@ class Tournament:
         """Define the representation of a tournament object
         :rtype: object
         """
-        player_list = []
-        if self.players:
-            for player in self.players:
-                player_list.append(player.name)
         representation = (
                 f"Tournament(name='{self.name}"
                 + f"', lieu='{self.location}"
-                + f"', description='{self.description}"
-                + f"', players={player_list}, nb_turn='"
-                + str(self.nb_turn)
-                + f"', turn='{str(self.turn)}"
-                + f"', turn_list={self.turn_list})"
-        )
+                + f"', description='{self.description}")
+
         return representation
 
     def get_tournament_id(self):
@@ -77,6 +70,7 @@ class Tournament:
             "name_of_tournament": self.name,
             "location": self.location,
             "description": self.description,
+            "status":"not started",
             "turn": self._turn,
             "tournament_players": [p.player_uuid for p in self.players],
             "total_of_turn": self.nb_turn,
@@ -102,7 +96,7 @@ class Tournament:
             json.dump(all_tournaments, file, indent=4)
 
     @classmethod
-    def loads_tournament(self):
+    def loads_tournament(self, status=STATUS_ALL):
         # meme methode que players
         all_tournaments_returned = []
         with open(file_tournament) as file:
@@ -115,8 +109,13 @@ class Tournament:
                 t.location = tournament["location"]
                 t.turn = tournament["turn"]
                 # TODO charger les objets players pour recreer objet
-                t.players = tournament["tournament_players"]
-                t.total_of_turn = tournament["total_of_turn"]
+                t.players = []
+                for player_id in tournament["tournament_players"]:
+                    print(player_id)
+                    p = Player.get_player_by_id(player_id)
+                    t.players.append(p)
+                t.status= tournament["status"]
+                t.nb_turn = tournament["total_of_turn"]
                 t.ranking = tournament["ranking"]
                 t.comment = tournament["comment"]
 
@@ -175,7 +174,8 @@ class Tournament:
         if path_control is True:
             with open(file_tournament, "r") as file:
                 all_infos = json.load(file)
-            all_infos.
+            #all_infos.
+            id = all_infos["id"]
             name = all_infos["name_of_tournament"]
             location = all_infos["location"]
             players = all_infos["tournament_players"]

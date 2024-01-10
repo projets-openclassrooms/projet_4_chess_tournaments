@@ -33,9 +33,11 @@ COLOR = ["Blanc", "Noir"]
 QUIT = "Q"
 
 #statuts tournoi
-STATUS_ONE = "Start"
+STATUS_start = "not started"
 STATUS_TWO = "Pending"
 STATUS_THREE = "End"
+STATUS_ALL = "ALL"
+
 
 def birth_format(d):
     try:
