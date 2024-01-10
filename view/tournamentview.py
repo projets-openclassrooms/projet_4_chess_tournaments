@@ -4,7 +4,7 @@ from time import sleep
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
 from model.player import Player
 
-from utils.settings import clear_console
+from utils.settings import clear_console, is_odd
 
 """Display Tournament view"""
 # TOURNAMENT_NAME = r"^[A-Za-z0-9]{0,99}$"
@@ -150,6 +150,11 @@ class TournamentView:
             for player in current_list:
                 print(player)
             print("Pour un total de: " + str(len(current_list)) + " joueur(s)\n")
+
+    def incomplete_list(self, current_list):
+        print(f"\n{current_list} joueurs inscrits.")
+        if is_odd(current_list) and current_list<8:
+            print("votre liste n'est pas paire ou incomplète.\nA compléter svp.")
 
     def quit_select_current(self, current_list):
         """

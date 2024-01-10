@@ -9,7 +9,7 @@ class PlayerView:
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Créer un nouveau joueur \n"
             + " 2- Voir les joueurs\n"
-            + " 0 - quitter.\n"
+            + " 0 - menu précédent.\n"
         )
         # + " 2 - Supprimer un joueur\n"
         # + " 3 - Modifier un joueur\n"
