@@ -268,7 +268,11 @@ class TournamentManager:
                 else:
                     self.start_tournament(tournament)
             elif menu == "4":
-                self.restore_tournament()
+                tournament = self.select_tournament()
+                if tournament is None:
+                    print("Vous n'avez pas choisi de tournoi.")
+                else:                
+                    self.restore_turn(tournament)
             elif menu == "0":
                 break
             else:
