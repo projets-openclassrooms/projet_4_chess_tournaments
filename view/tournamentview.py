@@ -31,6 +31,7 @@ class TournamentView:
             + " 4 - reprendre un tournoi en cours?\n"
             + " 0 - revenir en arrière.\n"
         )
+        clear_console()
         return menu
 
     def display_first_turn(self):

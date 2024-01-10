@@ -1,6 +1,7 @@
 """Define player view"""
 import re
 from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFIER_FORMAT
+from utils.settings import clear_console
 
 
 class PlayerView:
@@ -11,9 +12,11 @@ class PlayerView:
             + " 2- Voir les joueurs\n"
             + " 0 - menu précédent.\n"
         )
+        clear_console()
         # + " 2 - Supprimer un joueur\n"
         # + " 3 - Modifier un joueur\n"
         return menu
+    
 
     def display_all_player_saved(self, players_saved):
         """
