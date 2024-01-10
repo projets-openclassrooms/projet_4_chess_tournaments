@@ -129,7 +129,7 @@ class Turn:
     @match_list.setter
     def match_list(self, value):
         self._match_list = value
-        self.save_turn_data()
+
 
     @property
     def end_of_the_turn(self):
@@ -139,4 +139,4 @@ class Turn:
     def end_of_the_turn(self, value):
         self._end_of_the_turn = value
         self.ending_turn = datetime.now()
-        self.save_turn_data()
+

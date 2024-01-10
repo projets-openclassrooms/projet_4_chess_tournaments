@@ -32,7 +32,7 @@ class PlayerView:
                 i += 1
                 print(
                     f"{i}- {player.name} {player.firstname} - {player.date_of_birth}"
-                    + f" - INE : {player.identifier}"
+                    + f" - INE : {player.national_identification}"
                 )
             if len(players_saved) == 1:
                 print("1 Joueur.\nVeuillez saisir les données d'un autre joueur.\n")
@@ -116,19 +116,19 @@ class PlayerView:
                 print("La date doit être au format '__/__/____'")
 
     def ask_national_identification(self):
-        identifier = ""
-        while identifier != QUIT:
-            identifier = input("Identifiant national du joueur (AB12345) :\n").upper()
-            if identifier == "" or identifier == "q":
+        national_identification = ""
+        while national_identification != QUIT:
+            national_identification = input("Identifiant national du joueur (AB12345) :\n").upper()
+            if national_identification == "" or national_identification == "q":
                 print("Vous quittez la création\n")
                 return None
-            elif re.match(NATIONAL_IDENTIFIER_FORMAT, identifier):
-                return identifier
+            elif re.match(NATIONAL_national_identification_FORMAT, national_identification):
+                return national_identification
             else:
                 print("Le format attendu est 'AB12345'\n")
 
-    def display_creation_error(self, identifier):
-        print(f"L'indentifiant '{identifier} ' existe déjà dans la base de donnée.\n")
+    def display_creation_error(self, national_identification):
+        print(f"L'indentifiant '{national_identification} ' existe déjà dans la base de donnée.\n")
 
     def display_creation(self):
         print("Le joueur à été créé")

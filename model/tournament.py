@@ -134,14 +134,6 @@ class Tournament:
             # TypeError: 'NoneType' object is not iterable
             for list_of_tournament in tournament_list:
                 file_list.append(list_of_tournament)
-            # for root, _, files in os.walk(file_tournament):
-            #     for file in files:
-            #         file_path = os.path.join(root, file)
-            #         file_path = file_path.replace("\\", "/")
-            #         if re.match(file_tournament, file_path):
-            #             file_path = file_path.replace(TOURNAMENT_FOLDER, "")
-            #             file_path = file_path.replace(".json", "")
-            #             file_list.append(file_path)
             final_list = []
             if with_finished:
                 for tournament in file_list:

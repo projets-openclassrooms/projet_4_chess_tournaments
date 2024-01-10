@@ -99,7 +99,7 @@ class TournamentView:
         if not turns:
             turns = 4
         else:
-            if not int(turn):
+            if not int(turns):
                 self.tournament_view.display_error()
                 
                 
@@ -143,7 +143,7 @@ class TournamentView:
 
         :param players_saved:
         :return"{player.name} {player.firstname}"
-                + f", né le {player.birthday} et son identifier: {player.identifier}"
+                + f", né le {player.birthday} et son national_identification: {player.national_identification}"
         """
         print("Les joueurs déjà enregistrés sont: ")
         index = 1
@@ -219,14 +219,14 @@ class TournamentView:
             else:
                 player_exist = False
                 for player in player_list:
-                    if current_player in player.identifier:
+                    if current_player in player.national_identification:
                         print("Le joueur est déjà enregistré.\n")
                         player_exist = True
                         break
                 if player_exist:
                     continue
                 for player in players_saved:
-                    if current_player == player.identifier:
+                    if current_player == player.national_identification:
                         player_list.append(player)
                         break
 

@@ -50,11 +50,11 @@ class Match:
         )
 
     @classmethod
-    def restore_match(cls, dict_match):
+    def resume_match(cls, dict_match):
         player = dict_match["player"]
         opponent = dict_match["opponent"]
         p_score = dict_match["player_score"]
         o_score = dict_match["opponent_score"]
         m_result = dict_match["match_result"]
-        restored_match = cls(player, opponent, p_score, o_score, m_result)
-        return restored_match
+        resumed_match = cls(player, opponent, p_score, o_score, m_result)
+        return resumed_match

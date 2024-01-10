@@ -17,12 +17,12 @@ class Player(object):
     A player has a name, a firstname, a date_of_birth and a national identifier chess, un score à 0
     """
 
-    def __init__(self, name, firstname, birth, identifier, score=0):
+    def __init__(self, name, firstname, birth, national_identification, score=0):
         self.player_uuid = str(uuid.uuid4())
         self.name = name
         self.firstname = firstname
         self.date_of_birth = birth
-        self.identifier = identifier
+        self.national_identification = national_identification
         self.score = score
         self.played_against = []
 
@@ -35,14 +35,14 @@ class Player(object):
             + self.firstname
             + "', une date de naissance='"
             + self.date_of_birth
-            + "', identifier (INE)='"
-            + self.identifier
+            + "', national_identification (INE)='"
+            + self.national_identification
             + "')"
         )
         return representation
 
     def __str__(self):
-        return f"Le joueur {self.name} - INE , {self.identifier} (score: {self.score})"
+        return f"Le joueur {self.name} - INE , {self.national_identification} (score: {self.score})"
 
     def full_name(self):
         """ """
@@ -78,7 +78,7 @@ class Player(object):
             "name": self.name,
             "firstname": self.firstname,
             "birthday": self.date_of_birth,
-            "national_identification": self.identifier,
+            "national_identification": self.national_identification,
         }
 
     def save_new_player(self):
@@ -112,12 +112,12 @@ class Player(object):
         return player_uuid
 
     @classmethod
-    def identifier_exists(cls, identifier):
-        """Return existing identifier or None if not exist"""
+    def national_identification_exists(cls, national_identification):
+        """Return existing national_identification or None if not exist"""
         players_saved = cls.get_players_saved()
         for player in players_saved:
-            if identifier == player.identifier:
-                return identifier
+            if national_identification == player.national_identification:
+                return national_identification
         return None
 
     @classmethod
@@ -142,13 +142,13 @@ class Player(object):
                     name = player["name"]
                     firstname = player["firstname"]
                     date_of_birth = player["birthday"]
-                    identifier = player["national_identification"]
+                    national_identification = player["national_identification"]
                     players_to_return = Player(
                         player_uuid,
                         name,
                         firstname,
                         date_of_birth,
-                        identifier,
+                        national_identification,
                     )
                     # players_to_return.player_uuid = player_uuid
                     players_saved.append(players_to_return)
@@ -172,13 +172,13 @@ class Player(object):
                         name = player["name"]
                         firstname = player["firstname"]
                         date_of_birth = player["birthday"]
-                        identifier = player["national_identification"]
+                        national_identification = player["national_identification"]
                         player_to_return = Player(
                             player_uuid,
                             name,
                             firstname,
                             date_of_birth,
-                            identifier,
+                            national_identification,
                         )
             return player_to_return
 
@@ -213,14 +213,14 @@ class Player(object):
         :param player:
         :return: player_to_return
         """
-        identifier = re.search(SEARCHING_INE, player)
-        identifier = identifier.group(1)
+        national_identification = re.search(SEARCHING_INE, player)
+        national_identification = national_identification.group(1)
         all_players = cls.get_players_saved()
         player_to_return = None
         for player in all_players:
-            if player.identifier == identifier:
+            if player.national_identification == national_identification:
                 player_to_return = player
-                player_to_return.name = f"{player.name} + ({identifier})"
+                player_to_return.name = f"{player.name} + ({national_identification})"
                 break
         return player_to_return
 
@@ -232,13 +232,13 @@ class Player(object):
 # identifiant = "id12355"
 
 # player_one = Player(nom, prenom, date, identifiant)
-# player_one_identity = player_one.identifier  # INE
+# player_one_identity = player_one.national_identification  # INE
 # dico_players = player_one.to_dict()
 
 # print(dico_players)  #   dictionnaire pour json
 # print(player_one.full_name())  # nom - prenom
 # print(
-#     player_one.identifier_exists(player_one_identity)
+#     player_one.national_identification_exists(player_one_identity)
 # )  # None si non existant sinon INE
 # # print(player_one.restore_player(player_one.full_name()))
 # dico_players.save_new_player(file_players)
