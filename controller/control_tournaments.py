@@ -109,7 +109,7 @@ class TournamentManager:
                 if tournament is None:
                     print("Vous n'avez pas choisi de tournoi.")
                 else:
-                    self.restore_turn(tournament)
+                    self.select_tournament(status=STATUS_PENDING)
             elif menu == "0":
                 break
             else:
@@ -140,10 +140,11 @@ class TournamentManager:
         return tournament
 
     def start_tournament(self, tournament):
-        print(f"Start du tournoi {tournament}")
+        print(f"Début du tournoi {tournament}")
         print(tournament.nb_turn)
         for tour in range(tournament.nb_turn):
-            print(f"Pour {tour}")
+            print(f"Pour le tour {tour+1}")
+            
 
     def resume_tournament(self, tournament):
-        print(f"resume du tournoi {tournament}")
+        print(f"Résumé du tournoi {tournament}")

@@ -99,7 +99,12 @@ class TournamentView:
         if not turns:
             turns = 4
         else:
-            turns = int(turns)
+            if not int(turn):
+                self.tournament_view.display_error()
+                
+                
+            else:
+                turns = int(turns)
         return turns
 
     def list_players(self, player_list) -> object:
@@ -250,7 +255,10 @@ class TournamentView:
 
     def display_import_error(self):
         print("Problème pour importer le tournoi sélectionné.\n")
-
+        
+    def display_error(self):
+        return f"Erreur de saisie."
+    
     def ask_to_comment(self):
         """
 
