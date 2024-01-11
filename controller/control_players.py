@@ -32,10 +32,12 @@ class PlayerManager(object):
             return None
         create_identifier = True
         while create_identifier:
-            identifier = self.player_view.ask_national_identification()
-            if not identifier:
+            national_identification = self.player_view.ask_national_identification()
+            if not national_identification:
                 return None
-            control_identifier = Player.identifier_exists(identifier)
+            control_identifier = Player.national_identification_exists(
+                national_identification
+            )
             if control_identifier:
                 self.player_view.display_creation_error(control_identifier)
             elif not control_identifier:
@@ -44,7 +46,7 @@ class PlayerManager(object):
                 create_identifier = False
                 score = self.player_score()  # default player score
                 # played_against = []
-        new_player = Player(name, firstname, birthday, identifier, score)
+        new_player = Player(name, firstname, birthday, national_identification, score)
         new_player.save_new_player()
         print("Sauvegarde avec succes.")
 

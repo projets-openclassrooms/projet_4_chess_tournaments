@@ -29,13 +29,15 @@ class Player(object):
     def __repr__(self):
         """Define the representation for a player object"""
         representation = (
-            "Player(nom='"
+            "Player(id='"
+            + self.id
+            + "'nom='"
             + self.name
             + "', prenom='"
             + self.firstname
             + "', une date de naissance='"
             + self.date_of_birth
-            + "', national_identification (INE)='"
+            + "', identifier (INE)='"
             + self.national_identification
             + "')"
         )
@@ -51,11 +53,8 @@ class Player(object):
     def __lt__(self, other):
         return self.score < other.score
 
-    def get_player_id(self):
-        return self.player_uuid
 
-    def set_player_id(self):
-        self.player_uuid = player_uuid
+
 
     def enlever(self, element):
         if element in self:

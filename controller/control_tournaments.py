@@ -144,7 +144,7 @@ class TournamentManager:
         print(tournament.nb_turn)
         for tour in range(tournament.nb_turn):
             print(f"Pour le tour {tour+1}")
-            #si tour n°1 (status not started)
+            # si tour n°1 (status not started)
             # recuperer la liste des players  du tournoi
             # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
             # avec generate_random_match()
@@ -156,16 +156,15 @@ class TournamentManager:
             # enregistrer resultat par serialisation
             # else tour n°2 proposer combinaisons de joueurs
             # affichage liste des joueurs tournoi
-            #input saisie des scores
+            # input saisie des scores
             # (joueur,scores) = input()
             # demander si saisie terminee
-            #enregistrer resultat par serialisation
-
+            # enregistrer resultat par serialisation
 
     def resume_tournament(self, tournament):
         print(f"Résumé du tournoi {tournament}")
         # si tour n°1 (status not started)
-        #executer start_tournament(tournament)
+        # executer start_tournament(tournament)
         # else tour n°2 et status Pending
         # proposer combinaisons de joueurs
         # affichage liste des joueurs tournoi
@@ -175,6 +174,6 @@ class TournamentManager:
         # enregistrer resultat par serialisation
 
     def generate_random_match(self):
-        players_list = self.select_tournament(tournament,status=STATUS_START)
+        players_list = self.select_tournament(tournament, status=STATUS_START)
         random.sample(players_list)
-        return [Match(player_1,player_2)]
+        return [Match(player_1, player_2)]

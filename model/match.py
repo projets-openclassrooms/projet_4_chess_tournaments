@@ -41,13 +41,14 @@ class Match:
         return "Le match entre " + str(self.player) + " et " + str(self.opponent)
 
     def to_dict(self):
-        return dict(
-            player=self.player.name,
-            opponent=self.opponent.name,
-            player_score=self.player_score,
-            opponent_score=self.opponent_score,
-            match_result=self.match_result,
-        )
+        return {
+            "result": [
+                (
+                    [self.player.player_uuid, self.player_score],
+                    [self.opponent.player_uuid, self.opponent_score],
+                )
+            ]
+        }
 
     @classmethod
     def resume_match(cls, dict_match):
