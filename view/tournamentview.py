@@ -1,6 +1,7 @@
 import re
 from time import sleep
 
+
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
 from model.player import Player
 
@@ -100,16 +101,16 @@ class TournamentView:
             turns = 4
         else:
             if not int(turns):
-                self.tournament_view.display_error()
+                self.display_error()
 
             else:
                 turns = int(turns)
         return turns
 
     def list_players(self, player_list) -> object:
-        """
+        """ afficher liste de joueurs selectionnes
 
-        :rtype: object
+        :rtype: object a
         :return len(player_list)
         """
         if not player_list:
@@ -122,9 +123,9 @@ class TournamentView:
 
     def display_all_tournaments(self, tournaments):
         """
-        display player's info saved
+        display tournaments info saved
 
-        :param players_saved:
+        :param tournaments:
         """
         if len(tournaments) == 0:
             print("\nAucun tournoi\n")
@@ -134,15 +135,15 @@ class TournamentView:
             for tournament in tournaments:
                 i += 1
                 print(f"{i}- {tournament.name}")
-        sleep(2)
+
         clear_console()
 
     def display_tournament_players(self, players_saved):
         """
 
         :param players_saved:
-        :return"{player.name} {player.firstname}"
-                + f", né le {player.birthday} et son national_identification: {player.national_identification}"
+        :return"{id} {player}"
+
         """
         print("Les joueurs déjà enregistrés sont: ")
         index = 1
@@ -168,7 +169,7 @@ class TournamentView:
     def incomplete_list(self, current_list):
         print(f"\n{current_list} joueurs inscrits.")
         if is_odd(current_list) and current_list < 8:
-            print("votre liste n'est pas paire ou incomplète.\nA compléter svp.")
+            print("votre liste n'est pas paire ou incomplète.\nA compléter svp.\n")
 
     def quit_select_current(self, current_list):
         """

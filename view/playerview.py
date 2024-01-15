@@ -32,7 +32,7 @@ class PlayerView:
             for player in players_saved:
                 i += 1
                 print(
-                    f"{i}-{player.id} {player.name} {player.firstname} - {player.date_of_birth}"
+                    f"{i}-{player.name} {player}"
                 )
             if len(players_saved) == 1:
                 print("1 Joueur.\nVeuillez saisir les données d'un autre joueur.\n")

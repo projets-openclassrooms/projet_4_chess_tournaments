@@ -2,7 +2,7 @@
 
 
 class TurnView:
-    def display_match_list(self, turn):
+    def display_match_list(self, turn=1):
         """
         display turn num. and opponents' list
 

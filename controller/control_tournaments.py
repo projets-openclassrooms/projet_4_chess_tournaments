@@ -12,6 +12,7 @@ from view.turnview import TurnView
 
 from utils.settings import clear_console
 
+
 """Define controller about tournament
     choice of pairs
     create_tournament
@@ -143,7 +144,10 @@ class TournamentManager:
         print(f"Début du tournoi {tournament}")
         print(tournament.nb_turn)
         for tour in range(tournament.nb_turn):
+
             print(f"Pour le tour {tour+1}")
+            if tour+1 == 1:
+                self.turnview.display_match_list()
             # si tour n°1 (status not started)
             # recuperer la liste des players  du tournoi
             # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])

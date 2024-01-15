@@ -18,20 +18,18 @@ class Player(object):
     """
 
     def __init__(self, name, firstname, birth, national_identification, score=0):
-        self.player_uuid = str(uuid.uuid4())
         self.name = name
         self.firstname = firstname
         self.date_of_birth = birth
         self.national_identification = national_identification
         self.score = score
         self.played_against = []
+        self.player_uuid = str(uuid.uuid4())
 
     def __repr__(self):
         """Define the representation for a player object"""
         representation = (
-            "Player(id='"
-            + self.id
-            + "'nom='"
+            "Player('nom='"
             + self.name
             + "', prenom='"
             + self.firstname
@@ -49,6 +47,8 @@ class Player(object):
     def full_name(self):
         """ """
         return f"- {self.firstname} {self.name}"
+    def donnnes_completes(self):
+        return f"id='{self.player_uuid}'nom='{self.name}', prenom=' {self.firstname} ', une date de naissance=' {self.date_of_birth} ', identifier (INE)='  {self.national_identification}"
 
     def __lt__(self, other):
         return self.score < other.score
@@ -73,11 +73,11 @@ class Player(object):
     def to_dict(self):
         """ """
         return {
-            "id": self.player_uuid,
             "name": self.name,
             "firstname": self.firstname,
             "birthday": self.date_of_birth,
             "national_identification": self.national_identification,
+            "id": self.player_uuid,            
         }
 
     def save_new_player(self):
@@ -121,9 +121,9 @@ class Player(object):
 
     @classmethod
     def get_players_saved(self):
-        # all_players_saved = {}
+        """ interroge la base de données"""
 
-        """:return: players_saved"""
+        """:return: liste obj = players_saved"""
 
         # all_players_saved = dict()
         players_saved = []
@@ -157,7 +157,7 @@ class Player(object):
 
     @classmethod
     def get_player_by_id(cls, player_id):
-        """:return: player_to_return"""
+        """:return: player selon id pour tournoi"""
         player_to_return = None
         path_control = os.path.exists(DATA_FOLDER)
         # if not path_control:
@@ -196,13 +196,18 @@ class Player(object):
             for player in all_players_saved["players"]:
                 ident = player["national_identification"]
                 if player_ident == ident:
-                    name = player["name"] + " (" + ident + ")"
-                    firstname = player["firstname"]
-                    birthday = player["birthday"]
-                    played_against = player["played_against"]
-                    player_to_return = Player(
-                        name, firstname, birthday, ident, played_against
-                    )
+                        player_uuid = player["id"]
+                        name = player["name"]
+                        firstname = player["firstname"]
+                        date_of_birth = player["birthday"]
+                        national_identification = player["national_identification"]
+                        player_to_return = Player(
+                            player_uuid,
+                            name,
+                            firstname,
+                            date_of_birth,
+                            national_identification,
+                        )
         return player_to_return
 
     @classmethod

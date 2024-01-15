@@ -72,7 +72,7 @@ class PlayerManager(object):
 
     def display_players(self):
         players = Player.get_players_saved()
-        # print("players", players)
+        print("players", players)
         self.player_view.display_all_player_saved(players)
 
     def run_player(self):
