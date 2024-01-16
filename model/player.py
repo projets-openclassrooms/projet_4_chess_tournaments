@@ -42,7 +42,7 @@ class Player(object):
         return representation
 
     def __str__(self):
-        return f"Le joueur {self.name} - INE , {self.national_identification} (score: {self.score})"
+        return f"Joueur {self.firstname} {self.name} - INE , {self.national_identification} (score: {self.score})"
 
     def full_name(self):
         """ """
@@ -137,13 +137,11 @@ class Player(object):
                 for player in all_players_saved["players"]:
                     # for player in all_players_saved:
                     # print(player)
-                    player_uuid = player["id"]
                     name = player["name"]
                     firstname = player["firstname"]
                     date_of_birth = player["birthday"]
                     national_identification = player["national_identification"]
                     players_to_return = Player(
-                        player_uuid,
                         name,
                         firstname,
                         date_of_birth,
@@ -181,34 +179,7 @@ class Player(object):
                         )
             return player_to_return
 
-    @classmethod
-    def get_serialized_player(cls, player_ident):
-        """INE unique pour serialiser players
 
-        :param player_ident:
-        :return: player_to_return
-        """
-        path_control = os.path.exists(DATA_FOLDER)
-        player_to_return = None
-        if path_control is True:
-            with open(file_players, "r") as file:
-                all_players_saved = json.load(file)
-            for player in all_players_saved["players"]:
-                ident = player["national_identification"]
-                if player_ident == ident:
-                        player_uuid = player["id"]
-                        name = player["name"]
-                        firstname = player["firstname"]
-                        date_of_birth = player["birthday"]
-                        national_identification = player["national_identification"]
-                        player_to_return = Player(
-                            player_uuid,
-                            name,
-                            firstname,
-                            date_of_birth,
-                            national_identification,
-                        )
-        return player_to_return
 
     @classmethod
     def restore_player(cls, player):
@@ -247,3 +218,4 @@ class Player(object):
 # # print(player_one.restore_player(player_one.full_name()))
 # dico_players.save_new_player(file_players)
 # dico_players.__getattribute__()  # sauvegarde du dictionnaire dans json
+

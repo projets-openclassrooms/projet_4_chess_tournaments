@@ -72,7 +72,6 @@ class PlayerManager(object):
 
     def display_players(self):
         players = Player.get_players_saved()
-        print("players", players)
         self.player_view.display_all_player_saved(players)
 
     def run_player(self):
@@ -84,17 +83,17 @@ class PlayerManager(object):
             menu = self.player_view.display_menu()
             if menu == "1":
                 # nouveau joueur
-
                 self.new_player()
-            elif menu == "3":
-                # Supprimer un joueur
-                self.delete_player()
-
-            elif menu == "4":
-                # modifier joueur
-                self.modify_player()
             elif menu == "2":
                 self.display_players()
+
+            # elif menu == "3":
+            #     # Supprimer un joueur
+            #     self.delete_player()
+            # elif menu == "4":
+            #     # modifier joueur
+            #     self.modify_player()
+
             elif menu == "0":
                 break
             else:

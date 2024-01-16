@@ -1,7 +1,7 @@
 """Define player view"""
 import re
 from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFICATION_FORMAT
-from utils.settings import clear_console
+from utils.settings import clear_console, separation
 
 
 
@@ -13,6 +13,7 @@ class PlayerView:
             + " 2- Voir les joueurs\n"
             + " 0 - menu précédent.\n"
         )
+        separation()
         clear_console()
         # + " 2 - Supprimer un joueur\n"
         # + " 3 - Modifier un joueur\n"
@@ -32,13 +33,15 @@ class PlayerView:
             for player in players_saved:
                 i += 1
                 print(
-                    f"{i}-{player.name} {player}"
+                    f"{i} - {player.name} {player.firstname} - {player.national_identification}"
                 )
             if len(players_saved) == 1:
                 print("1 Joueur.\nVeuillez saisir les données d'un autre joueur.\n")
 
             elif len(players_saved) > 1:
                 print(f"Total : {str(len(players_saved))} joueurs.\n")
+        separation()
+
 
     def add_again(self):
         again = ""

@@ -15,3 +15,6 @@ def clear_console():
 
 def is_odd(length):
     return length % 2 != 0
+
+def separation():
+    print("#"*30)
