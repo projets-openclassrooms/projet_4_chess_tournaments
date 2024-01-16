@@ -202,3 +202,5 @@ cython_debug/
 /flake-report/styles.css
 /flake-report/index.html
 /setup.cfg
+/converts.py
+/new_players.json
