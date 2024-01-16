@@ -46,12 +46,13 @@ class TournamentManager:
         nb_turn = self.tournament_view.ask_for_nb_turn()
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
+        choix =""
 
         # initialise liste players du tournoi depuis players_saved
         players = []
         nb_players_chosen = len(players_saved)
         # loop pour atteindre 8 players max ou Q pour quitte
-        while nb_players_chosen < MAX_PLAYERS:
+        while choix!="Q":
             choix = input(
                 "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
             ).upper()
@@ -142,7 +143,7 @@ class TournamentManager:
 
     def start_tournament(self, tournament):
         print(f"Début du tournoi {tournament}")
-        print(tournament.nb_turn)
+        print(f"{tournament.nb_turn} tours pour ce tournoi.")
         for tour in range(tournament.nb_turn):
 
             print(f"Pour le tour {tour+1}")

@@ -25,7 +25,7 @@ SEARCHING_INE = r"\((.*)\)"
 
 # Constantes de jeu
 MIN_TURNS = 4
-MAX_PLAYERS = 2
+MAX_PLAYERS = 8
 MENU_JOUEURS = "1"
 MENU_TOURNOI = "2"
 MENU_GESTION = "3"

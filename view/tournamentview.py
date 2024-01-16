@@ -2,7 +2,7 @@ import re
 from time import sleep
 
 
-from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT
+from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT, MIN_TURNS
 from model.player import Player
 
 from utils.settings import clear_console, is_odd
@@ -98,7 +98,7 @@ class TournamentView:
             "Combien de tours compte ce tournoi?\n-" + "par défaut (4 tours)\n"
         )
         if not turns:
-            turns = 4
+            turns = MIN_TURNS
         else:
             if not int(turns):
                 self.display_error()
