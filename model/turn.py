@@ -53,6 +53,7 @@ class Turn:
             "tournament_name": self.tournament_name,
             "turn_nb": self.turn_nb,
             "match_list": self._match_list,
+
         }
 
     def save_turn_data(self):
@@ -63,23 +64,23 @@ class Turn:
         """
         new_turn = self.to_dict()
         self.tournament_name = self.tournament_name.replace(" ", "")
-        all_information = new_turn
+        informations = new_turn
         if self.starting_turn is None:
             self.starting_turn = datetime.now()
-            all_information.update({"start": str(self.starting_turn)})
+            informations.update({"start": str(self.starting_turn)})
         else:
-            all_information["start"] = str(self.starting_turn)
+            informations["start"] = str(self.starting_turn)
         if self.ending_turn:
-            all_information["end"] = str(self.ending_turn)
+            informations["end"] = str(self.ending_turn)
         else:
-            all_information.update({"end": None})
+            informations.update({"end": None})
         file_name = f"{file_tournament}.json"
         if file_name not in os.listdir(TOURNAMENT_FOLDER):
             with open(file_name, "w") as file:
-                json.dump(all_information, file, default=lambda x: x.to_dict())
+                json.dump(informations, file, default=lambda x: x.to_dict())
         else:
             with open(file_name, "w") as file:
-                json.dump(all_information, file, default=lambda x: x.to_dict())
+                json.dump(informations, file, default=lambda x: x.to_dict())
         # with open(file_name, "w") as file:
         #     json.dump(all_information, file, default=lambda x: x.to_dict())
 

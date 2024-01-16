@@ -135,7 +135,7 @@ class TournamentView:
             for tournament in tournaments:
                 i += 1
                 print(f"{i}- {tournament.name}")
-
+        input("entrée pour continuer.")
         clear_console()
 
     def display_tournament_players(self, players_saved):

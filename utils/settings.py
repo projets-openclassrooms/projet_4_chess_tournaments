@@ -18,3 +18,6 @@ def is_odd(length):
 
 def separation():
     print("#"*30)
+
+def when(predicate, when_true):
+  return lambda x: when_true(x) if predicate(x) else x
