@@ -134,7 +134,7 @@ class TournamentView:
             i = 0
             for tournament in tournaments:
                 i += 1
-                print(f"{i}- {tournament.name}")
+                print(f"{i}- {tournament.name} - {tournament.status}")
         input("entrée pour continuer.")
         clear_console()
 

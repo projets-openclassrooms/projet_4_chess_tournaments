@@ -24,7 +24,7 @@ class Tournament:
         turn_list=None,
         ranking=None,
         comment=None,
-        finished=False,
+        status=None,
     ):
         self.id = str(uuid.uuid4())
         self.name = name
@@ -36,7 +36,7 @@ class Tournament:
         self.turn_list = turn_list
         self._ranking = ranking
         self.comment = comment
-        self._finished = finished
+        self.status = status
         self.starting_date = datetime.now()
         self.ending_date = None
 
@@ -48,6 +48,7 @@ class Tournament:
             f"Tournament(name='{self.name}"
             + f"', lieu='{self.location}"
             + f"', description='{self.description}"
+            + f"', status='{self.status}'"
         )
 
         return representation

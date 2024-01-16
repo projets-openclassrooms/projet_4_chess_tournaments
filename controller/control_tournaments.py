@@ -101,18 +101,14 @@ class TournamentManager:
                 self.list_tournament()
             elif menu == "3":
                 # lancer un tournoi
-                tournament = self.select_tournament(status=STATUS_START)  # status
-                if tournament is None:
-                    print("Vous n'avez pas choisi de tournoi.")
-                else:
-                    self.start_tournament(tournament)
+                tournament = self.select_tournament(status=STATUS_START)
+                self.start_tournament(tournament)
+
             elif menu == "4":
                 # rappeler un tournoi
                 tournament = self.select_tournament(status=STATUS_PENDING)
-                if tournament is None:
-                    print("Vous n'avez pas choisi de tournoi.")
-                else:
-                    self.select_tournament(status=STATUS_PENDING)
+                self.resume_tournament(tournament)
+
             elif menu == "0":
                 break
             else:
@@ -124,22 +120,45 @@ class TournamentManager:
         self.tournament_view.display_all_tournaments(tournaments)
 
     def select_tournament(self, status=STATUS_ALL):
-        """Allow to resume an unfinished tournament
+        """Allow to resume an unfinished tournament STATUS_START or STATUS_PENDING
         :return: restored
         """
 
-        tournaments = Tournament.loads_tournament()
-        self.tournament_view.display_all_tournaments(tournaments)
+        tournaments_data = Tournament.loads_tournament()
+        # print(tournaments_data)
+        #
+        # self.tournament_view.display_all_tournaments(tournaments_data)
+        # Filter the list of tournaments to only include those with a status "not started"
+        if status == STATUS_START:
+            filtered_tournaments = [
+                tournament for tournament in tournaments_data if tournament.status == STATUS_START
+            ]
+        else:
+            filtered_tournaments = [
+                tournament for tournament in tournaments_data if tournament.status == STATUS_PENDING
+            ]
+
+        self.tournament_view.display_all_tournaments(filtered_tournaments)
+
         choix = ""
         tournament = None
         while choix != "Q" and tournament is None:
-            choix = input("Choisir le tournoi à executer ou Q pour quitter?").upper()
+            choix = input("Choisir le tournoi à reprendre ou Q pour quitter?").upper()
             if choix != "Q":
-                # TODO verifier que l'index est pas de doublon
-                index = int(choix) - 1
-                tournament = tournaments[index]
+                try:
+                    # Convert the chosen index to an integer
+                    index = int(choix) - 1
+
+                    # Ensure the index is within the valid range
+                    if index >= 0 and index < len(filtered_tournaments):
+                        tournament = filtered_tournaments[index]
+                    else:
+                        print("Index invalide")
+                except ValueError:
+                    print("Entrez un index valide")
             else:
                 break
+
         return tournament
 
     def start_tournament(self, tournament):
@@ -150,7 +169,6 @@ class TournamentManager:
             print(f"Pour le tour {tour+1}")
             if tour+1 == 1:
                 self.turnview.display_match_list()
-            # si tour n°1 (status not started)
             # recuperer la liste des players  du tournoi
             # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
             # avec generate_random_match()
@@ -168,11 +186,7 @@ class TournamentManager:
             # enregistrer resultat par serialisation
 
     def resume_tournament(self, tournament):
-        print(f"Résumé du tournoi {tournament}")
-        # si tour n°1 (status not started)
-        # executer start_tournament(tournament)
-        # else tour n°2 et status Pending
-        # proposer combinaisons de joueurs
+        print(f"Résumé du tournoi {tournament.name}")
         # affichage liste des joueurs tournoi
         # input saisie des scores
         # (joueur,scores) = input()
