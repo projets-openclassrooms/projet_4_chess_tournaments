@@ -9,12 +9,12 @@ class TurnView:
         :param turn: turn_nb
         """
         print(
-            f"Pour la manche {turn.turn_nb}:\n"
+            f"Pour la manche {turn}:\n"
             + "Voici la liste des joueurs qui vont s'affronter:\n"
         )
         for match in turn.match_list:
             print(f"{match.player} VS {match.opponent}\n")
-        print(f"Manche {turn.turn_nb}:")
+        # print(f"Manche {turn.turn_nb}:")
 
     def display_matching(self, tournament_data):
         """

@@ -30,8 +30,8 @@ class TournamentManager:
     def __init__(self):
         self.player_view = PlayerView()
         self.tournament_view = TournamentView()
-        self.turnview = TurnView()
-        self.matchview = MatchView()
+        self.turn_view = TurnView()
+        self.match_view = MatchView()
         self.tournament = None
 
     def create_tournament(self):
@@ -140,54 +140,66 @@ class TournamentManager:
 
         self.tournament_view.display_all_tournaments(filtered_tournaments)
 
-        choix = ""
-        tournament = None
-        while choix != "Q" and tournament is None:
-            choix = input("Choisir le tournoi à reprendre ou Q pour quitter?").upper()
-            if choix != "Q":
-                try:
-                    # Convert the chosen index to an integer
-                    index = int(choix) - 1
-
-                    # Ensure the index is within the valid range
-                    if index >= 0 and index < len(filtered_tournaments):
-                        tournament = filtered_tournaments[index]
-                    else:
-                        print("Index invalide")
-                except ValueError:
-                    print("Entrez un index valide")
-            else:
+        while True:
+            choix = input("Choisir le tournoi à reprendre ou Q pour quitter? ").upper()
+            if choix == "Q":
                 break
+            try:
+                index = int(choix) - 1
+                if 0 <= index < len(filtered_tournaments):
+                    tournament = filtered_tournaments[index]
+                    clear_console()
+                    break
+                else:
+                    print("Index invalide")
+            except ValueError:
+                print("Entrez un index valide")
 
         return tournament
 
-    def start_tournament(self, tournament):
-        print(f"Début du tournoi {tournament}")
-        print(f"{tournament.nb_turn} tours pour ce tournoi.")
-        for tour in range(tournament.nb_turn):
+    def start_tournament(self, tournaments_data):
+        # recuperer la liste des players  du tournoi
+        tournament_player_list = tournaments_data.get_turn_list(tournaments_data)
+        print(tournament_player_list,type(tournament_player_list))
+
+        # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
+        # Génération d'un match aléatoire avec generate_random_match()
+        match = self.generate_random_match(tournament_player_list)
+        # Affichage des combinaisons de joueurs
+        print("Match :", match)
+
+        # boucle tant que fin de saisie = Q
+
+        # proposer combinaisons de joueurs
+        # affichage liste des joueurs tournoi
+        # input saisie des scores
+        # (joueur,scores) = input()
+        # demander si saisie terminee
+        # enregistrer resultat par serialisation
+        # else tour n°2 proposer combinaisons de joueurs
+        print(f"Début du tournoi {tournaments_data.name}")
+        print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
+        for tour in range(tournaments_data.nb_turn):
 
             print(f"Pour le tour {tour+1}")
             if tour+1 == 1:
-                self.turnview.display_match_list()
-            # recuperer la liste des players  du tournoi
-            # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
-            # avec generate_random_match()
-            # proposer combinaisons de joueurs
-            # affichage liste des joueurs tournoi
-            # input saisie des scores
-            # (joueur,scores) = input()
-            # demander si saisie terminee
-            # enregistrer resultat par serialisation
-            # else tour n°2 proposer combinaisons de joueurs
-            # affichage liste des joueurs tournoi
-            # input saisie des scores
-            # (joueur,scores) = input()
-            # demander si saisie terminee
-            # enregistrer resultat par serialisation
+                # self.turnview.display_match_list()
+                for tournament_player in tournaments_data:
+                    player_id = tournament_player["id"]  # Get the player ID
+                    player = player.get_player_by_id(player_id)  # Get the player object from the dictionary
+                    if player:
+                        tournament_player["name"] = player[
+                            "name"]  # Set the player's name in the tournament player object
+
+
+
+
 
     def resume_tournament(self, tournament):
         print(f"Résumé du tournoi {tournament.name}")
         # affichage liste des joueurs tournoi
+
+
         # input saisie des scores
         # (joueur,scores) = input()
         # demander si saisie terminee

@@ -24,7 +24,7 @@ class Turn:
         self._end_of_the_turn = end_of_the_turn
         self.starting_turn = None
         self.ending_turn = None
-        self.save_turn_data()
+
 
     def __repr__(self):
         """Define the representation for a turn object"""

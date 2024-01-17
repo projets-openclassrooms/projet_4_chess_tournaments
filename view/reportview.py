@@ -1,3 +1,5 @@
+from utils.settings import colorise
+
 REPORT_FILE = "data/report/"
 
 """Define report views."""
@@ -31,14 +33,14 @@ class ReportView:
         end_selection = False
         while not end_selection:
             selection = int(
-                input(
-                    "\nQuel type de rapport aimeriez-vous créer?\n"
+                input(colorise(
+                    "Quel type de rapport aimeriez-vous créer?\n"
                     + "- 1 Tous les joueurs.\n"
                     + "- 2 Tous les tournois.\n"
                     + "- 3 Tous les résultats de matchs de tournoi(s).\n"
                     + "- 4 Tous les joueurs participant au(x) tournoi(s).\n"
                     + "- 5 pour revenir en arrière.\n"
-                )
+                ))
             )
 
             if selection in range(1, 5, 1):

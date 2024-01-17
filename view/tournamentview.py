@@ -1,5 +1,6 @@
 import re
 from time import sleep
+from utils.settings import colorise
 
 
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT, MIN_TURNS
@@ -14,23 +15,23 @@ from utils.settings import clear_console, is_odd
 
 class TournamentView:
     def __init__(self):
-        self.demande = (
+        self.demande = (colorise(
             "\nChoix des joueurs :"
             + " taper l'identification du joueur ou "
             + " utiliser les options suivantes : \n"
             + " 1 - Afficher la liste en cours d'entrée.\n"
             + " 2 - Sélectionner tous les joueurs.\n"
-            + " 0 - Menu précédent.\n"
+            + " 0 - Menu précédent.\n")
         )
 
     def display_menu(self):
-        menu = input(
+        menu = input(colorise(
             "Que souhaitez-vous sélectionner ?\nTaper\n\n"
             + " 1 - Voulez-vous créer un nouveau tournoi? \n"
             + " 2 - Voulez-vous afficher les tournois? \n"
             + " 3 - lancer un tournoi\n"
             + " 4 - reprendre un tournoi en cours?\n"
-            + " 0 - menu précédent.\n"
+            + " 0 - menu précédent.\n")
         )
         clear_console()
         return menu
@@ -131,12 +132,13 @@ class TournamentView:
             print("\nAucun tournoi\n")
         else:
             print("\nListe des tournois enregistrés :\n")
+            print(" "*3,"Nom - statut :\n")
             i = 0
             for tournament in tournaments:
                 i += 1
                 print(f"{i}- {tournament.name} - {tournament.status}")
         input("entrée pour continuer.")
-        clear_console()
+
 
     def display_tournament_players(self, players_saved):
         """

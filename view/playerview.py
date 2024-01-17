@@ -1,17 +1,16 @@
 """Define player view"""
 import re
 from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFICATION_FORMAT
-from utils.settings import clear_console, separation
-
+from utils.settings import clear_console, separation, colorise
 
 
 class PlayerView:
     def display_menu(self):
-        menu = input(
+        menu = input(colorise(
             "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
-            + " 1 - Créer un nouveau joueur \n"
-            + " 2- Voir les joueurs\n"
-            + " 0 - menu précédent.\n"
+            + " 1 - Créer un nouveau joueur,\n"
+            + " 2 - Voir les joueurs,\n"
+            + " 0 - Menu précédent.\n")
         )
         separation()
         clear_console()
@@ -28,12 +27,13 @@ class PlayerView:
         if len(players_saved) == 0:
             print("\nAucun joueur choisi. probleme dans le fichier\n")
         else:
-            print("\nListe des joueurs enregistrés :\n")
+            print(colorise("\nListe des joueurs enregistrés :\n"))
+            print("Numéro - Nom Prénom - Identifiant National d'Echecs - (INE)")
             i = 0
             for player in players_saved:
                 i += 1
                 print(
-                    f"{i} - {player.name} {player.firstname} - {player.national_identification}"
+                    f"{i}    - {player.name} {player.firstname} - {player.national_identification}"
                 )
             if len(players_saved) == 1:
                 print("1 Joueur.\nVeuillez saisir les données d'un autre joueur.\n")
