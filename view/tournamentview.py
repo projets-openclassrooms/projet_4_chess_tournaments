@@ -17,8 +17,8 @@ class TournamentView:
     def __init__(self):
         self.demande = (colorise(
             "\nChoix des joueurs :"
-            + " taper l'identification du joueur ou "
-            + " utiliser les options suivantes : \n"
+            + " Saisir l'identification du joueur ou "
+            + " Utiliser les options suivantes : \n"
             + " 1 - Afficher la liste en cours d'entrée.\n"
             + " 2 - Sélectionner tous les joueurs.\n"
             + " 0 - Menu précédent.\n")
@@ -26,7 +26,7 @@ class TournamentView:
 
     def display_menu(self):
         menu = input(colorise(
-            "Que souhaitez-vous sélectionner ?\nTaper\n\n"
+            "Que souhaitez-vous sélectionner ?\nSaisir\n\n"
             + " 1 - Voulez-vous créer un nouveau tournoi? \n"
             + " 2 - Voulez-vous afficher les tournois? \n"
             + " 3 - lancer un tournoi\n"
@@ -70,7 +70,7 @@ class TournamentView:
 
         while location == "":
             location = input(
-                "Ou se passe ce tournoi? (tapez '0' pour revenir au menu)\n"
+                "Ou se passe ce tournoi? (Saisir '0' pour revenir au menu)\n"
             ).upper()
             if not location:
                 print("Ce champ ne peut pas être vide")

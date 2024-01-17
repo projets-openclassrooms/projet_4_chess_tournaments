@@ -158,8 +158,10 @@ class TournamentManager:
         return tournament
 
     def start_tournament(self, tournaments_data):
+        # recuperer fromdict tournament
+        # recuperer fromdict players
         # recuperer la liste des players  du tournoi
-        tournament_player_list = tournaments_data.get_turn_list(tournaments_data)
+        tournament_player_list = tournaments_data.Tournament.loads_tournament(status=STATUS_START)
         print(tournament_player_list,type(tournament_player_list))
 
         # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])

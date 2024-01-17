@@ -65,8 +65,8 @@ class ReportView:
 
         choice = int(
             input(
-                "Taper le nom du tournoi dont vous souhaitez le rapport"
-                + " ou tapez 0 pour revenir en arrière.\n> "
+                "Saisir le nom du tournoi dont vous souhaitez le rapport"
+                + " ou Saisir 0 pour revenir en arrière.\n> "
             )
         )
         choice_tournament = all_tournaments[choice - 1]

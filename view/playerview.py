@@ -7,7 +7,7 @@ from utils.settings import clear_console, separation, colorise
 class PlayerView:
     def display_menu(self):
         menu = input(colorise(
-            "Quel menu souhaitez-vous sélectionner ?\nTaper\n\n"
+            "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
             + " 1 - Créer un nouveau joueur,\n"
             + " 2 - Voir les joueurs,\n"
             + " 0 - Menu précédent.\n")
