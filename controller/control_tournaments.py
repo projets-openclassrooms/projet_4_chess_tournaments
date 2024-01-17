@@ -161,6 +161,8 @@ class TournamentManager:
         # recuperer fromdict tournament
         # recuperer fromdict players
         # recuperer la liste des players  du tournoi
+
+        print(type(tournaments_data))
         tournament_player_list = tournaments_data.Tournament.loads_tournament(status=STATUS_START)
         print(tournament_player_list,type(tournament_player_list))
 
@@ -174,6 +176,7 @@ class TournamentManager:
 
         # proposer combinaisons de joueurs
         # affichage liste des joueurs tournoi
+        self.turn_view.display_match_list(tournaments_data)
         # input saisie des scores
         # (joueur,scores) = input()
         # demander si saisie terminee
@@ -251,6 +254,66 @@ class TournamentManager:
         else:
             turn_list_saved = None
         return turn_list_saved
+    def restore_turn(self, turn_to_restore):
+        """
+
+        :param turn_to_restore:
+        :return: turn_to_return
+        """
+        path_control = os.path.exists(turn_to_restore)
+        if path_control is True:
+            with open(turn_to_restore, "r") as file:
+                all_infos = json.load(file)
+            t_name = all_infos["tournament_name"]
+            turn_nb = all_infos["turn_nb"]
+            match_list = all_infos["match_list"]
+            turn_to_return = cls(t_name, turn_nb, match_list)
+            turn_to_return.starting_turn = all_infos["start"]
+            if all_infos["end"]:
+                turn_to_return.ending_turn = all_infos["end"]
+        else:
+            turn_to_return = None
+        return turn_to_return
+
+    def save_turn_data(self):
+        """
+        json dumps tournaments informations
+        :rtype: object
+
+        """
+        new_turn = Turn.to_dict()
+
+        if new_turn.start_round is None:
+            new_turn.start_round = datetime.now()
+            new_turn.update({"start": str(new_turn.start_round)})
+        else:
+            new_turn["start"] = str(new_turn.start_round)
+        if new_turn.start_round:
+            new_turn["end"] = str(new_turn.end_round)
+        else:
+            new_turn.update({"end": None})
+        file_name = f"{file_tournament}.json"
+
+        with open(file_name, "w") as file:
+            json.dump(new_turn, file, default=lambda x: x.to_dict())
+
+
+
+    def get_all_turn_files(self, t_name):
+        """
+
+        :param t_name:
+        :return: file_list
+        """
+        turn_file = f"{REPORT_FILE}{t_name}_turn[0-9]{0,99}.json$"
+        file_list = []
+        for root, _, files in os.walk(TOURNAMENT_FOLDER):
+            for file in files:
+                file_path = os.path.join(root, file)
+                file_path = file_path.replace("\\", "/")
+                if re.match(turn_file, file_path):
+                    file_list.append(file_path)
+        return file_list
 
     def get_matches(self, matches_to_restore):
         """
@@ -314,3 +377,4 @@ class TournamentManager:
                 writer.writerow(title)
                 writer.writerows(data)
             self.open_selected_report(file_name)
+
