@@ -17,14 +17,14 @@ class Player(object):
     A player has a name, a firstname, a date_of_birth and a national identifier chess, un score à 0
     """
 
-    def __init__(self, name, firstname, birth, national_identification, score=0):
+    def __init__(self, name, firstname, date_of_birth, national_identification, player_uuid = str(uuid.uuid4()) , score=0):
         self.name = name
         self.firstname = firstname
-        self.date_of_birth = birth
+        self.date_of_birth = date_of_birth
         self.national_identification = national_identification
         self.score = score
         self.played_against = []
-        self.player_uuid = str(uuid.uuid4())
+        self.player_uuid = player_uuid
 
     def __repr__(self):
         """Define the representation for a player object"""
@@ -141,11 +141,13 @@ class Player(object):
                     firstname = player["firstname"]
                     date_of_birth = player["birthday"]
                     national_identification = player["national_identification"]
+                    player_uuid = player['id']
                     players_to_return = Player(
                         name,
                         firstname,
                         date_of_birth,
                         national_identification,
+                        player_uuid=player_uuid,
                     )
                     # players_to_return.player_uuid = player_uuid
                     players_saved.append(players_to_return)
@@ -171,11 +173,10 @@ class Player(object):
                         date_of_birth = player["birthday"]
                         national_identification = player["national_identification"]
                         player_to_return = Player(
-                            player_uuid,
-                            name,
-                            firstname,
-                            date_of_birth,
-                            national_identification,
+                            name = name, firstname = firstname,
+                            player_uuid = player_uuid,
+                            date_of_birth = date_of_birth,
+                            national_identification = national_identification,
                         )
             return player_to_return
 

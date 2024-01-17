@@ -12,7 +12,7 @@ class TurnView:
             f"Pour la manche {turn}:\n"
             + "Voici la liste des joueurs qui vont s'affronter:\n"
         )
-        for match in turn.match_list:
+        for match in turn.matchs:
             print(f"{match.player} VS {match.opponent}\n")
         # print(f"Manche {turn.turn_nb}:")
 

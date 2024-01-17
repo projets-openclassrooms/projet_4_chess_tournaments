@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 
 from CONSTANTES import COLOR, MAX_PLAYERS, STATUS_START, STATUS_PENDING, STATUS_ALL
 from model import tournament
@@ -102,6 +103,7 @@ class TournamentManager:
             elif menu == "3":
                 # lancer un tournoi
                 tournament = self.select_tournament(status=STATUS_START)
+                print(f"tournoi sélectionné : {tournament.name}, {tournament.players}")
                 self.start_tournament(tournament)
 
             elif menu == "4":
@@ -162,21 +164,17 @@ class TournamentManager:
         # recuperer fromdict players
         # recuperer la liste des players  du tournoi
 
-        print(type(tournaments_data))
-        tournament_player_list = tournaments_data.Tournament.loads_tournament(status=STATUS_START)
-        print(tournament_player_list,type(tournament_player_list))
+
 
         # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
         # Génération d'un match aléatoire avec generate_random_match()
-        match = self.generate_random_match(tournament_player_list)
-        # Affichage des combinaisons de joueurs
-        print("Match :", match)
+
 
         # boucle tant que fin de saisie = Q
 
         # proposer combinaisons de joueurs
         # affichage liste des joueurs tournoi
-        self.turn_view.display_match_list(tournaments_data)
+
         # input saisie des scores
         # (joueur,scores) = input()
         # demander si saisie terminee
@@ -185,16 +183,39 @@ class TournamentManager:
         print(f"Début du tournoi {tournaments_data.name}")
         print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
         for tour in range(tournaments_data.nb_turn):
+            tour_obj = {"name" : f"Tour {tour + 1}",
+                        "started": str(datetime.now()),
+                        "matches" : [] }
 
             print(f"Pour le tour {tour+1}")
             if tour+1 == 1:
-                # self.turnview.display_match_list()
-                for tournament_player in tournaments_data:
-                    player_id = tournament_player["id"]  # Get the player ID
-                    player = player.get_player_by_id(player_id)  # Get the player object from the dictionary
-                    if player:
-                        tournament_player["name"] = player[
-                            "name"]  # Set the player's name in the tournament player object
+                matchs = self.generate_random_match(tournaments_data.players)
+                # Affichage des combinaisons de joueurs
+                print("Match :", matchs)
+                for match in matchs:
+                    print(f"{match[0].name} versus {match[1].name}")
+                    score1 = int(input(f"Donner le score du joueur{match[0].name}  "))
+                    score2 = int(input(f"Donner le score du joueur{match[1].name}  "))
+                    tour_obj["matches"].append(([match[0].player_uuid,score1],[match[1].player_uuid,score2]))
+                tournaments_data.turn_list.append(tour_obj)
+                tournaments_data.turn = tour + 2
+                tournaments_data.save_tournament()
+                #attention id tournament
+            else:
+                historique_matches = self.get_historique_matches(tournaments_data.turn_list)
+                print("historique_matches",historique_matches)
+                self.update_score_player(tournaments_data.turn_list,tournaments_data.players)
+                matchs = self.generate_match(tournaments_data.players, historique_matches)
+                print("Match :", matchs)
+                for match in matchs:
+                    print(f"{match[0].name} versus {match[1].name}")
+                    score1 = int(input(f"Donner le score du joueur{match[0].name}  "))
+                    score2 = int(input(f"Donner le score du joueur{match[1].name}  "))
+                    tour_obj["matches"].append(([match[0].player_uuid,score1],[match[1].player_uuid,score2]))
+                tournaments_data.turn_list.append(tour_obj)
+                tournaments_data.turn = tour + 1
+                tournaments_data.save_tournament()
+                #attention id tournament
 
 
 
@@ -210,10 +231,14 @@ class TournamentManager:
         # demander si saisie terminee
         # enregistrer resultat par serialisation
 
-    def generate_random_match(self, player_1=None, player_2=None):
-        players_list = self.select_tournament(tournament, status=STATUS_START)
-        random.sample(players_list)
-        return [Match(player_1, player_2)]
+    def generate_random_match(self, players):
+        matchs = []
+        i = 0
+        random.shuffle(players)
+        while (i< len(players)):
+            matchs.append((players[i],players[i+1]))
+            i= i + 2
+        return matchs
 
     def get_chosen_tournament(self):
         """
@@ -377,4 +402,39 @@ class TournamentManager:
                 writer.writerow(title)
                 writer.writerows(data)
             self.open_selected_report(file_name)
+
+    def get_historique_matches(self, turn_list):
+        historique = []
+        for tourn in turn_list:
+            for match in tourn["matches"]:
+                historique.append([match[0][0],match[1][0]])
+                historique.append([match[1][0],match[0][0]])
+
+
+    def update_score_player(self, turn_list, players):
+
+        for play in players:
+            play.score = 0
+            # parcours tous les tours passes et rajoute score sur player.score
+        for tourn in turn_list:
+            for match in tourn["matches"]:
+                # match[0][0] = id joueur 1 match[0][1] = score joueur 1
+                # match[1][0] = id joueur 2 match[1][1] = score joueur 2
+                found_player_1 = [p for p in players if p.player_uuid == match[0][0]][0]
+                found_player_1.score = found_player_1.score + match[0][1]
+                found_player_2 = [p for p in players if p.player_uuid == match[1][0]][0]
+                found_player_2.score = found_player_2.score + match[1][1]
+
+    def generate_match(self, players, historique_matches):
+
+        players_classes = sorted(players, key=lambda x: x.score)
+        matchs = []
+        i = 0
+        while (i< len(players_classes)):
+            matchs.append((players_classes[i],players_classes[i+1]))
+            #
+            i= i + 2
+        # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
+
+        return matchs
 

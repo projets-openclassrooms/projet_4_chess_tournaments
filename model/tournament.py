@@ -6,6 +6,7 @@ from datetime import datetime
 
 from CONSTANTES import file_tournament, STATUS_ALL
 from .player import Player
+from CONSTANTES import STATUS_START, STATUS_END, STATUS_PENDING
 
 
 class Tournament:
@@ -21,7 +22,7 @@ class Tournament:
         players=[],
         nb_turn=4,
         turn=1,
-        turn_list=None,
+        turn_list=[],
         ranking=None,
         comment=None,
         status=None,
@@ -66,18 +67,28 @@ class Tournament:
         :rtype: dict
         :return:
         """
-        return {
+        if self.turn == 1:
+            self.status = STATUS_START
+        elif self.turn >self.nb_turn:
+            self.status = STATUS_END
+        else:
+            self.status = STATUS_PENDING
+        dict = {
             "id": self.id,
             "name_of_tournament": self.name,
             "location": self.location,
             "description": self.description,
-            "status": "not started",
             "turn": self._turn,
+            "status": self.status,
+            "turn_list": self.turn_list,
             "tournament_players": [p.player_uuid for p in self.players],
             "nb_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
         }
+
+
+        return dict
 
     def save_tournament(self):
         """ """
@@ -87,6 +98,12 @@ class Tournament:
             with open(file_tournament, "r") as file:
                 all_tournaments = json.load(file)
                 if "tournaments" in all_tournaments:
+
+                    for tournament in all_tournaments["tournaments"]:
+                        # check if allready saved
+                        if tournament['id'] ==new_tournament['id']:
+                            all_tournaments["tournaments"].remove(tournament)
+
                     all_tournaments["tournaments"].append(new_tournament)
                 else:
                     all_tournaments["tournaments"] = [new_tournament]
@@ -109,10 +126,11 @@ class Tournament:
                 t.name = tournament["name_of_tournament"]
                 t.location = tournament["location"]
                 t.turn = tournament["turn"]
+                t.turn_list = tournament["turn_list"]
                 # TODO charger les objets players pour recreer objet
                 t.players = []
                 for player_id in tournament["tournament_players"]:
-                    # print(player_id)
+                    print("player_id", player_id)
                     p = Player.get_player_by_id(player_id)
                     t.players.append(p)
                 t.status = tournament["status"]
