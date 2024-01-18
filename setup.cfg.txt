@@ -1,7 +1,0 @@
-[flake8]
-ignore = E266, E402, E241 
-exclude=
-	*.pyc, 
-	__pycache__,
-	 .env,
-	.git

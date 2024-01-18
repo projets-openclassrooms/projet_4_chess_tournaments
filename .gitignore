@@ -204,3 +204,10 @@ cython_debug/
 /setup.cfg
 /converts.py
 /new_players.json
+/controller/TODO
+/flake-report/back.svg
+/flake-report/file.svg
+/flake-report/index.html
+/flake-report/styles.css
+/model/TextFile1.txt
+/setup.cfg.txt
