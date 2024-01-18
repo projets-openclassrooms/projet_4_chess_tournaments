@@ -62,12 +62,6 @@ class ReportManager:
             self.reportview.display_create_error()
             return False
 
-
-
-
-
-
-
     def open_selected_report(self, file_to_open):
         """
         open files to open
@@ -119,8 +113,6 @@ class ReportManager:
         else:
             # add a message if verification fails.
             self.reportview.display_create_error()
-
-
 
     def all_players_report(self):
         """Export a list of all players saved"""

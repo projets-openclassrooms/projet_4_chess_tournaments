@@ -12,8 +12,7 @@ from view.playerview import PlayerView
 from view.tournamentview import TournamentView
 from view.turnview import TurnView
 
-from utils.settings import clear_console
-
+from utils.settings import clear_console, colorise
 
 """Define controller about tournament
     choice of pairs
@@ -48,13 +47,13 @@ class TournamentManager:
         nb_turn = self.tournament_view.ask_for_nb_turn()
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
-        choix =""
+        choix = ""
 
         # initialise liste players du tournoi depuis players_saved
         players = []
         nb_players_chosen = len(players_saved)
         # loop pour atteindre 8 players max ou Q pour quitte
-        while choix!="Q":
+        while choix != "Q":
             choix = input(
                 "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
             ).upper()
@@ -102,14 +101,16 @@ class TournamentManager:
                 self.list_tournament()
             elif menu == "3":
                 # lancer un tournoi
-                tournament = self.select_tournament(status=STATUS_START)
-                print(f"tournoi sélectionné : {tournament.name}, {tournament.players}")
-                self.start_tournament(tournament)
+                tournament_to_choose = self.select_tournament(status=STATUS_START)
+                # print(f"tournoi sélectionné : {tournament.name}, {tournament.players}")
+                # si aucun tournoi donc break
+                print(f"tournoi sélectionné : {tournament_to_choose.name}")
+                self.start_tournament(tournament_to_choose)
 
             elif menu == "4":
                 # rappeler un tournoi
-                tournament = self.select_tournament(status=STATUS_PENDING)
-                self.resume_tournament(tournament)
+                tournament_to_choose = self.select_tournament(status=STATUS_PENDING)
+                self.resume_tournament(tournament_to_choose)
 
             elif menu == "0":
                 break
@@ -125,6 +126,7 @@ class TournamentManager:
         """Allow to resume an unfinished tournament STATUS_START or STATUS_PENDING
         :return: restored
         """
+        tournament_to_choose = ""
 
         tournaments_data = Tournament.loads_tournament()
         # print(tournaments_data)
@@ -133,11 +135,15 @@ class TournamentManager:
         # Filter the list of tournaments to only include those with a status "not started"
         if status == STATUS_START:
             filtered_tournaments = [
-                tournament for tournament in tournaments_data if tournament.status == STATUS_START
+                tournament
+                for tournament in tournaments_data
+                if tournament.status == STATUS_START
             ]
         else:
             filtered_tournaments = [
-                tournament for tournament in tournaments_data if tournament.status == STATUS_PENDING
+                tournament
+                for tournament in tournaments_data
+                if tournament.status == STATUS_PENDING
             ]
 
         self.tournament_view.display_all_tournaments(filtered_tournaments)
@@ -149,7 +155,7 @@ class TournamentManager:
             try:
                 index = int(choix) - 1
                 if 0 <= index < len(filtered_tournaments):
-                    tournament = filtered_tournaments[index]
+                    tournament_to_choose = filtered_tournaments[index]
                     clear_console()
                     break
                 else:
@@ -157,23 +163,21 @@ class TournamentManager:
             except ValueError:
                 print("Entrez un index valide")
 
-        return tournament
+        return tournament_to_choose
 
     def start_tournament(self, tournaments_data):
         # recuperer fromdict tournament
         # recuperer fromdict players
         # recuperer la liste des players  du tournoi
 
-
-
         # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
         # Génération d'un match aléatoire avec generate_random_match()
-
 
         # boucle tant que fin de saisie = Q
 
         # proposer combinaisons de joueurs
         # affichage liste des joueurs tournoi
+        score2 = 0
 
         # input saisie des scores
         # (joueur,scores) = input()
@@ -183,48 +187,89 @@ class TournamentManager:
         print(f"Début du tournoi {tournaments_data.name}")
         print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
         for tour in range(tournaments_data.nb_turn):
-            tour_obj = {"name" : f"Tour {tour + 1}",
-                        "started": str(datetime.now()),
-                        "matches" : [] }
+            tour_obj = {
+                "name": f"Tour {tour + 1}",
+                "started": str(datetime.now()),
+                "matches": [],
+            }
 
-            print(f"Pour le tour {tour+1}")
-            if tour+1 == 1:
+            print(f"Pour le tour {tour + 1}")
+            if tour + 1 == 1:
                 matchs = self.generate_random_match(tournaments_data.players)
                 # Affichage des combinaisons de joueurs
-                print("Match :", matchs)
+                # print("Match :", matchs)
                 for match in matchs:
                     print(f"{match[0].name} versus {match[1].name}")
-                    score1 = int(input(f"Donner le score du joueur{match[0].name}  "))
-                    score2 = int(input(f"Donner le score du joueur{match[1].name}  "))
-                    tour_obj["matches"].append(([match[0].player_uuid,score1],[match[1].player_uuid,score2]))
+                    # mettre plutot score1 = input if score1==1: score2==0 if score1==0.5: score2==05
+                    # if score1==0: score2==1 else tournament view rror
+                    score1 = int(input(colorise(f"Donner le score du joueur {match[0].name} : ")))
+                    # score2 = int(input(colorise(f"Donner le score du joueur {match[1].name} : ")))
+                    if isinstance(score1, (int, float)):
+                        if score1 == 1 or score1 == 0 or score1 == 0.5:
+                            if score1 == 0.5:
+                                score2 = score1
+                            elif score1 == 1:
+                                score2 = 0
+                            else:
+                                score1 = 0
+                                score2 = 1
+
+                        else:
+                            print("Le score n'est pas valide.")
+                    else:
+                        print("Le score n'est pas un nombre.")
+
+                    tour_obj["matches"].append(
+                        ([match[0].player_uuid, score1], [match[1].player_uuid, score2])
+                    )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 2
                 tournaments_data.save_tournament()
-                #attention id tournament
+                # attention id tournament
             else:
-                historique_matches = self.get_historique_matches(tournaments_data.turn_list)
-                print("historique_matches",historique_matches)
-                self.update_score_player(tournaments_data.turn_list,tournaments_data.players)
-                matchs = self.generate_match(tournaments_data.players, historique_matches)
+                historique_matches = self.get_historique_matches(
+                    tournaments_data.turn_list
+                )
+                print("historique_matches", historique_matches)
+                self.update_score_player(
+                    tournaments_data.turn_list, tournaments_data.players
+                )
+                matchs = self.generate_match(
+                    tournaments_data.players, historique_matches
+                )
                 print("Match :", matchs)
                 for match in matchs:
                     print(f"{match[0].name} versus {match[1].name}")
-                    score1 = int(input(f"Donner le score du joueur{match[0].name}  "))
-                    score2 = int(input(f"Donner le score du joueur{match[1].name}  "))
-                    tour_obj["matches"].append(([match[0].player_uuid,score1],[match[1].player_uuid,score2]))
+                    # mettre plutot score1 = input if score1==1: score2==0 if score1==0.5: score2==05
+                    # if score1==0: score2==1 else tournament view rror
+                    score1 = int(input(colorise(f"Donner le score du joueur {match[0].name} : ")))
+                    # score2 = int(input(colorise(f"Donner le score du joueur {match[1].name} : ")))
+                    if isinstance(score1, (int, float)):
+                        if score1 == 1 or score1 == 0 or score1 == 0.5:
+                            if score1 == 0.5:
+                                score2 = score1
+                            elif score1 == 1:
+                                score2 = 0
+                            else:
+                                score1 = 0
+                                score2 = 1
+
+                        else:
+                            print("Le score n'est pas valide.")
+                    else:
+                        print("Le score n'est pas un nombre.")
+
+                    tour_obj["matches"].append(
+                        ([match[0].player_uuid, score1], [match[1].player_uuid, score2])
+                    )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 1
                 tournaments_data.save_tournament()
-                #attention id tournament
-
-
-
-
+                # attention id tournament
 
     def resume_tournament(self, tournament):
         print(f"Résumé du tournoi {tournament.name}")
         # affichage liste des joueurs tournoi
-
 
         # input saisie des scores
         # (joueur,scores) = input()
@@ -235,9 +280,9 @@ class TournamentManager:
         matchs = []
         i = 0
         random.shuffle(players)
-        while (i< len(players)):
-            matchs.append((players[i],players[i+1]))
-            i= i + 2
+        while i < len(players):
+            matchs.append((players[i], players[i + 1]))
+            i = i + 2
         return matchs
 
     def get_chosen_tournament(self):
@@ -279,6 +324,7 @@ class TournamentManager:
         else:
             turn_list_saved = None
         return turn_list_saved
+
     def restore_turn(self, turn_to_restore):
         """
 
@@ -322,15 +368,13 @@ class TournamentManager:
         with open(file_name, "w") as file:
             json.dump(new_turn, file, default=lambda x: x.to_dict())
 
-
-
     def get_all_turn_files(self, t_name):
         """
 
         :param t_name:
         :return: file_list
         """
-        turn_file = f"{REPORT_FILE}{t_name}_turn[0-9]{0,99}.json$"
+        turn_file = f"{REPORT_FILE}{t_name}_turn[0-9]{0, 99}.json$"
         file_list = []
         for root, _, files in os.walk(TOURNAMENT_FOLDER):
             for file in files:
@@ -407,34 +451,30 @@ class TournamentManager:
         historique = []
         for tourn in turn_list:
             for match in tourn["matches"]:
-                historique.append([match[0][0],match[1][0]])
-                historique.append([match[1][0],match[0][0]])
-
+                historique.append([match[0][0], match[1][0]])
+                historique.append([match[1][0], match[0][0]])
 
     def update_score_player(self, turn_list, players):
-
         for play in players:
             play.score = 0
-            # parcours tous les tours passes et rajoute score sur player.score
+            # parcoure tous les tours passes et rajoute score sur player.score
         for tourn in turn_list:
             for match in tourn["matches"]:
-                # match[0][0] = id joueur 1 match[0][1] = score joueur 1
-                # match[1][0] = id joueur 2 match[1][1] = score joueur 2
+                # match[0][0] = id joueur_1, match[0][1] = score joueur_1
+                # match[1][0] = id joueur_2, match[1][1] = score joueur_2
                 found_player_1 = [p for p in players if p.player_uuid == match[0][0]][0]
                 found_player_1.score = found_player_1.score + match[0][1]
                 found_player_2 = [p for p in players if p.player_uuid == match[1][0]][0]
                 found_player_2.score = found_player_2.score + match[1][1]
 
     def generate_match(self, players, historique_matches):
-
         players_classes = sorted(players, key=lambda x: x.score)
         matchs = []
         i = 0
-        while (i< len(players_classes)):
-            matchs.append((players_classes[i],players_classes[i+1]))
+        while i < len(players_classes):
+            matchs.append((players_classes[i], players_classes[i + 1]))
             #
-            i= i + 2
+            i = i + 2
         # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
 
         return matchs
-

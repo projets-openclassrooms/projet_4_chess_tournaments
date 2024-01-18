@@ -46,13 +46,16 @@ class Tournament:
         :rtype: object
         """
         representation = (
-            f"Tournament(name='{self.name}"
-            + f"', lieu='{self.location}"
+            f"Tournament('name_of_tournament'={self.name}"
+            + f"', location='{self.location}"
             + f"', description='{self.description}"
             + f"', status='{self.status}'"
         )
 
         return representation
+
+    def __str__(self):
+        return f"{self.name}"
 
     def get_tournament_id(self):
         return self.id
@@ -69,7 +72,7 @@ class Tournament:
         """
         if self.turn == 1:
             self.status = STATUS_START
-        elif self.turn >self.nb_turn:
+        elif self.turn > self.nb_turn:
             self.status = STATUS_END
         else:
             self.status = STATUS_PENDING
@@ -87,7 +90,6 @@ class Tournament:
             "comment": self.comment,
         }
 
-
         return dict
 
     def save_tournament(self):
@@ -98,10 +100,9 @@ class Tournament:
             with open(file_tournament, "r") as file:
                 all_tournaments = json.load(file)
                 if "tournaments" in all_tournaments:
-
                     for tournament in all_tournaments["tournaments"]:
                         # check if allready saved
-                        if tournament['id'] ==new_tournament['id']:
+                        if tournament["id"] == new_tournament["id"]:
                             all_tournaments["tournaments"].remove(tournament)
 
                     all_tournaments["tournaments"].append(new_tournament)
@@ -130,7 +131,7 @@ class Tournament:
                 # TODO charger les objets players pour recreer objet
                 t.players = []
                 for player_id in tournament["tournament_players"]:
-                    print("player_id", player_id)
+                    # print("player_id", player_id)
                     p = Player.get_player_by_id(player_id)
                     t.players.append(p)
                 t.status = tournament["status"]

@@ -15,23 +15,25 @@ from utils.settings import clear_console, is_odd
 
 class TournamentView:
     def __init__(self):
-        self.demande = (colorise(
+        self.demande = colorise(
             "\nChoix des joueurs :"
             + " Saisir l'identification du joueur ou "
             + " Utiliser les options suivantes : \n"
             + " 1 - Afficher la liste en cours d'entrée.\n"
             + " 2 - Sélectionner tous les joueurs.\n"
-            + " 0 - Menu précédent.\n")
+            + " 0 - Menu précédent.\n"
         )
 
     def display_menu(self):
-        menu = input(colorise(
-            "Que souhaitez-vous sélectionner ?\nSaisir\n\n"
-            + " 1 - Voulez-vous créer un nouveau tournoi? \n"
-            + " 2 - Voulez-vous afficher les tournois? \n"
-            + " 3 - lancer un tournoi\n"
-            + " 4 - reprendre un tournoi en cours?\n"
-            + " 0 - menu précédent.\n")
+        menu = input(
+            colorise(
+                "Que souhaitez-vous sélectionner ?\nSaisir\n\n"
+                + " 1 - Voulez-vous créer un nouveau tournoi? \n"
+                + " 2 - Voulez-vous afficher les tournois? \n"
+                + " 3 - lancer un tournoi\n"
+                + " 4 - reprendre un tournoi en cours?\n"
+                + " 0 - menu précédent.\n"
+            )
         )
         clear_console()
         return menu
@@ -109,7 +111,7 @@ class TournamentView:
         return turns
 
     def list_players(self, player_list) -> object:
-        """ afficher liste de joueurs selectionnes
+        """afficher liste de joueurs selectionnes
 
         :rtype: object a
         :return len(player_list)
@@ -131,14 +133,15 @@ class TournamentView:
         if len(tournaments) == 0:
             print("\nAucun tournoi\n")
         else:
-            print("\nListe des tournois enregistrés :\n")
-            print(" "*3,"Nom - statut :\n")
+            print(colorise("\nListe des tournois enregistrés :\n"))
+            print(" " * 3, "Nom - Statut :\n")
             i = 0
             for tournament in tournaments:
                 i += 1
-                print(f"{i}- {tournament.name} - {tournament.status}")
-        input("entrée pour continuer.")
-
+                print(colorise(f"{i}-")
+                + f" {tournament.name} -"
+                + colorise (f" {tournament.status}"))
+        input("Entrée pour continuer.")
 
     def display_tournament_players(self, players_saved):
         """

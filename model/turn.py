@@ -22,15 +22,12 @@ class Turn:
         self.start_round = start_round
         self.end_round = end_round
 
-
-
-
-
     def round_list(self):
-        return [self.round_name,self.start_round,self.end_round,self.match_list]
+        return [self.round_name, self.start_round, self.end_round, self.match_list]
 
     def get_round_list(self, match):
         self.matches = match
+
     @property
     def match_list(self):
         return self._match_list

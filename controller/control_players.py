@@ -13,6 +13,7 @@ from utils.settings import clear_console
 
 class PlayerManager(object):
     def __init__(self):
+        self.player_uuid = str(uuid.uuid4())
         self.player_view = PlayerView()
         self.all_players = []
 
@@ -27,8 +28,8 @@ class PlayerManager(object):
         firstname = self.player_view.ask_for_firstname()
         if not firstname:
             return None
-        birthday = self.player_view.ask_for_birthday()
-        if not birthday:
+        date_of_birth = self.player_view.ask_for_birthday()
+        if not date_of_birth:
             return None
         create_identifier = True
         while create_identifier:
@@ -42,11 +43,13 @@ class PlayerManager(object):
                 self.player_view.display_creation_error(control_identifier)
             elif not control_identifier:
                 self.player_view.display_creation()
-                # player_id = Player.set_player_uuid()
+                player_uuid = self.player_uuid
                 create_identifier = False
                 score = self.player_score()  # default player score
                 # played_against = []
-        new_player = Player(name, firstname, birthday, national_identification, score)
+        new_player = Player(
+            name, firstname, date_of_birth, national_identification, player_uuid, score
+        )
         new_player.save_new_player()
         print("Sauvegarde avec succes.")
 
@@ -59,7 +62,10 @@ class PlayerManager(object):
         for player in players_to_modify:
             print(i, "player", player.full_name())
             i += 1
-            self.player_view.select_player(players_to_modify)
+            self.player_view.select_player(player[i])
+        self.player_view.ask_for_name()
+        self.player_view.ask_for_firstname()
+        self.player_view.ask_national_identification()
 
     def delete_player(self):
         self.display_players()

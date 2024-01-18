@@ -6,11 +6,13 @@ from utils.settings import clear_console, separation, colorise
 
 class PlayerView:
     def display_menu(self):
-        menu = input(colorise(
-            "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
-            + " 1 - Créer un nouveau joueur,\n"
-            + " 2 - Voir les joueurs,\n"
-            + " 0 - Menu précédent.\n")
+        menu = input(
+            colorise(
+                "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
+                + " 1 - Créer un nouveau joueur,\n"
+                + " 2 - Voir les joueurs,\n"
+                + " 0 - Menu précédent.\n"
+            )
         )
         separation()
         clear_console()
@@ -41,7 +43,6 @@ class PlayerView:
             elif len(players_saved) > 1:
                 print(f"Total : {str(len(players_saved))} joueurs.\n")
         separation()
-
 
     def add_again(self):
         again = ""
@@ -105,16 +106,16 @@ class PlayerView:
                 return firstname
 
     def ask_for_birthday(self):
-        birthday = ""
-        while birthday != QUIT:
-            birthday = input("Date de naissance (JJ/MM/AAAA): \n")
-            if birthday == "":
+        date_of_birth = ""
+        while date_of_birth != QUIT:
+            date_of_birth = input("Date de naissance (JJ/MM/AAAA): \n")
+            if date_of_birth == "":
                 print("Ce champ ne peut pas être vide")
-            elif birthday == QUIT:
+            elif date_of_birth == QUIT:
                 print("Vous quittez la création\n")
                 return None
-            elif re.match(BIRTHDAY_FORMAT, birthday):
-                return birthday
+            elif re.match(BIRTHDAY_FORMAT, date_of_birth):
+                return date_of_birth
             else:
                 print("La date doit être au format '__/__/____'")
 
