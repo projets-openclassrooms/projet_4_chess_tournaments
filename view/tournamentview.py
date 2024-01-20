@@ -100,8 +100,8 @@ class TournamentView:
         turns = input(
             "Combien de tours compte ce tournoi?\n-" + "par défaut (4 tours)\n"
         )
-        if not turns:
-            turns = MIN_TURNS
+        if turns != MIN_TURNS:
+            turns = int(MIN_TURNS)
         else:
             if not int(turns):
                 self.display_error()
@@ -134,13 +134,13 @@ class TournamentView:
             print("\nAucun tournoi\n")
         else:
             print(colorise("\nListe des tournois enregistrés :\n"))
-            print(" " * 3, "Nom - Statut :\n")
+            print(" " * 3, "Nom - Statut - Nombre joueurs :\n")
             i = 0
             for tournament in tournaments:
                 i += 1
                 print(colorise(f"{i}-")
                 + f" {tournament.name} -"
-                + colorise (f" {tournament.status}"))
+                + colorise (f" {tournament.status}") + colorise(f" {len(tournament.players)} joueurs inscrits."))
         input("Entrée pour continuer.")
 
     def display_tournament_players(self, players_saved):

@@ -2,7 +2,6 @@ import random
 from datetime import datetime
 
 from CONSTANTES import COLOR, MAX_PLAYERS, STATUS_START, STATUS_PENDING, STATUS_ALL
-from model import tournament
 from model.match import Match
 from model.player import Player
 from model.tournament import Tournament
@@ -12,7 +11,7 @@ from view.playerview import PlayerView
 from view.tournamentview import TournamentView
 from view.turnview import TurnView
 
-from utils.settings import clear_console, colorise
+from utils.settings import clear_console, colorise, is_odd
 
 """Define controller about tournament
     choice of pairs
@@ -51,21 +50,45 @@ class TournamentManager:
 
         # initialise liste players du tournoi depuis players_saved
         players = []
-        nb_players_chosen = len(players_saved)
-        # loop pour atteindre 8 players max ou Q pour quitte
-        while choix != "Q":
+        nb_players = len(players_saved)
+        # loop pour atteindre 8 players max ou Q pour quitter
+        while choix!="Q":
+            if len(players) < MAX_PLAYERS and len(players) % 2 != 0:
+                for player in players:
+                    print(player)
             choix = input(
-                "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
-            ).upper()
+                    "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
+                ).upper()
+
             if choix == "Q":
                 break
-            # verifier que index = choix (choix - 1 pour avoir index)
+            try:
 
-            index = int(choix) - 1
-            if 0 <= index < nb_players_chosen and players_saved[index] not in players:
-                players.append(players_saved[index])
-            else:
+                index = int(choix) - 1
+                if 0 <= index < nb_players and players_saved[index] not in players:
+                    players.append(players_saved[index])
+                elif is_odd(players):
+                    self.tournament_view.incomplete_list(players)
+                else:
+                    print("Veuillez entre un numéro valide")
+            except ValueError:
                 print("Veuillez entre un numéro valide")
+        # while choix != "Q":
+        #     choix = input(
+        #         "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
+        #     ).upper()
+        #
+        #     if choix == "Q":
+        #         break
+        #     # verifier que index = choix (choix - 1 pour avoir index)
+        #
+        #     index = int(choix) - 1
+        #     if 0 <= index < nb_players and players_saved[index] not in players:
+        #         players.append(players_saved[index])
+        #     elif is_odd(players):
+        #         self.tournament_view.incomplete_list(players)
+        #     else:
+        #         print("Veuillez entre un numéro valide")
         tournament = Tournament(
             name,
             location,
@@ -104,6 +127,8 @@ class TournamentManager:
                 tournament_to_choose = self.select_tournament(status=STATUS_START)
                 # print(f"tournoi sélectionné : {tournament.name}, {tournament.players}")
                 # si aucun tournoi donc break
+                if not tournament_to_choose:
+                    print(colorise("Pas de tournoi."))
                 print(f"tournoi sélectionné : {tournament_to_choose.name}")
                 self.start_tournament(tournament_to_choose)
 
@@ -126,7 +151,6 @@ class TournamentManager:
         """Allow to resume an unfinished tournament STATUS_START or STATUS_PENDING
         :return: restored
         """
-        tournament_to_choose = ""
 
         tournaments_data = Tournament.loads_tournament()
         # print(tournaments_data)
@@ -135,21 +159,21 @@ class TournamentManager:
         # Filter the list of tournaments to only include those with a status "not started"
         if status == STATUS_START:
             filtered_tournaments = [
-                tournament
-                for tournament in tournaments_data
-                if tournament.status == STATUS_START
+                tournament_to_choose
+                for tournament_to_choose in tournaments_data
+                if tournament_to_choose.status == STATUS_START
             ]
         else:
             filtered_tournaments = [
-                tournament
-                for tournament in tournaments_data
-                if tournament.status == STATUS_PENDING
+                tournament_to_choose
+                for tournament_to_choose in tournaments_data
+                if tournament_to_choose.status == STATUS_PENDING
             ]
 
         self.tournament_view.display_all_tournaments(filtered_tournaments)
 
         while True:
-            choix = input("Choisir le tournoi à reprendre ou Q pour quitter? ").upper()
+            choix = input("Choisir le tournoi ou Q pour quitter? ").upper()
             if choix == "Q":
                 break
             try:
@@ -173,8 +197,6 @@ class TournamentManager:
         # randomiser les players et proposer un tuple de liste ([joueur 1, joueur 2])
         # Génération d'un match aléatoire avec generate_random_match()
 
-        # boucle tant que fin de saisie = Q
-
         # proposer combinaisons de joueurs
         # affichage liste des joueurs tournoi
         score2 = 0
@@ -186,6 +208,8 @@ class TournamentManager:
         # else tour n°2 proposer combinaisons de joueurs
         print(f"Début du tournoi {tournaments_data.name}")
         print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
+        # boucle tant que fin de saisie != Q
+
         for tour in range(tournaments_data.nb_turn):
             tour_obj = {
                 "name": f"Tour {tour + 1}",
@@ -197,12 +221,12 @@ class TournamentManager:
             if tour + 1 == 1:
                 matchs = self.generate_random_match(tournaments_data.players)
                 # Affichage des combinaisons de joueurs
-                # print("Match :", matchs)
+                print("Match :", matchs)
                 for match in matchs:
                     print(f"{match[0].name} versus {match[1].name}")
                     # mettre plutot score1 = input if score1==1: score2==0 if score1==0.5: score2==05
                     # if score1==0: score2==1 else tournament view rror
-                    score1 = int(input(colorise(f"Donner le score du joueur {match[0].name} : ")))
+                    score1 = float(input(colorise(f"Donner le score du joueur {match[0].name} : ")))
                     # score2 = int(input(colorise(f"Donner le score du joueur {match[1].name} : ")))
                     if isinstance(score1, (int, float)):
                         if score1 == 1 or score1 == 0 or score1 == 0.5:
@@ -242,7 +266,7 @@ class TournamentManager:
                     print(f"{match[0].name} versus {match[1].name}")
                     # mettre plutot score1 = input if score1==1: score2==0 if score1==0.5: score2==05
                     # if score1==0: score2==1 else tournament view rror
-                    score1 = int(input(colorise(f"Donner le score du joueur {match[0].name} : ")))
+                    score1 = float(input(colorise(f"Donner le score du joueur {match[0].name} : ")))
                     # score2 = int(input(colorise(f"Donner le score du joueur {match[1].name} : ")))
                     if isinstance(score1, (int, float)):
                         if score1 == 1 or score1 == 0 or score1 == 0.5:

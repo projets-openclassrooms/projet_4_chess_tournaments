@@ -101,7 +101,7 @@ class Tournament:
                 all_tournaments = json.load(file)
                 if "tournaments" in all_tournaments:
                     for tournament in all_tournaments["tournaments"]:
-                        # check if allready saved
+                        # check if already saved
                         if tournament["id"] == new_tournament["id"]:
                             all_tournaments["tournaments"].remove(tournament)
 
