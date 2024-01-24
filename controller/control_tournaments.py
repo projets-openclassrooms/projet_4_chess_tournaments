@@ -57,13 +57,13 @@ class TournamentManager:
         i = 0
         # loop pour atteindre 8 players max ou Q pour quitter
         while combien != i:
-            i += 1
 
             choix = input(
                 "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
             ).upper()
+            i += 1
 
-            if choix == "Q" or i == combien:
+            if choix == "Q" or i == combien+1:
                 break
             try:
                 index = int(choix) - 1
@@ -318,6 +318,62 @@ class TournamentManager:
             # print(players[i+1], i+1)
             i = i + 2
         return matches
+    def generate_match(self, players, historique_matches):
+        players_classes = sorted(players, key=lambda x: x.score)
+        # print(players_classes)
+        matches = []
+        i = 0
+        while i < len(players_classes):
+            matches.append((players_classes[i], players_classes[i + 1]))
+            # print(players_classes[i], i)
+            # print(players_classes[i+1], i+1)#
+            i = i + 2
+        # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
+        # sorted_players = sorted(players_classes, key=lambda player_uuid: player_uuid.score, reverse=True)
+        # print(sorted_players)
+        # # Create pairs of players with similar scores
+        # pairs = []
+        # while sorted_players:
+        #     player1 = sorted_players.pop()
+        #
+        #     if not sorted_players:
+        #         break
+        #
+        #     player2 = sorted_players.pop()
+        #     pairs.append((player1, player2))
+        # print(pairs)
+        # matches.append(pairs)
+        return matches
+
+    def get_historique_matches(self, turn_list):
+        historique = []
+        for tourn in turn_list:
+            for match in tourn["matches"]:
+                historique.append([match[0][0], match[1][0]])
+                historique.append([match[1][0], match[0][0]])
+        return historique
+
+    def update_score_player(self, turn_list, players):
+        for play in players:
+            play.score = 0
+            turn_player_1 = turn_player_2 =[]
+
+            # parcoure tous les tours passes et rajoute score sur player.score
+        for tourn in turn_list:
+            for match in tourn["matches"]:
+                # match[0][0] = id joueur_1, match[0][1] = score joueur_1
+                # match[1][0] = id joueur_2, match[1][1] = score joueur_2
+                found_player_1 = [p for p in players if p.player_uuid == match[0][0]][0]
+                found_player_1.score = found_player_1.score + match[0][1]
+                found_player_2 = [p for p in players if p.player_uuid == match[1][0]][0]
+                found_player_2.score = found_player_2.score + match[1][1]
+                # print(found_player_2.score)
+                # print(found_player_1.score)
+                turn_player_2.append((found_player_2.name,found_player_2.score))
+                turn_player_1.append((found_player_1.national_identification,found_player_1.score))
+        print(turn_player_1)
+        print(turn_player_2)
+        tourn['rankin'] = turn_player_2
 
     def get_chosen_tournament(self):
         """
@@ -460,52 +516,6 @@ class TournamentManager:
                 writer.writerows(data)
             self.open_selected_report(file_name)
 
-    def get_historique_matches(self, turn_list):
-        historique = []
-        for tourn in turn_list:
-            for match in tourn["matches"]:
-                historique.append([match[0][0], match[1][0]])
-                historique.append([match[1][0], match[0][0]])
-        return historique
 
-    def update_score_player(self, turn_list, players):
-        for play in players:
-            play.score = 0
-            # parcoure tous les tours passes et rajoute score sur player.score
-        for tourn in turn_list:
-            for match in tourn["matches"]:
-                # match[0][0] = id joueur_1, match[0][1] = score joueur_1
-                # match[1][0] = id joueur_2, match[1][1] = score joueur_2
-                found_player_1 = [p for p in players if p.player_uuid == match[0][0]][0]
-                found_player_1.score = found_player_1.score + match[0][1]
-                found_player_2 = [p for p in players if p.player_uuid == match[1][0]][0]
-                found_player_2.score = found_player_2.score + match[1][1]
-                print(found_player_2.score)
-                print(found_player_1.score)
 
-    def generate_match(self, players, historique_matches):
-        players_classes = sorted(players, key=lambda x: x.score)
-        # print(players_classes)
-        matches = []
-        i = 0
-        while i < len(players_classes):
-            matches.append((players_classes[i], players_classes[i + 1]))
-            # print(players_classes[i], i)
-            # print(players_classes[i+1], i+1)#
-            i = i + 2
-        # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
-        # sorted_players = sorted(players_classes, key=lambda player_uuid: player_uuid.score, reverse=True)
-        # print(sorted_players)
-        # # Create pairs of players with similar scores
-        # pairs = []
-        # while sorted_players:
-        #     player1 = sorted_players.pop()
-        #
-        #     if not sorted_players:
-        #         break
-        #
-        #     player2 = sorted_players.pop()
-        #     pairs.append((player1, player2))
-        # print(pairs)
-        # matches.append(pairs)
-        return matches
+
