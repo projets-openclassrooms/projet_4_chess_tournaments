@@ -20,7 +20,6 @@ class Player(object):
     def __init__(
         self,
         name,
-
         firstname,
         date_of_birth,
         national_identification,
@@ -35,7 +34,6 @@ class Player(object):
         self.score = score
         self.player_uuid = player_uuid
         self.played_against = []
-
 
     def __repr__(self):
         """Define the representation for a player object"""

@@ -1,16 +1,12 @@
 import os
 
-from model.tournament import Tournament
+from CONSTANTES import DATA_FOLDER, REPORT_FILE
 from controller.control_players import PlayerManager
 from controller.control_reports import ReportManager
 from controller.control_tournaments import TournamentManager
-from view.main_menu import MainMenu
-from view.playerview import PlayerView
-from view.tournamentview import TournamentView
-
-from CONSTANTES import DATA_FOLDER, REPORT_FILE
-
 from utils.settings import clear_console
+from view.main_menu import MainMenu
+from view.tournamentview import TournamentView
 
 """"
 import random pour 1er round

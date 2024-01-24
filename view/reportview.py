@@ -1,6 +1,8 @@
-from utils.settings import colorise
+from utils.settings import colorise, clear_console
 
-REPORT_FILE = "data/report/"
+from CONSTANTES import REPORT_FILE
+
+
 
 """Define report views."""
 
@@ -24,13 +26,14 @@ class ReportView:
     def display_import_error(self):
         print("Le tournoi saisi n'existe pas.\n")
 
-    def ask_type_report(self):
+    def get_type_report(self):
         """
         end_selection report's choice view
 
         :return: selection joueurs, tournois, matchs, quitter le programme
         """
         end_selection = False
+        clear_console()
         while not end_selection:
             selection = int(
                 input(
@@ -38,8 +41,6 @@ class ReportView:
                         "Quel type de rapport aimeriez-vous créer?\n"
                         + "- 1 Tous les joueurs.\n"
                         + "- 2 Tous les tournois.\n"
-                        + "- 3 Tous les résultats de matchs de tournoi(s).\n"
-                        + "- 4 Tous les joueurs participant au(x) tournoi(s).\n"
                         + "- 5 pour revenir en arrière.\n"
                     )
                 )

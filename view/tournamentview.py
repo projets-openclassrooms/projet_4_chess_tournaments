@@ -2,13 +2,14 @@ import re
 from time import sleep
 from utils.settings import colorise
 
-
 from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT, MIN_TURNS
 from model.player import Player
 
 from utils.settings import clear_console, is_odd
 
 """Display Tournament view"""
+
+
 # TOURNAMENT_NAME = r"^[A-Za-z0-9]{0,99}$"
 # NB_TURN_FORMAT = r"^[0-9]{1,2}$"
 
@@ -27,11 +28,11 @@ class TournamentView:
     def display_menu(self):
         menu = input(
             colorise(
-                "Que souhaitez-vous sélectionner ?\nSaisir\n\n"
-                + " 1 - Voulez-vous créer un nouveau tournoi? \n"
-                + " 2 - Voulez-vous afficher les tournois? \n"
-                + " 3 - lancer un tournoi\n"
-                + " 4 - reprendre un tournoi en cours?\n"
+                "Que souhaitez-vous faire ?\nSaisir le numéro :\n\n"
+                + " 1 - Créer un nouveau tournoi? \n"
+                + " 2 - Afficher les tournois? \n"
+                + " 3 - Lancer un tournoi\n"
+                + " 4 - Reprendre un tournoi en cours?\n"
                 + " 0 - menu précédent.\n"
             )
         )
@@ -40,19 +41,19 @@ class TournamentView:
 
     def display_first_turn(self):
         return (
-            "Vous n'avez pas encore de tournoi.\n"
-            + "Avant de commencer un tournoi,\n"
-            + "Veuillez entrer les informations du tournoi.\n"
+                "Vous n'avez pas encore de tournoi.\n"
+                + "Avant de commencer un tournoi,\n"
+                + "Veuillez entrer les informations du tournoi.\n"
         )
 
-    def ask_for_players(self):
+    def get_players(self):
         return (
-            "Vous n'avez pas encore de joueur.\n"
-            + "Avant de démarrer un tournoi,\n"
-            + "Veuillez entrer des joueurs à enregistrer.\n"
+                "Vous n'avez pas encore de joueur.\n"
+                + "Avant de démarrer un tournoi,\n"
+                + "Veuillez entrer des joueurs à enregistrer.\n"
         )
 
-    def ask_for_name(self) -> object:
+    def get_name(self) -> object:
         """
 
         :rtype: object
@@ -67,7 +68,7 @@ class TournamentView:
                 print("Ce champ ne peut pas être vide")
         return name
 
-    def ask_for_location(self):
+    def get_location(self):
         location = ""
 
         while location == "":
@@ -79,7 +80,7 @@ class TournamentView:
 
         return location
 
-    def ask_for_description(self):
+    def get_description(self):
         description = ""
 
         while description == "":
@@ -89,7 +90,7 @@ class TournamentView:
 
         return description
 
-    def ask_for_nb_turn(self):
+    def get_nb_turn(self):
         """
         turns isdigit() ok
 
@@ -138,9 +139,17 @@ class TournamentView:
             i = 0
             for tournament in tournaments:
                 i += 1
-                print(colorise(f"{i}-")
-                + f" {tournament.name} -"
-                + colorise (f" {tournament.status}") + colorise(f" {len(tournament.players)} joueurs inscrits."))
+                if len(tournament.players) == 0:
+                    return
+                else:
+                    print(
+                        colorise(f"{i}-")
+                        + f" {tournament.name} -"
+                        + colorise(f" {tournament.status} -")
+                        + f" {len(tournament.players)} joueurs inscrits."
+                        + colorise(f" Nombre de tours {tournament.nb_turn}")
+                    )
+
         input("Entrée pour continuer.")
 
     def display_tournament_players(self, players_saved):
@@ -235,7 +244,7 @@ class TournamentView:
                         player_list.append(player)
                         break
 
-    def ask_to_continue(self):
+    def be_continued(self):
         """
 
         :return: 1/2/0

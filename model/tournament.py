@@ -23,7 +23,7 @@ class Tournament:
         nb_turn=4,
         turn=1,
         turn_list=[],
-        ranking=None,
+        ranking=[],
         comment=None,
         status=None,
     ):
@@ -72,7 +72,7 @@ class Tournament:
         """
         if self.turn == 1:
             self.status = STATUS_START
-        elif self.turn > self.nb_turn:
+        elif self.turn == self.nb_turn:
             self.status = STATUS_END
         else:
             self.status = STATUS_PENDING
@@ -128,7 +128,7 @@ class Tournament:
                 t.location = tournament["location"]
                 t.turn = tournament["turn"]
                 t.turn_list = tournament["turn_list"]
-                # TODO charger les objets players pour recreer objet
+                # charge les objets players pour recreer objet
                 t.players = []
                 for player_id in tournament["tournament_players"]:
                     # print("player_id", player_id)

@@ -15,6 +15,7 @@ class PlayerView:
             )
         )
         separation()
+        input("Entrée pour continuer.")
         clear_console()
         # + " 2 - Supprimer un joueur\n"
         # + " 3 - Modifier un joueur\n"
@@ -81,7 +82,7 @@ class PlayerView:
                 else:
                     return players_saved[choice - 1]
 
-    def ask_for_name(self):
+    def get_name(self):
         name = ""
         while name != QUIT:
             name = input("\nSaisissez le nom de famille du joueur ").capitalize()
@@ -93,7 +94,7 @@ class PlayerView:
             else:
                 return name
 
-    def ask_for_firstname(self):
+    def get_firstname(self):
         firstname = ""
         while firstname != QUIT or firstname != "q":
             firstname = input("Veuillez saisir le prénom du joueur ").capitalize()
@@ -105,7 +106,7 @@ class PlayerView:
             else:
                 return firstname
 
-    def ask_for_birthday(self):
+    def get_birthdate(self):
         date_of_birth = ""
         while date_of_birth != QUIT:
             date_of_birth = input("Date de naissance (JJ/MM/AAAA): \n")

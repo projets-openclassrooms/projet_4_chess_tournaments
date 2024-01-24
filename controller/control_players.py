@@ -6,7 +6,7 @@ import uuid, json
 
 from model.player import Player
 from view.playerview import PlayerView
-from CONSTANTES import file_players
+
 
 from utils.settings import clear_console
 
@@ -22,13 +22,13 @@ class PlayerManager(object):
         self.score = 0.0
 
     def new_player(self):
-        name = self.player_view.ask_for_name()
+        name = self.player_view.get_name()
         if not name:
             return None
-        firstname = self.player_view.ask_for_firstname()
+        firstname = self.player_view.get_firstname()
         if not firstname:
             return None
-        date_of_birth = self.player_view.ask_for_birthday()
+        date_of_birth = self.player_view.get_birthdate()
         if not date_of_birth:
             return None
         create_identifier = True
@@ -63,8 +63,8 @@ class PlayerManager(object):
             print(i, "player", player.full_name())
             i += 1
             self.player_view.select_player(player[i])
-        self.player_view.ask_for_name()
-        self.player_view.ask_for_firstname()
+        self.player_view.get_name()
+        self.player_view.get_firstname()
         self.player_view.ask_national_identification()
 
     def delete_player(self):

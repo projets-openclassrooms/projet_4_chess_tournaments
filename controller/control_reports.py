@@ -3,12 +3,10 @@ export csv, txt, or html"""
 import csv
 import os
 
-from model.match import Match
+from CONSTANTES import REPORT_FILE
 from model.player import Player
-from model.turn import Turn
 from model.tournament import Tournament
 from view.reportview import ReportView
-from CONSTANTES import REPORT_FILE
 
 
 # REPORT_FILE = "data/report/"
@@ -76,43 +74,44 @@ class ReportManager:
         :return: reports
         """
         extraction = []
-        all_tournaments = self.all_tournaments_name()
+        all_tournaments = Tournament.loads_tournament()
         if not all_tournaments:
             return None
         title = [
             "Nom",
             "Place",
+            "Tours",
             "Joueurs inscrits",
+            "Statuts",
+            "Nombre de tours",
+            "Classement"
             "date début",
             "date fin",
             "Commentaires",
         ]
+        # print(all_tournaments, type(all_tournaments))
 
         for tournament in all_tournaments:
-            current = Tournament.get_tournament_info(tournament)
-            if current is None:
+
+            if tournament is None:
                 break
             extraction.append(
                 [
-                    current.name,
-                    current.location,
-                    current.players,
-                    current.starting_date,
-                    current.ending_date,
-                    current.comment,
+                    tournament.name,
+                    tournament.location,
+                    tournament.players,
+                    tournament.starting_date,
+                    tournament.ending_date,
+                    tournament.comment,
                 ]
             )
         file_name = REPORT_FILE + "all_tournaments.csv"
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                writer.writerows(extraction)
-            self.open_selected_report(file_name)
-        else:
-            # add a message if verification fails.
-            self.reportview.display_create_error()
+
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerow(title)
+            writer.writerows(extraction)
+        self.open_selected_report(file_name)
 
     def all_players_report(self):
         """Export a list of all players saved"""
@@ -129,16 +128,13 @@ class ReportManager:
             ]
             data.append(player_extract)
         file_name = REPORT_FILE + "all_players_saved.csv"
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                writer.writerows(data)
-            self.open_selected_report(file_name)
-        else:
-            # add a message if verification fails.
-            self.reportview.display_create_error()
+
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerow(title)
+            writer.writerows(data)
+        self.open_selected_report(file_name)
+
 
     def all_players_tournament_report(self):
         """Export a list of players from a selected tournament
@@ -169,15 +165,14 @@ class ReportManager:
     def run_report(self):
         end_execution = False
         while end_execution is False:
-            selection = self.reportview.ask_type_report()
-            if selection == 5:
-                end_execution = True
-                break
-            elif selection == 1:
+            selection = self.reportview.get_type_report()
+
+            if selection == 1:
                 self.all_players_report()
             elif selection == 2:
                 self.all_tournaments_report()
-            elif selection == 3:
-                self.all_matches_and_turns()
-            elif selection == 4:
-                self.all_players_tournament_report()
+
+            else:
+                selection == 5
+                end_execution = True
+                break
