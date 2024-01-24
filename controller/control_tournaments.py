@@ -328,6 +328,7 @@ class TournamentManager:
             # print(players_classes[i], i)
             # print(players_classes[i+1], i+1)#
             i = i + 2
+        print(matches)
         # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
         # sorted_players = sorted(players_classes, key=lambda player_uuid: player_uuid.score, reverse=True)
         # print(sorted_players)
