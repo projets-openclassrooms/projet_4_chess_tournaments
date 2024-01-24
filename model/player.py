@@ -188,6 +188,7 @@ class Player(object):
                         )
             return player_to_return
 
+    # verifier cette methode
     @classmethod
     def restore_player(cls, player):
         """

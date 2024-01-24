@@ -323,27 +323,22 @@ class TournamentManager:
         # print(players_classes)
         matches = []
         i = 0
+
         while i < len(players_classes):
+            player_pairs = [players_classes[i].player_uuid, players_classes[i + 1].player_uuid]
+            if player_pairs in historique_matches and i < len(players_classes)-2:
+                p = players_classes[i + 1]
+                players_classes[i + 1] = players_classes[i + 2]
+                players_classes[i + 2] = p
+
             matches.append((players_classes[i], players_classes[i + 1]))
             # print(players_classes[i], i)
             # print(players_classes[i+1], i+1)#
             i = i + 2
-        print(matches)
+
+        # print(matches)
         # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
-        # sorted_players = sorted(players_classes, key=lambda player_uuid: player_uuid.score, reverse=True)
-        # print(sorted_players)
-        # # Create pairs of players with similar scores
-        # pairs = []
-        # while sorted_players:
-        #     player1 = sorted_players.pop()
-        #
-        #     if not sorted_players:
-        #         break
-        #
-        #     player2 = sorted_players.pop()
-        #     pairs.append((player1, player2))
-        # print(pairs)
-        # matches.append(pairs)
+
         return matches
 
     def get_historique_matches(self, turn_list):
@@ -370,10 +365,10 @@ class TournamentManager:
                 found_player_2.score = found_player_2.score + match[1][1]
                 # print(found_player_2.score)
                 # print(found_player_1.score)
-                turn_player_2.append((found_player_2.name,found_player_2.score))
-                turn_player_1.append((found_player_1.national_identification,found_player_1.score))
-        print(turn_player_1)
-        print(turn_player_2)
+                # turn_player_2.append((found_player_2.name,found_player_2.score))
+                # turn_player_1.append((found_player_1.national_identification,found_player_1.score))
+        # print(turn_player_1)
+        # print(turn_player_2)
         tourn['rankin'] = turn_player_2
 
     def get_chosen_tournament(self):
