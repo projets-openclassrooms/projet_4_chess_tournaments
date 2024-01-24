@@ -27,32 +27,22 @@ class ReportView:
         print("Le tournoi saisi n'existe pas.\n")
 
     def get_type_report(self):
-        """
-        end_selection report's choice view
-
-        :return: selection joueurs, tournois, matchs, quitter le programme
-        """
-        end_selection = False
-        clear_console()
-        while not end_selection:
-            selection = int(
-                input(
-                    colorise(
-                        "Quel type de rapport aimeriez-vous créer?\n"
-                        + "- 1 Tous les joueurs.\n"
-                        + "- 2 Tous les tournois.\n"
-                        + "- 5 pour revenir en arrière.\n"
-                    )
+        """"""
+        selection = int(
+            input(
+                colorise(
+                    "Quel type de rapport aimeriez-vous sauvgarder?\n"
+                    + "- 1 Tous les joueurs dans le répertoire.\n"
+                    + "- 2 Tous les tournois.\n"
+                    + f" dans le répertoire : {REPORT_FILE}\n"
+                    + "- 5 pour revenir en arrière.\n"
                 )
             )
+        )
+        input("Enter pour continuer.")
+        clear_console()
+        return selection
 
-            if selection in range(1, 5, 1):
-                return selection
-            elif selection == 5:
-                print("\nVous quittez maintenant la gestion de rapport.")
-                return selection
-            else:
-                print(f"{selection} n'est pas valide")
 
     def tournament_choice(self, all_tournaments):
         """

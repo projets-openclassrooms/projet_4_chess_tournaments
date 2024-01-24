@@ -39,11 +39,11 @@ class TournamentView:
         clear_console()
         return menu
 
-    def display_first_turn(self):
+    def display_first_turn(self) -> object:
         return (
-                "Vous n'avez pas encore de tournoi.\n"
-                + "Avant de commencer un tournoi,\n"
-                + "Veuillez entrer les informations du tournoi.\n"
+                "Veuillez saisir le point du gagnant.\n"
+                + "Le reste sera saisi automatiquement,\n"
+                + "Gagnant : 1 , Perdant : 0, Egalité : 0.5\n"
         )
 
     def get_players(self):

@@ -168,11 +168,10 @@ class TournamentManager:
             ]
         self.tournament_view.display_all_tournaments(filtered_tournaments)
 
-        # reparer quand aucun tournoi choisi
         while True:
             choix = input("Choisir le tournoi ou Q pour quitter? ").upper()
             if choix == "Q":
-                # si aucun tournoi donc break
+                # si aucun tournoi donc return menu
 
                 return
             try:
@@ -222,14 +221,15 @@ class TournamentManager:
             }
 
             print(f"Pour le tour {tour + 1}")
+            self.tournament_view.display_first_turn()
             if tour + 1 == 1:
                 matches = self.generate_random_match(tournaments_data.players)
                 # Affichage des combinaisons de joueurs
                 # print("Match :", matches)
                 for match in matches:
                     print(f"{match[0].name} versus {match[1].name}")
-                    # mettre plutot score1 = input if score1==1: score2==0 if score1==0.5: score2==05
-                    # if score1==0: score2==1 else tournament view rror
+                    # score1 = input if score1==1: score2==0 if score1==0.5: score2==0.5
+                    # if score1==0: score2==1 else tournament view error
                     score1 = float(
                         input(colorise(f"Donner le score du joueur {match[0].name} : "))
                     )
