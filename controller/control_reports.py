@@ -70,7 +70,7 @@ class ReportManager:
         :rtype: object
 
         """
-        pass
+        self.tournaments.list_tournaments()
 
     def all_tournaments_report(self):
         """Export a list of all tournaments
@@ -114,6 +114,8 @@ class ReportManager:
             writer.writerows(extraction)
         self.open_selected_report(file_name)
         self.reportview.display_create_report()
+        clear_console()
+
 
 
     def all_players_report(self):
@@ -138,6 +140,8 @@ class ReportManager:
             writer.writerows(data)
         self.open_selected_report(file_name)
         self.reportview.display_create_report()
+        clear_console()
+
 
     def all_players_tournament_report(self):
         """Export a list of players from a selected tournament

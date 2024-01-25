@@ -135,7 +135,7 @@ class TournamentView:
             print("\nAucun tournoi\n")
         else:
             print(colorise("\nListe des tournois enregistrés :\n"))
-            print("N° ", f"{'Nom':<16}{'- Statut ':<12}- {'Nombre joueurs':<12} - {'Nombre de tours :':<12}\n")
+            print("N° ", f"{'Nom':<16}{'- Statut ':<14}- {'Nombre joueurs':<20} - {'Nombre de tours :':<12}\n")
             i = 0
             for tournament in tournaments:
                 i += 1
@@ -145,7 +145,7 @@ class TournamentView:
                     print(
                         colorise(f"{i}-")
                         + f" {tournament.name:<16} -"
-                        + colorise(f" {tournament.status:<10} -")
+                        + colorise(f" {tournament.status:<12} -")
                         + f" {len(tournament.players)} joueurs inscrits."
                         + colorise(f" Nombre de tours {tournament.nb_turn}")
                     )
