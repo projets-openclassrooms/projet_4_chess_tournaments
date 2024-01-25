@@ -96,9 +96,6 @@ class TournamentManager:
         tournament.save_tournament()
         print("Tournoi sauvegardé.")
 
-    def display_tournaments(self):
-        tournaments = Tournament.loads_tournament()
-        self.tournament_view.display_all_tournaments(tournaments)
 
     def run_tournament(self):
         """
