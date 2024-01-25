@@ -369,7 +369,7 @@ class TournamentManager:
                 # turn_player_1.append((found_player_1.national_identification,found_player_1.score))
         # print(turn_player_1)
         # print(turn_player_2)
-        tourn['rankin'] = turn_player_2
+        # tourn['rankin'] = turn_player_2
 
     def get_chosen_tournament(self):
         """
