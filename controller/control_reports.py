@@ -7,14 +7,17 @@ from CONSTANTES import REPORT_FILE
 from model.player import Player
 from model.tournament import Tournament
 from view.reportview import ReportView
-
+from controller.control_players import PlayerManager
+from controller.control_tournaments import TournamentManager
 
 # REPORT_FILE = "data/report/"
 
 
 class ReportManager:
     def __init__(self):
+        self.player = PlayerManager()
         self.reportview = ReportView()
+        self.report_tournamants = TournamentManager()
 
     def all_tournaments_name(self):
         """
@@ -84,15 +87,13 @@ class ReportManager:
             "Joueurs inscrits",
             "Statuts",
             "Nombre de tours",
-            "Classement"
-            "date début",
+            "Classement" "date début",
             "date fin",
             "Commentaires",
         ]
         # print(all_tournaments, type(all_tournaments))
 
         for tournament in all_tournaments:
-
             if tournament is None:
                 break
             extraction.append(
@@ -112,6 +113,8 @@ class ReportManager:
             writer.writerow(title)
             writer.writerows(extraction)
         self.open_selected_report(file_name)
+        self.reportview.display_create_report()
+
 
     def all_players_report(self):
         """Export a list of all players saved"""
@@ -134,7 +137,7 @@ class ReportManager:
             writer.writerow(title)
             writer.writerows(data)
         self.open_selected_report(file_name)
-
+        self.reportview.display_create_report()
 
     def all_players_tournament_report(self):
         """Export a list of players from a selected tournament
@@ -163,16 +166,26 @@ class ReportManager:
             self.open_selected_report(file_name)
 
     def run_report(self):
+        """"
+
+        """
         end_execution = False
         while end_execution is False:
             selection = self.reportview.get_type_report()
 
             if selection == 1:
+                self.player.display_players()
                 self.all_players_report()
             elif selection == 2:
+                self.report_tournamants.list_tournament()
                 self.all_tournaments_report()
-
+            elif selection == 3:
+                self.open_selected_report()
+            elif selection == 4:
+                self.all_players_tournament_report()
+            elif selection == 5:
+                self.all_tournaments_name()
             else:
-                selection == 5
+                selection == 6
                 end_execution = True
                 break

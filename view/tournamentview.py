@@ -41,16 +41,16 @@ class TournamentView:
 
     def display_first_turn(self) -> object:
         return (
-                "Veuillez saisir le point du gagnant.\n"
-                + "Le reste sera saisi automatiquement,\n"
-                + "Gagnant : 1 , Perdant : 0, Egalité : 0.5\n"
+            "Veuillez saisir le point du gagnant.\n"
+            + "Le reste sera saisi automatiquement,\n"
+            + "Gagnant : 1 , Perdant : 0, Egalité : 0.5\n"
         )
 
     def get_players(self):
         return (
-                "Vous n'avez pas encore de joueur.\n"
-                + "Avant de démarrer un tournoi,\n"
-                + "Veuillez entrer des joueurs à enregistrer.\n"
+            "Vous n'avez pas encore de joueur.\n"
+            + "Avant de démarrer un tournoi,\n"
+            + "Veuillez entrer des joueurs à enregistrer.\n"
         )
 
     def get_name(self) -> object:
@@ -135,7 +135,7 @@ class TournamentView:
             print("\nAucun tournoi\n")
         else:
             print(colorise("\nListe des tournois enregistrés :\n"))
-            print(" " * 3, "Nom - Statut - Nombre joueurs :\n")
+            print("N° ", f"{'Nom':<16}{'- Statut ':<12}- {'Nombre joueurs':<12} - {'Nombre de tours :':<12}\n")
             i = 0
             for tournament in tournaments:
                 i += 1
@@ -144,8 +144,8 @@ class TournamentView:
                 else:
                     print(
                         colorise(f"{i}-")
-                        + f" {tournament.name} -"
-                        + colorise(f" {tournament.status} -")
+                        + f" {tournament.name:<16} -"
+                        + colorise(f" {tournament.status:<10} -")
                         + f" {len(tournament.players)} joueurs inscrits."
                         + colorise(f" Nombre de tours {tournament.nb_turn}")
                     )

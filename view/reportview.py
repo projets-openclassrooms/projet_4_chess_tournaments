@@ -3,7 +3,6 @@ from utils.settings import colorise, clear_console
 from CONSTANTES import REPORT_FILE
 
 
-
 """Define report views."""
 
 
@@ -31,18 +30,19 @@ class ReportView:
         selection = int(
             input(
                 colorise(
-                    "Quel type de rapport aimeriez-vous sauvgarder?\n"
-                    + "- 1 Tous les joueurs dans le répertoire.\n"
+                    "Quel type de rapport aimeriez-vous afficher?\n"
+                    + "- 1 Tous les joueurs.\n"
                     + "- 2 Tous les tournois.\n"
-                    + f" dans le répertoire : {REPORT_FILE}\n"
-                    + "- 5 pour revenir en arrière.\n"
+                    + "- 3 Noms et dates d'un tournoi donné.\n"
+                    + "- 4 Joueurs d'un tournoi.\n"
+                    + "- 5 Tours d'un tournoi et matchs.\n"
+                    + "- 6 pour revenir en arrière.\n"
                 )
             )
         )
         input("Enter pour continuer.")
         clear_console()
         return selection
-
 
     def tournament_choice(self, all_tournaments):
         """

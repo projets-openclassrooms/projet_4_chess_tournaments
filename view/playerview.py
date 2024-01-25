@@ -31,12 +31,12 @@ class PlayerView:
             print("\nAucun joueur choisi. probleme dans le fichier\n")
         else:
             print(colorise("\nListe des joueurs enregistrés :\n"))
-            print("Numéro - Nom Prénom - Identifiant National d'Echecs - (INE)")
+            print("Numéro - (INE)    - Nom Prénom")
             i = 0
             for player in players_saved:
                 i += 1
                 print(
-                    f"{i}    - {player.name} {player.firstname} - {player.national_identification}"
+                    f"{i:<7}- {player.national_identification:<8} - {player.name} {player.firstname}"
                 )
             if len(players_saved) == 1:
                 print("1 Joueur.\nVeuillez saisir les données d'un autre joueur.\n")

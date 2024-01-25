@@ -31,9 +31,12 @@ class color:
     r = "\033[91m"  # rouge
     n = "\033[0m"  # gris, couleur normale
 
-
-lipsum = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu libero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibulum urna fringilla ultrices. Phasellus eu tellus sit amet tortor gravida placerat. Integer sapien est, iaculis in, pretium quis, viverra ac, nunc. Praesent eget sem vel leo ultrices bibendum. Aenean faucibus. Morbi dolor nulla, malesuada eu, pulvinar at, mollis ac, nulla. Curabitur auctor semper nulla. Donec varius orci eget risus. Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam. Duis eget orci sit amet orci dignissim rutrum."
-
+def temps_formate(temps_json):
+    date_time = datetime.datetime.strptime(temps_json, "%Y-%m-d %H:%M:%S.%f")
+    date = date_time.date()
+    heure = date_time.time()
+    temps_formate = date.strftime("%d/%m/%Y") + " " + heure.strftime("%H:%M:%S")
+    return temps_formate
 
 def colorise(text):
     couleurs = [color.g, color.y, color.r]
@@ -49,8 +52,6 @@ def colorise(text):
     return r
 
 
-# print(colorise(lipsum))
-
 myuuid = uuid.uuid4()
 myuuidStr = str(myuuid)
 
@@ -59,3 +60,7 @@ assert myuuid == sameMyUuid
 
 # print(myuuid, myuuidStr, sameMyUuid
 #       )
+
+started = "2024-01-24 14:44:41.392537"
+# print(temps_formate(started))
+# tps = datetime.datetime.strptime(started, "%Y-%m-d %H:%M:%S.%f").strftime("%d/%m/%Y %H:%M")
