@@ -2,13 +2,11 @@
     new_player with attributes
 
 """
-import uuid, json
+import uuid
 
 from model.player import Player
-from view.playerview import PlayerView
-
-
 from utils.settings import clear_console
+from view.playerview import PlayerView
 
 
 class PlayerManager(object):
@@ -53,31 +51,9 @@ class PlayerManager(object):
         new_player.save_new_player()
         print("Sauvegarde avec succes.")
 
-    def modify_player(self):
-        self.display_players()
-        players_to_modify = Player.get_players_saved()
-        player_modified = False
-        self.player_view.ask_to_modify_player(players_to_modify)
-        i = 1
-        for player in players_to_modify:
-            print(i, "player", player.full_name())
-            i += 1
-            self.player_view.select_player(player[i])
-        self.player_view.get_name()
-        self.player_view.get_firstname()
-        self.player_view.ask_national_identification()
-
-    def delete_player(self):
-        self.display_players()
-        players_to_delete = Player.get_players_saved()
-        player_deleted = False
-        self.player_view.ask_to_delete_player(players_to_delete)
-        i = 1
-        for player in players_to_delete:
-            print(i, "player", player.full_name())
-
     def display_players(self):
         players = Player.get_players_saved()
+        players = sorted(players, key=lambda player: player.name, reverse=False)
         self.player_view.display_all_player_saved(players)
 
     def run_player(self):

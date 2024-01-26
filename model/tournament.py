@@ -4,9 +4,15 @@ import os
 import uuid
 from datetime import datetime
 
-from CONSTANTES import file_tournament, STATUS_ALL
+from CONSTANTES import (
+    STATUS_ALL,
+    STATUS_END,
+    STATUS_PENDING,
+    STATUS_START,
+    file_tournament,
+)
+
 from .player import Player
-from CONSTANTES import STATUS_START, STATUS_END, STATUS_PENDING
 
 
 class Tournament:
@@ -41,6 +47,7 @@ class Tournament:
         self.starting_date = datetime.now()
         self.ending_date = None
 
+
     def __repr__(self):
         """Define the representation of a tournament object
         :rtype: object
@@ -74,6 +81,8 @@ class Tournament:
             self.status = STATUS_START
         elif self.turn == self.nb_turn:
             self.status = STATUS_END
+
+
         else:
             self.status = STATUS_PENDING
         dict = {
@@ -88,6 +97,7 @@ class Tournament:
             "nb_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
+            "ended": self.ending_date if self.status == "ended" else None
         }
 
         return dict
@@ -142,77 +152,6 @@ class Tournament:
                 all_tournaments_returned.append(t)
         return all_tournaments_returned
 
-    @classmethod
-    def control_finished(cls, tournament):
-        pass
-
-    @classmethod
-    def get_all_tournament_names(cls, with_finished=False):
-        file_list = []
-        tournament_list = Tournament.get_tournament_info(file_tournament)
-        if tournament_list:
-            # TypeError: 'NoneType' object is not iterable
-            for list_of_tournament in tournament_list:
-                file_list.append(list_of_tournament)
-            final_list = []
-            if with_finished:
-                for tournament in file_list:
-                    tournament_control = cls.control_finished(tournament)
-                    if not tournament_control:
-                        final_list.append(tournament)
-                return final_list
-            else:
-                return file_list
-        else:
-            file_list
-
-    @classmethod
-    def control_name_exist(cls, tournament_name):
-        tournaments_saved = cls.get_all_tournament_names()
-        if tournament_name in tournaments_saved:
-            return True
-        else:
-            return False
-
-    @classmethod
-    def get_tournament_info(cls, name):
-        """
-
-        :param name:
-        :return: saved_tournament or None
-        """
-        # tournament_file = file_tournament
-        path_control = os.path.exists(file_tournament)
-        if path_control is True:
-            with open(file_tournament, "r") as file:
-                all_infos = json.load(file)
-            # all_infos.
-            id = all_infos["id"]
-            name = all_infos["name_of_tournament"]
-            location = all_infos["location"]
-            players = all_infos["tournament_players"]
-            nb_turn = all_infos["nb_turn"]
-            ranking = all_infos["ranking"]
-            turn = all_infos["turn"]
-            turn_list = []
-            saved_tournament = cls(
-                name=name,
-                location=location,
-                players=players,
-                nb_turn=nb_turn,
-                turn=turn,
-                turn_list=turn_list,
-                ranking=ranking,
-                save=False,
-            )
-            saved_tournament.starting_date = all_infos["starting_date"]
-            if all_infos["ending_date"]:
-                saved_tournament.ending_date = all_infos["ending_date"]
-                saved_tournament.comment = all_infos["comment"]
-        else:
-            return None
-        return saved_tournament
-
     @property
     def turn(self):
         return self._turn
@@ -230,11 +169,6 @@ class Tournament:
         self._ranking = value
 
     @property
-    def finished(self):
-        return self._finished
-
-    @finished.setter
-    def finished(self, value):
-        self._finished = value
-        if self._finished:
-            self.ending_date = datetime.now()
+    def ended(self):
+        self.ending_date = datetime.now()
+        return self.ending_date

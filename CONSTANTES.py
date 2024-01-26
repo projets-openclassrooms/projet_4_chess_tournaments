@@ -1,5 +1,4 @@
 import os
-import datetime
 
 # import only system from os
 
@@ -37,10 +36,3 @@ STATUS_START = "not started"
 STATUS_PENDING = "Pending"
 STATUS_END = "End"
 STATUS_ALL = "ALL"
-
-
-def birth_format(d):
-    try:
-        d = datetime.datetime.strptime(d, "%dd/%mm/%YYYY")
-    except:
-        return f"erreur de date : {d} n'est pas valable."

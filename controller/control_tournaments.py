@@ -1,24 +1,12 @@
 import random
 from datetime import datetime
 
-from CONSTANTES import (
-    COLOR,
-    MAX_PLAYERS,
-    STATUS_START,
-    STATUS_PENDING,
-    STATUS_ALL,
-    STATUS_END,
-)
+from CONSTANTES import STATUS_ALL, STATUS_END, STATUS_PENDING, STATUS_START
 from model.player import Player
 from model.tournament import Tournament
-from model.turn import Turn
-from view.matchview import MatchView
+from utils.settings import clear_console, colorise, is_odd
 from view.playerview import PlayerView
 from view.tournamentview import TournamentView
-from view.turnview import TurnView
-
-from utils.settings import clear_console, colorise, is_odd
-from collections import Counter
 
 """Define controller about tournament
     choice of pairs
@@ -34,12 +22,13 @@ class TournamentManager:
     """Define Tournament Manager"""
 
     def __init__(self):
+        self.Tournaments = Tournament()
         self.status = None
         self.player_view = PlayerView()
         self.tournament_view = TournamentView()
-        # self.turn_view = TurnView()
-        # self.match_view = MatchView()
+
         self.tournament = None
+        self.ending_date = datetime.now()
 
     def create_tournament(self):
         """return self.tournament : New tournament with
@@ -95,7 +84,6 @@ class TournamentManager:
         )
         tournament.save_tournament()
         print("Tournoi sauvegardé.")
-
 
     def run_tournament(self):
         """
@@ -220,6 +208,8 @@ class TournamentManager:
                 "name": f"Tour {tour + 1}",
                 "started": str(datetime.now()),
                 "matches": [],
+                "description": self.Tournaments.description,
+                "ended": None
             }
 
             print(f"Pour le tour {tour + 1}")
@@ -302,10 +292,12 @@ class TournamentManager:
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 1
                 # print(tournaments_data.status)
-                # print(type(tournaments_data.turn))
-                # print(type(tournaments_data.nb_turn))
+
                 if tournaments_data.turn == tournaments_data.nb_turn:
+                    self.Tournaments.ending_date = input("Fin de partie : ")
                     tournaments_data.status = STATUS_END
+                    tour_obj["ended"]= self.Tournaments.ending_date
+                    # tournaments_data.ended = self.Tournaments.ended
                     tournaments_data.status.replace(STATUS_PENDING, STATUS_END)
                 tournaments_data.save_tournament()
                 # attention id tournament
@@ -358,7 +350,6 @@ class TournamentManager:
     def update_score_player(self, turn_list, players):
         for play in players:
             play.score = 0
-            turn_player_1 = turn_player_2 = []
 
             # parcoure tous les tours passes et rajoute score sur player.score
         for tourn in turn_list:
@@ -369,150 +360,3 @@ class TournamentManager:
                 found_player_1.score = found_player_1.score + match[0][1]
                 found_player_2 = [p for p in players if p.player_uuid == match[1][0]][0]
                 found_player_2.score = found_player_2.score + match[1][1]
-                # print(found_player_2.score)
-                # print(found_player_1.score)
-                # turn_player_2.append((found_player_2.name,found_player_2.score))
-                # turn_player_1.append((found_player_1.national_identification,found_player_1.score))
-        # print(turn_player_1)
-        # print(turn_player_2)
-        # tourn['rankin'] = turn_player_2
-
-    def get_chosen_tournament(self):
-        """
-
-        :rtype: object
-        :return tournament or None
-        """
-        tournament = []
-        all_tournaments = self.all_tournaments_name()
-        if not all_tournaments:
-            return None
-        choice_control = False
-        while not choice_control:
-            choice = self.reportview.tournament_choice(all_tournaments)
-            if not choice:
-                return None
-            choice_control = Tournament.control_name_exist(choice)
-            if not choice_control:
-                self.reportview.display_import_error()
-                continue
-            tournament = Tournament.get_tournament_info(choice)
-        return tournament
-
-    def get_turn_list(self, tournament_name):
-        # Charger le tournoi spécifique
-
-        tournament = Tournament.load_tournament_by_id(tournament_id)
-        if not tournament:
-            print(f"Tournament with ID {tournament_id} not found.")
-            return
-        player_points = {}
-        new_tournament_score = 0
-        score = 0
-        for round_data in tournament.list_of_tours:
-            for match_data in round_data.get("matches", []):
-                for player_id, score in match_data:
-                    player_points.setdefault(player_id, 0)
-                    player_points[player_id] += score
-                    # Mets à jour le score du tournoi dans le modèle Player
-
-                    player = Player.get_player_by_id(player_id)
-                    if player:
-                        new_tournament_score = score
-                        player.update_score_tournament(player_id, new_tournament_score)
-                    else:
-                        print(f"Joueur avec l'ID {player_id} non trouvé.")
-        sorted_players = sorted(player_points.items(), key=lambda x: x[1], reverse=True)
-        print("Classement Final du Tournoi :\n")
-        for player_id, points in sorted_players:
-            player = Player.get_player_by_id(player_id)
-            if player:
-                print(f"{player.first_name} {player.last_name}: {points} points")
-            else:
-                print(f"Player with ID {player_id} not found.")
-        print()
-        return sorted_players
-
-    def save_turn_data(self):
-        """
-        json dumps tournaments informations
-        :rtype: object
-
-        """
-        new_turn = Turn.to_dict()
-
-        if new_turn.start_round is None:
-            new_turn.start_round = datetime.now()
-            new_turn.update({"start": str(new_turn.start_round)})
-        else:
-            new_turn["start"] = str(new_turn.start_round)
-        if new_turn.start_round:
-            new_turn["end"] = str(new_turn.end_round)
-        else:
-            new_turn.update({"end": None})
-        file_name = f"{file_tournament}.json"
-
-        with open(file_name, "w") as file:
-            json.dump(new_turn, file, default=lambda x: x.to_dict())
-
-    def get_all_turn_files(self, t_name):
-        """
-
-        :param t_name:
-        :return: file_list
-        """
-        turn_file = f"{REPORT_FILE}{t_name}_turn[0-9]{0, 99}.json$"
-        file_list = []
-        for root, _, files in os.walk(TOURNAMENT_FOLDER):
-            for file in files:
-                file_path = os.path.join(root, file)
-                file_path = file_path.replace("\\", "/")
-                if re.match(turn_file, file_path):
-                    file_list.append(file_path)
-        return file_list
-
-    def all_matches_and_turns(self):
-        """Export a list of all matches
-        from a selected tournament
-        :return: export html or txt or csv"""
-        tournament = self.get_chosen_tournament()
-        if not tournament:
-            return None
-        tournament.turn_list = self.get_turn_list(tournament.name)
-        title = [
-            "Numéro du tour",
-            "Nom Joueur",
-            "INE du joueur",
-            "Nom Opposant",
-            "INE Opposant",
-            "score joueur",
-            "score opposant",
-        ]
-        data = []
-        for turn in tournament.turn_list:
-            for match in turn.match_list:
-                player = match.player
-                opponent = match.opponent
-                player_score = match.player_score
-                opponent_score = match.opponent_score
-                if not match.match_result:
-                    (player_score, opponent_score) = "Not Played"
-                    opponent_score = "Not Played"
-                match_list = [
-                    turn.turn_nb,
-                    player.name,
-                    player.identifier,
-                    opponent.name,
-                    opponent.identifier,
-                    player_score,
-                    opponent_score,
-                ]
-                data.append(match_list)
-        file_name = REPORT_FILE + "_" + tournament.name + "all_turn.csv"
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                writer.writerows(data)
-            self.open_selected_report(file_name)

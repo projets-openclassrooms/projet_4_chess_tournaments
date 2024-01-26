@@ -1,10 +1,9 @@
 """Player Model"""
 import json
-
 import os
-import re
-from CONSTANTES import SEARCHING_INE, DATA_FOLDER, file_players, file_tournament
 import uuid
+
+from CONSTANTES import DATA_FOLDER, file_players
 
 # SEARCHING_INE = r"\((.*)\)"
 # DATA_FOLDER = r"data/"  ##f"{ABSOLUTE_PATH}data/"
@@ -57,25 +56,8 @@ class Player(object):
         """ """
         return f"- {self.firstname} {self.name}"
 
-    def donnnes_completes(self):
-        return f"player_uuid='{self.player_uuid}'nom='{self.name}', prenom=' {self.firstname} ', une date de naissance=' {self.date_of_birth} ', identifier (INE)='  {self.national_identification}"
-
     def __lt__(self, other):
         return self.score < other.score
-
-    def enlever(self, element):
-        if element in self:
-            self.remove(element)
-            return True
-        return False
-
-    @classmethod
-    def sauvegarder(cls, self):
-        chemin = file_players
-        with open(chemin, "w") as f:
-            json.dump(self, f, indent=4)
-
-        return True
 
     def to_dict(self):
         """ """
@@ -187,25 +169,6 @@ class Player(object):
                             national_identification=national_identification,
                         )
             return player_to_return
-
-    # verifier cette methode
-    @classmethod
-    def restore_player(cls, player):
-        """
-
-        :param player:
-        :return: player_to_return
-        """
-        national_identification = re.search(SEARCHING_INE, player)
-        national_identification = national_identification.group(1)
-        all_players = cls.get_players_saved()
-        player_to_return = None
-        for player in all_players:
-            if player.national_identification == national_identification:
-                player_to_return = player
-                player_to_return.name = f"{player.name} + ({national_identification})"
-                break
-        return player_to_return
 
 
 # player_store = {}

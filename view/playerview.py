@@ -1,7 +1,8 @@
 """Define player view"""
 import re
-from CONSTANTES import QUIT, BIRTHDAY_FORMAT, NATIONAL_IDENTIFICATION_FORMAT
-from utils.settings import clear_console, separation, colorise
+
+from CONSTANTES import BIRTHDAY_FORMAT, NATIONAL_IDENTIFICATION_FORMAT, QUIT
+from utils.settings import clear_console, colorise, separation
 
 
 class PlayerView:

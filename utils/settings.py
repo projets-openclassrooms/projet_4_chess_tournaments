@@ -1,6 +1,5 @@
-from os import system, name
 import datetime
-import uuid
+from os import name, system
 
 
 def clear_console():
@@ -31,12 +30,14 @@ class color:
     r = "\033[91m"  # rouge
     n = "\033[0m"  # gris, couleur normale
 
+
 def temps_formate(temps_json):
     date_time = datetime.datetime.strptime(temps_json, "%Y-%m-d %H:%M:%S.%f")
     date = date_time.date()
     heure = date_time.time()
     temps_formate = date.strftime("%d/%m/%Y") + " " + heure.strftime("%H:%M:%S")
     return temps_formate
+
 
 def colorise(text):
     couleurs = [color.g, color.y, color.r]
@@ -50,17 +51,3 @@ def colorise(text):
             r += c
 
     return r
-
-
-myuuid = uuid.uuid4()
-myuuidStr = str(myuuid)
-
-sameMyUuid = uuid.UUID(myuuidStr)
-assert myuuid == sameMyUuid
-
-# print(myuuid, myuuidStr, sameMyUuid
-#       )
-
-started = "2024-01-24 14:44:41.392537"
-# print(temps_formate(started))
-# tps = datetime.datetime.strptime(started, "%Y-%m-d %H:%M:%S.%f").strftime("%d/%m/%Y %H:%M")

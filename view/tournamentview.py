@@ -1,11 +1,5 @@
-import re
-from time import sleep
-from utils.settings import colorise
-
-from CONSTANTES import TOURNAMENT_NAME, NB_TURN_FORMAT, MIN_TURNS
-from model.player import Player
-
-from utils.settings import clear_console, is_odd
+from CONSTANTES import MIN_TURNS
+from utils.settings import clear_console, colorise, is_odd
 
 """Display Tournament view"""
 
@@ -101,7 +95,7 @@ class TournamentView:
         turns = input(
             "Combien de tours compte ce tournoi?\n-" + "par défaut (4 tours)\n"
         )
-        if turns != MIN_TURNS:
+        if turns != int(MIN_TURNS):
             turns = int(MIN_TURNS)
         else:
             if not int(turns):
@@ -135,7 +129,10 @@ class TournamentView:
             print("\nAucun tournoi\n")
         else:
             print(colorise("\nListe des tournois enregistrés :\n"))
-            print("N° ", f"{'Nom':<16}{'- Statut ':<14}- {'Nombre joueurs':<20} - {'Nombre de tours :':<12}\n")
+            print(
+                "N° ",
+                f"{'Nom':<16}{'- Statut ':<14} - {'Nombre joueurs':<20} - {'Nombre de tours':<12}\n",
+            )
             i = 0
             for tournament in tournaments:
                 i += 1
@@ -147,7 +144,7 @@ class TournamentView:
                         + f" {tournament.name:<16} -"
                         + colorise(f" {tournament.status:<12} -")
                         + f" {len(tournament.players)} joueurs inscrits."
-                        + colorise(f" Nombre de tours {tournament.nb_turn}")
+                        + colorise(f" Nombre de tours : {tournament.nb_turn}")
                     )
 
         input("Entrée pour continuer.")
@@ -271,9 +268,9 @@ class TournamentView:
         print("Problème pour importer le tournoi sélectionné.\n")
 
     def display_error(self):
-        return f"Erreur de saisie."
+        print("Erreur de saisie.")
 
-    def ask_to_comment(self):
+    def get_comment(self):
         """
 
         :return: comment or None

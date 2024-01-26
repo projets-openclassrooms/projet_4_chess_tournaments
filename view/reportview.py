@@ -1,7 +1,5 @@
-from utils.settings import colorise, clear_console
-
 from CONSTANTES import REPORT_FILE
-
+from utils.settings import clear_console, colorise
 
 """Define report views."""
 
