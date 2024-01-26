@@ -37,8 +37,8 @@ class TournamentManager:
         self.status = None
         self.player_view = PlayerView()
         self.tournament_view = TournamentView()
-        self.turn_view = TurnView()
-        self.match_view = MatchView()
+        # self.turn_view = TurnView()
+        # self.match_view = MatchView()
         self.tournament = None
 
     def create_tournament(self):
