@@ -291,11 +291,17 @@ class TournamentManager:
 
                 if tournaments_data.turn == tournaments_data.nb_turn:
                     self.Tournaments.ending_date = input("Fin de partie : ")
+                    fin = self.Tournaments.ending_date
                     self.tournament_view.get_comment()
                     tournaments_data.status = STATUS_END
                     tour_obj["ended"] = self.Tournaments.ending_date
+                    tournaments_data.ended.replace("null", fin)
+
                     # tournaments_data.ended = self.Tournaments.ended
                     tournaments_data.status.replace(STATUS_PENDING, STATUS_END)
+                # if not tournaments_data[tournoi_choisi - 1].get("ended"):
+                #     print("pas de fin")
+
                 tournaments_data.save_tournament()
                 # attention id tournament
 
