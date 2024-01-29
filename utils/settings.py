@@ -16,6 +16,11 @@ def clear_console():
 def is_odd(length):
     return length % 2 != 0
 
+def sum_dict(dictionnaire):
+    total = 0
+    for value in dictionnaire.values():
+        total = total + value
+        return total
 
 def separation():
     print(colorise("#" * 30))

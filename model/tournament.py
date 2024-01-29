@@ -163,7 +163,7 @@ class Tournament:
 
     @property
     def ranking(self):
-        return self._ranking
+        return self.ranking
 
     @ranking.setter
     def ranking(self, value):

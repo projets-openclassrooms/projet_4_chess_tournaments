@@ -96,8 +96,6 @@ class ReportManager:
         for i, tournoi in enumerate(tournaments_data):
             print(i + 1, tournoi)
         tournoi_choisi = int(input("Choisir le numéro du tournois : "))
-
-
         for tour in tournaments_data[tournoi_choisi-1].turn_list:
             print(tour)
 
@@ -111,6 +109,7 @@ class ReportManager:
                     participant_2_id = Player.get_player_by_id(Round[1][0]).name
                     score_1 = Round[0][1]
                     score_2 = Round[1][1]
+
 
                     print(participant_1_id, score_1, "vs", participant_2_id, score_2)
             # for Round in tournaments_data[tournoi_choisi - 1].turn_list:
@@ -126,8 +125,9 @@ class ReportManager:
         #             score_2 = Round["matches"][1][1]
         #
         #             print(participant_1_id, score_1, "vs", participant_2_id, score_2)
-            else:
-                print("Pas de matchs enregistrés.")
+
+                else:
+                    print("Pas de matchs enregistrés.")
                 clear_screen()
                 continue
 
