@@ -37,21 +37,23 @@ class ReportManager:
         tournament_index = int(
             input("Nom et Dates du tournoi à sélectionner\nSaisir numéro? ")
         )
-        for i, tournoi in enumerate(tournaments_data):
-            if i + 1 == tournament_index:
-                if tournaments_data.ending_date is None:
-
-                    print(
-                        f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}"
-                    )
-                    print(
-                        f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {'Pas fini.':<10}"
-                    )
-            else:
-                print(f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}")
-                print(
-                    f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {tournoi.ending_date:<10}"
-                )
+        # for i, tournoi in enumerate(tournaments_data):
+        for turn in tournaments_data[tournament_index]["turn_list"]:
+            print("\t" + turn["name"] + turn["started"] + turn["ended"])
+            # if i + 1 == tournament_index:
+            #     if tournaments_data.ending_date is None:
+            #
+            #         print(
+            #             f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}"
+            #         )
+            #         print(
+            #             f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {'Pas fini.':<10}"
+            #         )
+            # else:
+            #     print(f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}")
+            #     print(
+            #         f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {tournoi.ending_date:<10}"
+            #     )
 
     def report_control(self):
         """
@@ -152,6 +154,8 @@ class ReportManager:
     def all_players_tournament_report(self):
         """Export a list of players from a selected tournament
         in alphabetic order"""
+        self.report_tournaments.list_tournament()
+
         tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
         tournament_index = int(input("Saisir le numéro du tournoi : "))
         for i, tournoi in enumerate(tournaments_data):
