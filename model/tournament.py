@@ -136,6 +136,7 @@ class Tournament:
                 t.id = tournament["id"]
                 t.name = tournament["name_of_tournament"]
                 t.location = tournament["location"]
+                t.description = tournament["description"]
                 t.turn = tournament["turn"]
                 t.turn_list = tournament["turn_list"]
                 # charge les objets players pour recreer objet

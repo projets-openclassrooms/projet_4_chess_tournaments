@@ -131,7 +131,7 @@ class TournamentView:
             print(colorise("\nListe des tournois enregistrés :\n"))
             print(
                 "N° ",
-                f"{'Nom':<16}{'- Statut ':<14} - {'Nombre joueurs':<20} - {'Nombre de tours':<12}\n",
+                f"{'Nom':<16}{'- Statut ':<14} - {'Nombre joueurs':<20} - {'Nombre de tours':<12} - {'Lieu':<12} - {'Description':<12}\n",
             )
             i = 0
             for tournament in tournaments:
@@ -144,7 +144,9 @@ class TournamentView:
                         + f" {tournament.name:<16} -"
                         + colorise(f" {tournament.status:<12} -")
                         + f" {len(tournament.players)} joueurs inscrits."
-                        + colorise(f" Nombre de tours : {tournament.nb_turn}")
+                        + colorise(f" Nombre de tours : {tournament.nb_turn} ")
+                        + f"- {tournament.location:<12}"
+                        + f"- {tournament.description:<12}"
                     )
 
     def display_tournament_players(self, players_saved):

@@ -262,7 +262,7 @@ class TournamentManager:
                 for match in matches:
                     print(f"{match[0].name} versus {match[1].name}")
                     # mettre plutot score1 = input if score1==1: score2==0 if score1==0.5: score2==05
-                    # if score1==0: score2==1 else tournament view rror
+                    # if score1==0: score2==1 else tournament view error
                     score1 = float(
                         input(colorise(f"Donner le score du joueur {match[0].name} : "))
                     )
