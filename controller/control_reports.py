@@ -96,6 +96,7 @@ class ReportManager:
         for i, tournoi in enumerate(tournaments_data):
             print(i + 1, tournoi)
         tournoi_choisi = int(input("Choisir le numéro du tournois : "))
+        print(tournaments_data[tournoi_choisi-1])
         for tour in tournaments_data[tournoi_choisi-1].turn_list:
             print(tour)
 
