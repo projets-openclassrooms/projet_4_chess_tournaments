@@ -99,8 +99,10 @@ class ReportManager:
 
 
         for tour in tournaments_data[tournoi_choisi-1].turn_list:
+            print(tour)
 
             for Round in tour:
+                print(Round)
                 if Round is None:
                     continue
                 for participant_id, score in Round:
