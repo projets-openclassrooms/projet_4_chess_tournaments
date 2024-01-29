@@ -147,7 +147,6 @@ class TournamentView:
                         + colorise(f" Nombre de tours : {tournament.nb_turn}")
                     )
 
-
     def display_tournament_players(self, players_saved):
         """
 
@@ -195,7 +194,6 @@ class TournamentView:
                 print("Votre liste n'est pas paire, veuillez reprendre\n")
         else:
             print("Votre liste est vide, elle ne peut pas être vide")
-
 
     def display_saving_error(self):
         print("Le nom est déjà pris. Ressaisir un autre nom de tournoi svp.\n")

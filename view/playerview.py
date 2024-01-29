@@ -1,4 +1,5 @@
 """Define player view"""
+
 import re
 
 from CONSTANTES import BIRTHDAY_FORMAT, NATIONAL_IDENTIFICATION_FORMAT, QUIT

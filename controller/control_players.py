@@ -2,6 +2,7 @@
     new_player with attributes
 
 """
+
 import uuid
 
 from model.player import Player

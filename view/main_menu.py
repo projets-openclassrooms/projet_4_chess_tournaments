@@ -1,4 +1,4 @@
-from utils.settings import colorise, clear_console
+from utils.settings import clear_console, colorise
 
 
 class MainMenu:

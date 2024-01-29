@@ -8,11 +8,9 @@ def clear_console():
     if name == "nt" or name == "win32":
         _ = system("cls")
 
-
     # for mac and linux(here, os.name is 'posix')
     else:
         _ = system("clear")
-
 
 
 def is_odd(length):

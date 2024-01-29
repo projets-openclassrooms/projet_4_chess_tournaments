@@ -1,11 +1,17 @@
 """Define Tournament"""
+
 import json
 import os
 import uuid
 from datetime import datetime
 
-from CONSTANTES import (STATUS_ALL, STATUS_END, STATUS_PENDING, STATUS_START,
-                        file_tournament)
+from CONSTANTES import (
+    STATUS_ALL,
+    STATUS_END,
+    STATUS_PENDING,
+    STATUS_START,
+    file_tournament,
+)
 
 from .player import Player
 
@@ -27,7 +33,7 @@ class Tournament:
         ranking=[],
         comment=None,
         status=None,
-        ending_date = None
+        ending_date=None,
     ):
         self.id = str(uuid.uuid4())
         self.name = name

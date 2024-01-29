@@ -1,4 +1,5 @@
 """Player Model"""
+
 import json
 import os
 import uuid

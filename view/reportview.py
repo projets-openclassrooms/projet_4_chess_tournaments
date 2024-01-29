@@ -29,11 +29,11 @@ class ReportView:
             input(
                 colorise(
                     "Quel type de rapport aimeriez-vous afficher?\n"
-                    + "- 1 Tous les joueurs.\n"
-                    + "- 2 Tous les tournois.\n"
+                    + "- 1 Liste de tous les joueurs.\n"
+                    + "- 2 Liste de tous les tournois.\n"
                     + "- 3 Noms et dates d'un tournoi donné.\n"
-                    + "- 4 Joueurs d'un tournoi.\n"
-                    + "- 5 Tours d'un tournoi et matchs.\n"
+                    + "- 4 Liste de joueurs d'un tournoi.\n"
+                    + "- 5 Détails des tours d'un tournoi et matchs.\n"
                     + "- 6 pour revenir en arrière.\n"
                 )
             )
@@ -95,7 +95,7 @@ class ReportView:
         for element in line_to_visualized:
             print(element.replace(";", ", "))
 
-    def select_players(self, player_one,score_one,player_two,score_two):
+    def select_players(self, player_one, score_one, player_two, score_two):
         """
 
         :param players_saved:

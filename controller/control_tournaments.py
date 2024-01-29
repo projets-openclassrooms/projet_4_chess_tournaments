@@ -4,7 +4,7 @@ from datetime import datetime
 from CONSTANTES import STATUS_ALL, STATUS_END, STATUS_PENDING, STATUS_START
 from model.player import Player
 from model.tournament import Tournament
-from utils.settings import clear_console, colorise, is_odd, clear_screen
+from utils.settings import clear_console, clear_screen, colorise, is_odd
 from view.playerview import PlayerView
 from view.tournamentview import TournamentView
 
