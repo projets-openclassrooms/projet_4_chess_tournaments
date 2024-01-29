@@ -39,10 +39,10 @@ class ReportManager:
             if i + 1 == tournament_index:
                 if tournaments_data.ending_date is None:
 
-                    print(f"{'N°-'},{"Nom du tournoi"},{"Date début - "},{"Date de fin."}")
+                    print(f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}")
                     print(f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {'Pas fini.':<10}")
             else:
-                    print(f"{'N°-'},{"Nom du tournoi"},{"Date début - "},{"Date de fin."}")
+                    print(f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}")
                     print(f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {tournoi.ending_date:<10}")
 
 
