@@ -2,7 +2,7 @@
 import re
 
 from CONSTANTES import BIRTHDAY_FORMAT, NATIONAL_IDENTIFICATION_FORMAT, QUIT
-from utils.settings import clear_console, colorise, separation
+from utils.settings import clear_screen, colorise, separation
 
 
 class PlayerView:
@@ -12,14 +12,13 @@ class PlayerView:
                 "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
                 + " 1 - Créer un nouveau joueur,\n"
                 + " 2 - Voir les joueurs,\n"
-                + " 0 - Menu précédent.\n"
+                + " 0 - pour revenir en arrière.\n"
             )
         )
-        separation()
-        input("Entrée pour continuer.")
-        clear_console()
+
         # + " 2 - Supprimer un joueur\n"
         # + " 3 - Modifier un joueur\n"
+        clear_screen()
         return menu
 
     def display_all_player_saved(self, players_saved):

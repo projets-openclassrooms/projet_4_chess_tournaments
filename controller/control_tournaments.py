@@ -4,7 +4,7 @@ from datetime import datetime
 from CONSTANTES import STATUS_ALL, STATUS_END, STATUS_PENDING, STATUS_START
 from model.player import Player
 from model.tournament import Tournament
-from utils.settings import clear_console, colorise, is_odd
+from utils.settings import clear_console, colorise, is_odd, clear_screen
 from view.playerview import PlayerView
 from view.tournamentview import TournamentView
 
@@ -31,12 +31,7 @@ class TournamentManager:
         self.ending_date = datetime.now()
 
     def create_tournament(self):
-        """return self.tournament : New tournament with
-        a name, a location, a list of players and
-        a number of turns
-        :param players_saved:
-        :return: None"""
-        # prompt user nom du tournoi, endroit, nombre de tours pour get liste des players
+        # prompt users tournoi resultat liste tournament de players, lieu,...
         name = self.tournament_view.get_name()
         location = self.tournament_view.get_location()
         description = self.tournament_view.get_description()
@@ -125,6 +120,7 @@ class TournamentManager:
         tournaments = Tournament.loads_tournament()
         # print("players", players)
         self.tournament_view.display_all_tournaments(tournaments)
+        clear_screen()
 
     def select_tournament(self, status=STATUS_ALL):
         """Allow to resume an unfinished tournament STATUS_START or STATUS_PENDING
@@ -209,7 +205,7 @@ class TournamentManager:
                 "started": str(datetime.now()),
                 "matches": [],
                 "description": self.Tournaments.description,
-                "ended": None
+                "ended": None,
             }
 
             print(f"Pour le tour {tour + 1}")
@@ -295,8 +291,9 @@ class TournamentManager:
 
                 if tournaments_data.turn == tournaments_data.nb_turn:
                     self.Tournaments.ending_date = input("Fin de partie : ")
+                    self.tournament_view.get_comment()
                     tournaments_data.status = STATUS_END
-                    tour_obj["ended"]= self.Tournaments.ending_date
+                    tour_obj["ended"] = self.Tournaments.ending_date
                     # tournaments_data.ended = self.Tournaments.ended
                     tournaments_data.status.replace(STATUS_PENDING, STATUS_END)
                 tournaments_data.save_tournament()

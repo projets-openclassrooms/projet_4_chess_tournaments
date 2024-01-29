@@ -1,5 +1,6 @@
 import datetime
 from os import name, system
+from time import sleep
 
 
 def clear_console():
@@ -7,9 +8,11 @@ def clear_console():
     if name == "nt" or name == "win32":
         _ = system("cls")
 
+
     # for mac and linux(here, os.name is 'posix')
     else:
         _ = system("clear")
+
 
 
 def is_odd(length):
@@ -51,3 +54,9 @@ def colorise(text):
             r += c
 
     return r
+
+
+def clear_screen():
+    separation()
+    input("Entrée pour continuer.")
+    clear_console()

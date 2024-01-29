@@ -1,5 +1,5 @@
 from CONSTANTES import MIN_TURNS
-from utils.settings import clear_console, colorise, is_odd
+from utils.settings import clear_screen, colorise, is_odd
 
 """Display Tournament view"""
 
@@ -16,7 +16,7 @@ class TournamentView:
             + " Utiliser les options suivantes : \n"
             + " 1 - Afficher la liste en cours d'entrée.\n"
             + " 2 - Sélectionner tous les joueurs.\n"
-            + " 0 - Menu précédent.\n"
+            + " 0 - pour revenir en arrière.\n"
         )
 
     def display_menu(self):
@@ -27,10 +27,10 @@ class TournamentView:
                 + " 2 - Afficher les tournois? \n"
                 + " 3 - Lancer un tournoi\n"
                 + " 4 - Reprendre un tournoi en cours?\n"
-                + " 0 - menu précédent.\n"
+                + " 0 - pour revenir en arrière.\n"
             )
         )
-        clear_console()
+        clear_screen()
         return menu
 
     def display_first_turn(self) -> object:
@@ -147,7 +147,6 @@ class TournamentView:
                         + colorise(f" Nombre de tours : {tournament.nb_turn}")
                     )
 
-        input("Entrée pour continuer.")
 
     def display_tournament_players(self, players_saved):
         """
@@ -197,69 +196,6 @@ class TournamentView:
         else:
             print("Votre liste est vide, elle ne peut pas être vide")
 
-    def select_players(self, players_saved):
-        """
-
-        :param players_saved:
-        :return: player_list or None
-        """
-        player_list = []
-        decision = False
-        while not decision:
-            self.list_players(player_list)
-            self.display_tournament_players(players_saved)
-            current_player = input(self.demande)
-            if current_player == "":
-                print("Ce champ ne peut pas être vide")
-            elif current_player == "1":
-                self.display_current_list(player_list)
-                continue
-            elif current_player == "2":
-                player_list = players_saved
-                if len(player_list) % 2 != 0:
-                    print("La liste de tous les joueurs n'est pas paire.\n")
-                else:
-                    return player_list
-            # elif current_player == "3":
-            #     self.quit_select_current(player_list)
-            #     return player_list
-            elif current_player == "Q":
-                return None
-            elif current_player in player_list:
-                print(f"{current_player} est déjà dans la liste")
-            else:
-                player_exist = False
-                for player in player_list:
-                    if current_player in player.national_identification:
-                        print("Le joueur est déjà enregistré.\n")
-                        player_exist = True
-                        break
-                if player_exist:
-                    continue
-                for player in players_saved:
-                    if current_player == player.national_identification:
-                        player_list.append(player)
-                        break
-
-    def be_continued(self):
-        """
-
-        :return: 1/2/0
-        """
-        while True:
-            ask_to_new = input(
-                "(1) - Nouveau tournoi,\n"
-                + "(2) - Reprendre un tournoi en cours\n"
-                + "'1' '2' ou '0' pour quitter?\n"
-            )
-            if ask_to_new == "1":
-                return True
-            elif ask_to_new == "2":
-                return False
-            elif ask_to_new == "0":
-                return None
-            else:
-                print(f"{ask_to_new} n'est pas valide")
 
     def display_saving_error(self):
         print("Le nom est déjà pris. Ressaisir un autre nom de tournoi svp.\n")

@@ -4,13 +4,8 @@ import os
 import uuid
 from datetime import datetime
 
-from CONSTANTES import (
-    STATUS_ALL,
-    STATUS_END,
-    STATUS_PENDING,
-    STATUS_START,
-    file_tournament,
-)
+from CONSTANTES import (STATUS_ALL, STATUS_END, STATUS_PENDING, STATUS_START,
+                        file_tournament)
 
 from .player import Player
 
@@ -32,6 +27,7 @@ class Tournament:
         ranking=[],
         comment=None,
         status=None,
+        ending_date = None
     ):
         self.id = str(uuid.uuid4())
         self.name = name
@@ -45,8 +41,7 @@ class Tournament:
         self.comment = comment
         self.status = status
         self.starting_date = datetime.now()
-        self.ending_date = None
-
+        self.ending_date = ending_date
 
     def __repr__(self):
         """Define the representation of a tournament object
@@ -82,7 +77,6 @@ class Tournament:
         elif self.turn == self.nb_turn:
             self.status = STATUS_END
 
-
         else:
             self.status = STATUS_PENDING
         dict = {
@@ -97,7 +91,7 @@ class Tournament:
             "nb_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
-            "ended": self.ending_date if self.status == "ended" else None
+            "ended": self.ending_date if self.status == "ended" else None,
         }
 
         return dict

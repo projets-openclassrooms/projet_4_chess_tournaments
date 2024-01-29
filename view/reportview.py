@@ -1,5 +1,5 @@
 from CONSTANTES import REPORT_FILE
-from utils.settings import clear_console, colorise
+from utils.settings import clear_screen, colorise
 
 """Define report views."""
 
@@ -38,8 +38,7 @@ class ReportView:
                 )
             )
         )
-        input("Enter pour continuer.")
-        clear_console()
+        clear_screen()
         return selection
 
     def tournament_choice(self, all_tournaments):
@@ -67,6 +66,7 @@ class ReportView:
     def display_create_report(self):
         print("Le rapport a bien été créé.\n")
         print(f"Veuillez le trouver dans le dossier '{REPORT_FILE}'")
+        clear_screen()
 
     def display_create_error(self):
         print("Le rapport n'a pas pu être créé.")
@@ -94,3 +94,47 @@ class ReportView:
     def display_content(self, line_to_visualized):
         for element in line_to_visualized:
             print(element.replace(";", ", "))
+
+    def select_players(self, player_one,score_one,player_two,score_two):
+        """
+
+        :param players_saved:
+        :return: player_list or None
+        """
+        player_list = []
+        decision = False
+        while not decision:
+            self.list_players(player_list)
+            self.display_tournament_players(players_saved)
+            current_player = input(self.demande)
+            if current_player == "":
+                print("Ce champ ne peut pas être vide")
+            elif current_player == "1":
+                self.display_current_list(player_list)
+                continue
+            elif current_player == "2":
+                player_list = players_saved
+                if len(player_list) % 2 != 0:
+                    print("La liste de tous les joueurs n'est pas paire.\n")
+                else:
+                    return player_list
+            # elif current_player == "3":
+            #     self.quit_select_current(player_list)
+            #     return player_list
+            elif current_player == "Q":
+                return None
+            elif current_player in player_list:
+                print(f"{current_player} est déjà dans la liste")
+            else:
+                player_exist = False
+                for player in player_list:
+                    if current_player in player.national_identification:
+                        print("Le joueur est déjà enregistré.\n")
+                        player_exist = True
+                        break
+                if player_exist:
+                    continue
+                for player in players_saved:
+                    if current_player == player.national_identification:
+                        player_list.append(player)
+                        break
