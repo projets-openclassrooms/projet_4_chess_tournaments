@@ -10,14 +10,8 @@ from utils.settings import clear_screen, colorise, is_odd
 
 class TournamentView:
     def __init__(self):
-        self.demande = colorise(
-            "\nChoix des joueurs :"
-            + " Saisir l'identification du joueur ou "
-            + " Utiliser les options suivantes : \n"
-            + " 1 - Afficher la liste en cours d'entrée.\n"
-            + " 2 - Sélectionner tous les joueurs.\n"
-            + " 0 - pour revenir en arrière.\n"
-        )
+        pass
+
 
     def display_menu(self):
         menu = input(
@@ -34,11 +28,13 @@ class TournamentView:
         return menu
 
     def display_first_turn(self) -> object:
-        return (
-            "Veuillez saisir le point du gagnant.\n"
+        print (colorise(
+            "Point du gagnant : 1.\n"
+            + "Point du perdant : 0\n"
+            + "Egalité : 0.5\n"
             + "Le reste sera saisi automatiquement,\n"
-            + "Gagnant : 1 , Perdant : 0, Egalité : 0.5\n"
-        )
+
+        ))
 
     def get_players(self):
         return (

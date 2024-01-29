@@ -195,6 +195,7 @@ class TournamentManager:
         # enregistrer resultat par serialisation
         # else tour n°2 proposer combinaisons de joueurs
         print(f"Début du tournoi {tournaments_data.name}")
+        self.tournament_view.display_points()
         print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
         # boucle tant que fin de saisie != Q
         clear_console()
@@ -295,7 +296,7 @@ class TournamentManager:
                     self.tournament_view.get_comment()
                     tournaments_data.status = STATUS_END
                     tour_obj["ended"] = self.Tournaments.ending_date
-                    tournaments_data.ended.replace("null", fin)
+                    tournaments_data.ended.replace("null", str(fin))
 
                     # tournaments_data.ended = self.Tournaments.ended
                     tournaments_data.status.replace(STATUS_PENDING, STATUS_END)

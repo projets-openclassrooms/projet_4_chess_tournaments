@@ -38,7 +38,7 @@ class ReportManager:
             input("Nom et Dates du tournoi à sélectionner\nSaisir numéro? ")
         )
         # for i, tournoi in enumerate(tournaments_data):
-        for turn in tournaments_data[tournament_index]["turn_list"]:
+        for turn in tournaments_data[tournament_index +1]["turn_list"]:
             print("\t" + turn["name"] + turn["started"] + turn["ended"])
             # if i + 1 == tournament_index:
             #     if tournaments_data.ending_date is None:
@@ -96,35 +96,38 @@ class ReportManager:
         for i, tournoi in enumerate(tournaments_data):
             print(i + 1, tournoi)
         tournoi_choisi = int(input("Choisir le numéro du tournois : "))
-        players_scores = []
 
-        # for tour in tournaments_data[tournoi_choisi-1].turn_list:
-        #
-        #     for Round in ["matches"]:
-        #         print(f"Tour n°{Round}")
-        #         for participant_id, score in Round:
-        #             # Process participant_id and score
-        #             participant_1_id = Player.get_player_by_id(participant_id).name
-        #             participant_2_id = Player.get_player_by_id(Round[1][0]).name
-        #             score_1 = Round[0][1]
-        #             score_2 = Round[1][1]
-        #
-        #             print(participant_1_id, score_1, "vs", participant_2_id, score_2)
-        for Round in tournaments_data[tournoi_choisi - 1].turn_list:
-            if Round and Round.get("turn_list") == "matches":
-                print(f"Tour n°{Round}")
-                for participant_id, score in Round["matches"]:
+
+        for tour in tournaments_data[tournoi_choisi-1].turn_list:
+
+            for Round in tour:
+                if Round is None:
+                    continue
+                for participant_id, score in Round:
                     # Process participant_id and score
                     participant_1_id = Player.get_player_by_id(participant_id).name
-                    participant_2_id = Player.get_player_by_id(Round["matches"][1][0]).name
-                    score_1 = Round["matches"][0][1]
-                    score_2 = Round["matches"][1][1]
+                    participant_2_id = Player.get_player_by_id(Round[1][0]).name
+                    score_1 = Round[0][1]
+                    score_2 = Round[1][1]
 
                     print(participant_1_id, score_1, "vs", participant_2_id, score_2)
+            # for Round in tournaments_data[tournoi_choisi - 1].turn_list:
+        #     if Round:
+        #
+        #     # if Round and Round.get("turn_list") == "matches":
+        #     #     print(f"Tour n°{Round}")
+        #         for participant_id, score in Round["matches"]:
+        #             # Process participant_id and score
+        #             participant_1_id = Player.get_player_by_id(participant_id).name
+        #             participant_2_id = Player.get_player_by_id(Round["matches"][1][0]).name
+        #             score_1 = Round["matches"][0][1]
+        #             score_2 = Round["matches"][1][1]
+        #
+        #             print(participant_1_id, score_1, "vs", participant_2_id, score_2)
             else:
                 print("Pas de matchs enregistrés.")
-
                 clear_screen()
+                continue
 
     def save_players_report(self):
         """Export a list of all players saved"""
