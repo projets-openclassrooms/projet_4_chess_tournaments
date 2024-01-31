@@ -1,265 +1,209 @@
 """Define report manager
 export csv, txt, or html"""
+
 import csv
-import os
 
-from model.match import Match
+from CONSTANTES import REPORT_FILE, STATUS_ALL
+from controller.control_players import PlayerManager
+from controller.control_tournaments import TournamentManager
 from model.player import Player
-from model.turn import Turn
 from model.tournament import Tournament
+from utils.settings import clear_screen, colorise
 from view.reportview import ReportView
-from CONSTANTES import REPORT_FILE
-
 
 # REPORT_FILE = "data/report/"
 
 
 class ReportManager:
+    # class ReportManager(Tournament):
     def __init__(self):
-        self.reportview = ReportView()
+        # super().__init__()
+        self.player = PlayerManager()
+        self.report_view = ReportView()
+        self.report_tournaments = TournamentManager()
+        self.tournaments = Tournament()
 
-    def all_tournaments_name(self):
+    def all_tournaments_by_name(self):
         """
 
         :rtype: object
         :return all_tournaments
         """
-        all_tournaments = Tournament.get_all_tournament_names()
-        if all_tournaments == []:
-            self.reportview.display_empty()
-            return None
-        return all_tournaments
+        self.report_tournaments.list_tournament()
 
-    def report_control(self, file):
+        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        tournament_index = int(input("Saisir le numéro du tournoi : "))
+        choix = tournaments_data[tournament_index - 1]
+        print(choix.name)
+
+        if choix.status is None:
+            for Round in choix.turn_list:
+                print(f"- Nom: {Round['name']}")
+                print(f"- Début : {Round['started']}")
+                break
+
+        else:
+            for Round in choix.turn_list:
+                print(f"- Nom: {Round['name']}")
+                print(f"- Début : {Round['started']}")
+                print(f"- Fin : {Round['ended']}")
+            clear_screen()
+            return self.run_report()
+
+    def report_control(self):
         """
 
         :rtype: object
         :return boolean
         """
-        open_verif = None
-        try:
-            with open(file, "w"):
-                pass
-        except PermissionError:
-            open_verif = False
+        self.report_tournaments.list_tournament()
+
+        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        if len(tournaments_data) != 0:
+            tournament_index = int(input("Saisir le numéro du tournoi : "))
+            choix = tournaments_data[tournament_index - 1]
+            if 1 <= choix <= len(tournaments_data):
+                return choix
+            else:
+                print("Veuillez choisir un numéro valide.")
         else:
-            open_verif = True
-        path_control = os.path.exists(file)
-        if path_control and open_verif:
-            self.reportview.display_create_report()
-            return True
-        else:
-            self.reportview.display_create_error()
-            return False
+            self.report_view.display_empty()
+            self.report_tournaments.run_tournament()
+        self.report_view.display_create_report()
 
-    def get_chosen_tournament(self):
-        """
+    def tournaments_matches_report(self):
+        self.report_tournaments.list_tournament()
 
-        :rtype: object
-        :return tournament or None
-        """
-        all_tournaments = self.all_tournaments_name()
-        if not all_tournaments:
-            return None
-        choice_control = False
-        while not choice_control:
-            choice = self.reportview.tournament_choice(all_tournaments)
-            if not choice:
-                return None
-            choice_control = Tournament.control_name_exist(choice)
-            if not choice_control:
-                self.reportview.display_import_error()
-                continue
-            tournament = Tournament.get_tournament_info(choice)
-        return tournament
+        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        tournament_index = int(input("Saisir le numéro du tournoi : "))
+        choix = tournaments_data[tournament_index - 1]
+        print(
+            f"{'Nom du tournoi -':<16}{' Lieu':<9}{' - Description - ':<14}{'nb_Rounds - ':<4}{'Etat - ':<8}"
+        )
+        print(
+            f"{choix.name:<14}{' - '}{choix.location:<8}{' - '}{choix.description:<12}\
+                {' - '}{choix.nb_turn:<4}{' - '}{choix.status:<12}"
+        )
+        print("--------------------------")
+        for Round in choix.turn_list:
+            print(f"- Nom: {Round['name']}")
+            print(f"- Début : {Round['started']}")
+            print(f"- Fin : {Round['ended']}")
+            print("- Matches :")
+            for match_1, match_2 in Round["matches"]:
+                print(
+                    Player.get_player_by_id(match_1[0]).name,
+                    "point :",
+                    match_1[1],
+                    colorise("Versus"),
+                    Player.get_player_by_id(match_2[0]).name,
+                    "point :",
+                    match_2[1],
+                )
+            print("--------------------------")
 
-    def get_turn_list(self, tournament_name):
-        """part = turn (manche)
-        :param tournament_name:
-        :return: all_restored_turn or turn_list_saved
-        """
-        restored_turn = Turn.get_all_turn_files(tournament_name)
-        if restored_turn:
-            all_restored_turn = []
-            for part in restored_turn:
-                turn_list_saved = Turn.restore_turn(part)
-                match_list = self.get_matches(turn_list_saved.match_list)
-                turn_list_saved.match_list = match_list
-                all_restored_turn.append(turn_list_saved)
-            return all_restored_turn
-        else:
-            turn_list_saved = None
-        return turn_list_saved
+    def all_players_tournament_report(self):
+        """Export a list of players from a selected tournament
+        in alphabetic order"""
+        self.report_tournaments.list_tournament()
 
-    def get_matches(self, matches_to_restore):
-        """
-        list of matches to restore
+        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        tournament_index = int(input("Saisir le numéro du tournoi : "))
+        for i, tournoi in enumerate(tournaments_data):
+            if i + 1 == tournament_index:
+                players_by_id = tournoi.players
 
-        :rtype: object
-        :return matches
-        """
-        matches = []
-        for match in matches_to_restore:
-            match_restored = Match.restore_match(match)
-            player = Player.restore_player(match_restored.player)
-            opponent = Player.restore_player(match_restored.opponent)
-            match_restored.player = player
-            match_restored.opponent = opponent
-            matches.append(match_restored)
-        return matches
+                print("Nom du tournoi : ", tournoi.name, colorise("\nJoueurs : "))
+                sorted_players = sorted(
+                    players_by_id, key=lambda classe: (classe.name, classe.firstname)
+                )
+                for player in sorted_players:
+                    print(player.name, player.firstname)
+            continue
 
-    def open_selected_report(self, file_to_open):
-        """
-        open files to open
+        clear_screen()
 
-        :rtype: object
-
-        """
-        pass
-
-    def all_tournaments_report(self):
-        """Export a list of all tournaments
-        :return: reports
-        """
-        all_tournaments = self.all_tournaments_name()
-        if not all_tournaments:
-            return None
-        title = [
-            "Nom",
-            "Place",
-            "Joueurs inscrits",
-            "date début",
-            "date fin",
-            "Commentaires",
-        ]
-        extraction = []
-        for tournament in all_tournaments:
-            current = Tournament.get_tournament_info(tournament)
-            if current is None:
-                break
-            extraction.append(
-                [
-                    current.name,
-                    current.location,
-                    current.players,
-                    current.starting_date,
-                    current.ending_date,
-                    current.comment,
-                ]
-            )
-        file_name = REPORT_FILE + "all_tournaments.csv"
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                writer.writerows(extraction)
-            self.open_selected_report(file_name)
-        else:
-            # add a message if verification fails.
-            print("Verification échoue. Rapport non créé.")
-
-    def all_matches_and_turns(self):
-        """Export a list of all matches
-        from a selected tournament
-        :return: export html or txt or csv"""
-        tournament = self.get_chosen_tournament()
-        if not tournament:
-            return None
-        tournament.turn_list = self.get_turn_list(tournament.name)
-        title = [
-            "Numéro du tour",
-            "Joueur",
-            "Opposant",
-            "score joueur",
-            "score opposant",
-        ]
-        data = []
-        for turn in tournament.turn_list:
-            for match in turn.match_list:
-                player = match.player
-                opponent = match.opponent
-                player_score = match.player_score
-                opponent_score = match.opponent_score
-                if not match.match_result:
-                    (player_score,) = "Not Played"
-                    opponent_score = "Not Played"
-                match_list = [
-                    turn.turn_nb,
-                    player.identifiant,
-                    opponent.identifiant,
-                    player_score,
-                    opponent_score,
-                ]
-                data.append(match_list)
-        file_name = REPORT_FILE + "_" + tournament.name + "all_turn.csv"
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                writer.writerows(data)
-            self.open_selected_report(file_name)
-
-    def all_players_report(self):
+    def save_players_report(self):
         """Export a list of all players saved"""
+
         all_players = Player.get_players_saved()
-        title = ["Nom", "Prénom", "Date de Naissance", "Identifiant"]
+        all_players = sorted(all_players, key=lambda player: player.name, reverse=False)
+
+        title = ["Nom", "Prénom", "Date de Naissance", "identifiant"]
         data = []
         for player in all_players:
             player_extract = [
                 player.name,
                 player.firstname,
-                player.birthday,
-                player.identifiant,
+                player.date_of_birth,
+                player.national_identification,
             ]
             data.append(player_extract)
         file_name = REPORT_FILE + "all_players_saved.csv"
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                writer.writerows(data)
-            self.open_selected_report(file_name)
 
-    def all_players_tournament_report(self):
-        """Export a list of players from a selected tournament
-        in alphabetic order"""
-        tournament = self.get_chosen_tournament()
-        if not tournament:
-            return None
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerow(title)
+            writer.writerows(data)
+        # self.open_selected_report()
+        self.report_view.display_create_report()
+
+    def save_report_tournaments(self):
+        """Export a list of all tournaments saved"""
+
+        all_tournaments = self.tournaments.loads_tournament(status=STATUS_ALL)
         title = [
-            "Nom du Tournoi",
-            "INE Joueurs",
+            "N°",
+            "Nom",
+            "Statuts",
+            "Nombre de tours",
+            "Lieu",
+            "Description",
         ]
-        all_tournament_player = []
-        for player_identity in tournament.players:
-            player_restored = Player.get_serialized_player(player_identity)
-            all_tournament_player.append(player_restored.name)
-        sorted_player = sorted(all_tournament_player, reverse=True)
-        file_name = REPORT_FILE + "_" + tournament.name + "all_players.csv"
-        file_name = file_name.replace(" ", "")
-        verification = self.report_control(file_name)
-        if verification:
-            with open(file_name, "w", newline="") as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerow(title)
-                for player_name in sorted_player:
-                    writer.writerow([tournament.name] + [player_name])
-            self.open_selected_report(file_name)
+        data = []
+        for i, tournament in enumerate(all_tournaments, start=1):
+            tournament_extract = [
+                i,
+                tournament.name,
+                tournament.status,
+                tournament.nb_turn,
+                tournament.location,
+                tournament.description,
+            ]
+            data.append(tournament_extract)
+        file_name = REPORT_FILE + "all_tournaments.csv"
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerow(title)
+            writer.writerows(data)
+        self.report_view.display_create_report()
 
     def run_report(self):
-        end_execution = False
-        while end_execution is False:
-            selection = self.reportview.ask_type_report()
-            if selection is None:
-                end_execution = True
-            elif selection == "1":
-                self.all_players_report()
-            elif selection == "2":
-                self.all_tournaments_report()
-            elif selection == "3":
-                self.all_matches_and_turns()
-            elif selection == "4":
+        """liste des joueurs par ordre alphabétique ;
+        liste des tournois ;
+        Nom et dates d’un tournoi donné ;
+        liste des joueurs du tournoi par ordre alphabétique ;
+        liste de tous les tours du tournoi et de tous les matchs du tour.
+        """
+
+        while True:
+            selection = self.report_view.get_type_report()
+
+            if selection == 1:
+                self.player.display_players()
+                self.save_players_report()
+            elif selection == 2:
+                self.report_tournaments.list_tournament()
+                self.save_report_tournaments()
+            elif selection == 3:
+                self.all_tournaments_by_name()
+
+            elif selection == 4:
                 self.all_players_tournament_report()
+
+            elif selection == 5:
+                self.tournaments_matches_report()
+
+            else:
+                if selection == 6:
+                    break

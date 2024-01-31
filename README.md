@@ -22,7 +22,7 @@ Dernière version de Python https://www.python.org/download/
 
 Pour les tests , utilisation de l'IDE Pycharm.
 
-Placez vous dans le dossier de votre choix, puis faites :
+Dans le dossier de votre choix, faites :
 
 git clone https://github.com/projets-openclassrooms/projet_4_chess_tournaments.git
 
@@ -35,7 +35,7 @@ python3 -m venv env
 Activez votre environnement virtuel env nouvellement créé 
 Sous Windows :
 
-env\scripts\activate.bat
+env\scripts\activate.bat ou env\scripts\activate.ps1 selon votre IDE
 
 sous linux :
 
@@ -49,4 +49,29 @@ Vous pouvez enfin lancer le script:
 python main.py présent à la source du dossier de travail.
 
 ## Résultat
-Enjoy it.
+## Création d'un rapport Flake8 :
+flake8 .\model\ .\view\ .\CONSTANTES.py .\utils\ .\controller\ --max-line-length=119 --format=html --htmldir=flake-report --exclude=.env
+
+# Resultat
+Dernier rapport Flake8 généré : 
+Dernier rapport Flake8 - 0 erreurs
+
+## Navigation 
+#Utiliser les numéros pour accéder aux différentes fonctionnalités de l'application
+# menu principal
+
+![menu principal.png](img%2Fmenu%20principal.png)
+
+# Menu tournois :
+![menu tournois.png](img%2Fmenu%20tournois.png)
+
+## Utilisation
+
+Saisie des noms des joueurs (menu Gestion des joueurs)
+Saisie des tournois (menu Gestion des tournois)
+Edition des rapports (menu Gestion des rapports)
+Les 2 rapports "Liste de tous les joueurs." et "Liste de tous les tournois." sont récupérables au format csv.
+
+## License 
+
+# MIT

@@ -158,3 +158,56 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+/.idea
+/.vs
+/data/data.zip
+/data/fichier_dict.json
+/data/tournaments.json
+/tests
+/data/report/all_players_saved.csv
+/data/tournaments/TEST_turn1.json
+/data/players.json
+/data/tournament.json
+/data/tournaments/TREGOR_turn1.json
+/data/tournaments/TREGOR_turn2.json
+/data/tournaments/TREGOR_turn3.json
+/data/tournaments/TREGOR_turn4.json
+/tester
+/repertoireNameNum.txt
+/repertoireNumName.txt
+/data/tournaments/SOFT_turn1.json
+/data/tournaments/2_turn1.json
+/return_list.py
+/testEnvironments.json
+/view/main_menu - Copie.py
+/view/matchview - Copie.py
+/view/playerview - Copie.py
+/view/reportview - Copie.py
+/view/tournamentview - Copie.py
+/view/turnview - Copie.py
+/^data/players.json
+/^data/tournaments.json
+/.vscode/settings.json
+/copies
+/model/joueurs.py
+/model/tournois.py
+/pylama.ini
+/flake-report/
+/view/data/
+/data/
+/Étapes+Clés_Développez+un+programme+logiciel+en+Python_FR.pdf
+/Spécification+technique_Développez+un+programme+logiciel+en+Python.pdf
+/flake-report/back.svg
+/flake-report/index.html
+/flake-report/styles.css
+/flake-report/index.html
+/setup.cfg
+/converts.py
+/new_players.json
+/controller/TODO
+/flake-report/back.svg
+/flake-report/file.svg
+/flake-report/index.html
+/flake-report/styles.css
+/model/TextFile1.txt
+/setup.cfg.txt

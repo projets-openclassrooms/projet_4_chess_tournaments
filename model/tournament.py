@@ -1,9 +1,19 @@
 """Define Tournament"""
+
 import json
 import os
-import re
+import uuid
 from datetime import datetime
-from CONSTANTES import TOURNAMENT_FOLDER, TOURNAMENT_FILES_NAME
+
+from CONSTANTES import (
+    STATUS_ALL,
+    STATUS_END,
+    STATUS_PENDING,
+    STATUS_START,
+    file_tournament,
+)
+
+from .player import Player
 
 
 class Tournament:
@@ -13,48 +23,53 @@ class Tournament:
 
     def __init__(
         self,
-        name,
-        location,
-        players,
+        name=None,
+        location=None,
+        description=None,
+        players=[],
         nb_turn=4,
         turn=1,
-        turn_list=None,
-        ranking=None,
-        save=True,
+        turn_list=[],
+        ranking=[],
         comment=None,
-        finished=False,
+        status=None,
+        ending_date=None,
     ):
+        self.id = str(uuid.uuid4())
         self.name = name
         self.location = location
+        self.description = description
         self.players = players
         self.nb_turn = nb_turn
         self._turn = turn
         self.turn_list = turn_list
         self._ranking = ranking
         self.comment = comment
-        self._finished = finished
-        self.starting_date = None
-        self.ending_date = None
-        if save:
-            self.save_tournament()
+        self.status = status
+        self.starting_date = datetime.now()
+        self.ending_date = ending_date
 
     def __repr__(self):
         """Define the representation of a tournament object
         :rtype: object
         """
-        player_list = []
-        if self.players:
-            for player in self.players:
-                player_list.append(player.name)
         representation = (
-            f"Tournament(name='{self.name}"
-            + f"', lieu='{self.location}"
-            + f"', players={player_list}, nb_turn='"
-            + str(self.nb_turn)
-            + f"', turn='{str(self.turn)}"
-            + f"', turn_list={self.turn_list})"
+            f"Tournament('name_of_tournament'={self.name}"
+            + f"', location='{self.location}"
+            + f"', description='{self.description}"
+            + f"', status='{self.status}'"
         )
+
         return representation
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def get_tournament_id(self):
+        return self.id
+
+    def set_tournament_id(self):
+        self.id = id
 
     def to_dict(self):
         """
@@ -63,113 +78,80 @@ class Tournament:
         :rtype: dict
         :return:
         """
-        return {
+        if self.turn == 1:
+            self.status = STATUS_START
+        elif self.turn == self.nb_turn:
+            self.status = STATUS_END
+
+        else:
+            self.status = STATUS_PENDING
+        dict = {
+            "id": self.id,
             "name_of_tournament": self.name,
             "location": self.location,
+            "description": self.description,
             "turn": self._turn,
-            "tournament_players": [p.identifiant for p in self.players],
-            "total_of_turn": self.nb_turn,
+            "status": self.status,
+            "turn_list": self.turn_list,
+            "tournament_players": [p.player_uuid for p in self.players],
+            "nb_turn": self.nb_turn,
             "ranking": [p.name for p in self._ranking],
             "comment": self.comment,
+            "ended": self.ending_date if self.status == "ended" else None,
         }
+
+        return dict
 
     def save_tournament(self):
         """ """
         new_tournament = self.to_dict()
-        tournament_name = self.name
-        all_information = new_tournament
-        if not self.starting_date:
-            self.starting_date = datetime.now()
-            all_information.update({"starting_date": str(self.starting_date)})
-        else:
-            all_information["starting_date"] = str(self.starting_date)
-        if self.ending_date:
-            all_information.update({"ending_date": str(self.ending_date)})
-        else:
-            all_information.update({"ending_date": None})
-        tournament_file = TOURNAMENT_FOLDER + "/" + tournament_name + ".json"
-        tournament_file = tournament_file.replace(" ", "")
-        with open(tournament_file, "w") as file:
-            json.dump(all_information, file)
 
-    @classmethod
-    def control_finished(cls, tournament):
-        path_control = os.path.exists(tournament)
-        if path_control is True:
-            with open(tournament, "r") as file:
-                all_infos = json.load(file)
-                if all_infos["ending_date"]:
-                    return tournament
+        if os.path.exists(file_tournament):
+            with open(file_tournament, "r") as file:
+                all_tournaments = json.load(file)
+                if "tournaments" in all_tournaments:
+                    for tournament in all_tournaments["tournaments"]:
+                        # check if already saved
+                        if tournament["id"] == new_tournament["id"]:
+                            all_tournaments["tournaments"].remove(tournament)
+
+                    all_tournaments["tournaments"].append(new_tournament)
                 else:
-                    return None
+                    all_tournaments["tournaments"] = [new_tournament]
         else:
-            return None
+            all_tournaments = {"tournaments": [new_tournament]}
+
+        with open(file_tournament, "w") as file:
+            json.dump(all_tournaments, file, indent=4)
 
     @classmethod
-    def get_all_tournament_names(cls, with_finished=False):
-        file_list = []
-        for root, _, files in os.walk(TOURNAMENT_FOLDER):
-            for file in files:
-                file_path = os.path.join(root, file)
-                file_path = file_path.replace("\\", "/")
-                if re.match(TOURNAMENT_FILES_NAME, file_path):
-                    file_path = file_path.replace(TOURNAMENT_FOLDER + "/", "")
-                    file_path = file_path.replace(".json", "")
-                    file_list.append(file_path)
-        final_list = []
-        if with_finished:
-            for tournament in file_list:
-                tournament_control = cls.control_finished(tournament)
-                if not tournament_control:
-                    final_list.append(tournament)
-            return final_list
-        else:
-            return file_list
+    def loads_tournament(self, status=STATUS_ALL):
+        # meme methode que players
+        all_tournaments_returned = []
+        with open(file_tournament) as file:
+            all_tournaments_saved = json.load(file)
+        if all_tournaments_saved.get("tournaments") is not None:
+            for tournament in all_tournaments_saved["tournaments"]:
+                t = Tournament()
+                t.id = tournament["id"]
+                t.name = tournament["name_of_tournament"]
+                t.location = tournament["location"]
+                t.description = tournament["description"]
+                t.turn = tournament["turn"]
+                t.turn_list = tournament["turn_list"]
+                # charge les objets players pour recreer objet
+                t.players = []
+                for player_id in tournament["tournament_players"]:
+                    # print("player_id", player_id)
+                    p = Player.get_player_by_id(player_id)
+                    t.players.append(p)
+                t.status = tournament["status"]
+                t.nb_turn = tournament["nb_turn"]
+                t.ranking = tournament["ranking"]
+                t.comment = tournament["comment"]
 
-    @classmethod
-    def control_name_exist(cls, tournament_name):
-        tournaments_saved = cls.get_all_tournament_names()
-        if tournament_name in tournaments_saved:
-            return True
-        else:
-            return False
-
-    @classmethod
-    def get_tournament_info(cls, name):
-        """
-
-        :param name:
-        :return: saved_tournament or None
-        """
-        tournament_file = TOURNAMENT_FOLDER + "/" + name + ".json"
-        path_control = os.path.exists(tournament_file)
-        if path_control is True:
-            with open(tournament_file, "r") as file:
-                all_infos = json.load(file)
-            name = all_infos["name_of_tournament"]
-            location = all_infos["location"]
-            players = all_infos["tournament_players"]
-            nb_turn = all_infos["total_of_turn"]
-            ranking = all_infos["ranking"]
-            turn = all_infos["turn"]
-            turn_list = []
-            saved_tournament = cls(
-                name=name,
-                location=location,
-                players=players,
-                nb_turn=nb_turn,
-                turn=turn,
-                turn_list=turn_list,
-                ranking=ranking,
-                save=False,
-            )
-            saved_tournament.starting_date = all_infos["starting_date"]
-            if all_infos["ending_date"]:
-                saved_tournament.ending_date = all_infos["ending_date"]
-                saved_tournament.comment = all_infos["comment"]
-        else:
-            return None
-        return saved_tournament
+                all_tournaments_returned.append(t)
+        return all_tournaments_returned
 
     @property
     def turn(self):
@@ -178,24 +160,16 @@ class Tournament:
     @turn.setter
     def turn(self, value):
         self._turn = value
-        self.save_tournament()
 
     @property
     def ranking(self):
-        return self._ranking
+        return self.ranking
 
     @ranking.setter
     def ranking(self, value):
         self._ranking = value
-        self.save_tournament()
 
     @property
-    def finished(self):
-        return self._finished
-
-    @finished.setter
-    def finished(self, value):
-        self._finished = value
-        if self._finished:
-            self.ending_date = datetime.now()
-        self.save_tournament()
+    def ended(self):
+        self.ending_date = datetime.now()
+        return self.ending_date

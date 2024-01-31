@@ -1,153 +1,192 @@
 """Player Model"""
+
 import json
 import os
-import re
-from CONSTANTES import SEARCHING_INE
+import uuid
 
-# class Example:
-#     def __init__(self,param1,param2):
-#         self.param1 = param1
-#         self.param2 = param2
-#     @classmethod
-#     def my_method(cls,param1,param2):
-#         return cls(param1,param2)
-#
-# example = Example.my_method(1,2)
-# print(example)
-# class GFG:
-# 	def __lt__(self, other):
-# 		return "YES"
-# obj1 = GFG()
-# obj2 = GFG()
-#
-# print(obj1 < obj2)
-# print(type(obj1 < obj2))
+from CONSTANTES import DATA_FOLDER, file_players
+
+# SEARCHING_INE = r"\((.*)\)"
+# DATA_FOLDER = r"data/"  ##f"{ABSOLUTE_PATH}data/"
+# file_tournament = f"{DATA_FOLDER}tournament.json"
+# file_players = f"{DATA_FOLDER}players.json"
 
 
-class Player:
+class Player(object):
     """Define player as an object:
-    A player has a name, a firstname, a birthday and a national identifiant, un score à 0
+    A player has a name, a firstname, a date_of_birth and a national identifier chess, un score à 0
     """
 
-    PLAYER_DATA = "data/player/player_data.json"
-
-    def __init__(self, name, firstname, birthday, identifiant, score=0):
+    def __init__(
+        self,
+        name,
+        firstname,
+        date_of_birth,
+        national_identification,
+        player_uuid,
+        score=0,
+    ):
         self.name = name
         self.firstname = firstname
-        self.birthday = birthday
-        self.identifiant = identifiant
+        self.date_of_birth = date_of_birth
+        self.national_identification = national_identification
+
         self.score = score
+        self.player_uuid = player_uuid
+        self.played_against = []
 
     def __repr__(self):
         """Define the representation for a player object"""
         representation = (
-            "Player(name='"
+            "Player('nom='"
             + self.name
-            + "', firstname='"
+            + "', prenom='"
             + self.firstname
-            + "', birthday='"
-            + self.birthday
-            + "', identifiant='"
-            + self.identifiant
+            + "', une date de naissance='"
+            + self.date_of_birth
+            + "', identifier (INE)='"
+            + self.national_identification
             + "')"
         )
         return representation
 
     def __str__(self):
-        return "Le joueur {} (score: {})".format(self.name, self.score)
+        return f"Joueur {self.firstname} {self.name} - INE , {self.national_identification} (score: {self.score})"
+
+    def full_name(self):
+        """ """
+        return f"- {self.firstname} {self.name}"
 
     def __lt__(self, other):
         return self.score < other.score
 
     def to_dict(self):
+        """ """
         return {
             "name": self.name,
             "firstname": self.firstname,
-            "birthday": self.birthday,
-            "national_identification": self.identifiant,
+            "date_of_birth": self.date_of_birth,
+            "national_identification": self.national_identification,
+            "player_uuid": self.player_uuid,
         }
 
     def save_new_player(self):
         """
-        json dumps
+        Save a new player object to a JSON file.
 
+        Args:
+            file_players (str): The path to the JSON file where the players are stored.
+
+        Returns:
+            None
         """
         new_player = self.to_dict()
-        path_control = os.path.exists(self.PLAYER_DATA)
-        if path_control is True:
-            with open(self.PLAYER_DATA, "r") as file:
+
+        if os.path.exists(file_players):
+            with open(file_players, "r") as file:
                 all_players = json.load(file)
-                all_players["players"].append(new_player)
+                if "players" in all_players:
+                    all_players["players"].append(new_player)
+                else:
+                    all_players["players"] = [new_player]
         else:
             all_players = {"players": [new_player]}
-        with open(self.PLAYER_DATA, "w") as file:
-            json.dump(all_players, file)
+
+        with open(file_players, "w") as file:
+            json.dump(all_players, file, indent=4)
 
     @classmethod
-    def identifiant_exists(cls, identifiant):
-        """Return existing identifiant or None if not exist"""
+    def set_player_uuid(self):
+        player_uuid = str(uuid.uuid4())
+        return player_uuid
+
+    @classmethod
+    def national_identification_exists(cls, national_identification):
+        """Return existing national_identification or None if not exist"""
         players_saved = cls.get_players_saved()
         for player in players_saved:
-            if identifiant == player.identifiant:
-                return identifiant
+            if national_identification == player.national_identification:
+                return national_identification
         return None
 
     @classmethod
-    def get_players_saved(cls):
-        """
+    def get_players_saved(self):
+        """interroge la base de données"""
 
-        :return: players_saved
-        """
-        all_players_saved = {}
+        """:return: liste obj = players_saved"""
+
+        # all_players_saved = dict()
         players_saved = []
-        path_control = os.path.exists(cls.PLAYER_DATA)
+        path_control = os.path.exists(DATA_FOLDER)
+        # if not path_control:
         if path_control is True:
-            with open(cls.PLAYER_DATA, "r") as file:
+            with open(file_players) as file:
                 all_players_saved = json.load(file)
-            for player in all_players_saved["players"]:
-                name = player["name"]
-                firstname = player["firstname"]
-                birthday = player["birthday"]
-                identifiant = player["national_identification"]
-                players_to_return = cls(name, firstname, birthday, identifiant)
-                players_saved.append(players_to_return)
+                # print("liste des joueurs ",all_players_saved)
+            if all_players_saved.get("players") is not None:
+                for player in all_players_saved["players"]:
+                    # for player in all_players_saved:
+                    # print(player)
+                    name = player["name"]
+                    firstname = player["firstname"]
+                    date_of_birth = player["date_of_birth"]
+                    national_identification = player["national_identification"]
+                    player_uuid = player["player_uuid"]
+                    players_to_return = Player(
+                        name,
+                        firstname,
+                        date_of_birth,
+                        national_identification,
+                        player_uuid=player_uuid,
+                    )
+                    # players_to_return.player_uuid = player_uuid
+                    players_saved.append(players_to_return)
             return players_saved
         else:
             return players_saved
 
     @classmethod
-    def get_serialized_player(cls, player_ident):
-        """INE unique pour serialiser players
-
-        :param player_ident:
-        :return: player_to_return
-        """
-        path_control = os.path.exists(cls.PLAYER_DATA)
+    def get_player_by_id(cls, player_id):
+        """:return: player selon id pour tournoi"""
+        player_to_return = None
+        path_control = os.path.exists(DATA_FOLDER)
+        # if not path_control:
         if path_control is True:
-            with open(cls.PLAYER_DATA, "r") as file:
-                all_players_saved = json.load(file)
-            for player in all_players_saved["players"]:
-                ident = player["national_identification"]
-                if player_ident == ident:
-                    name = player["name"] + " (" + ident + ")"
-                    firstname = player["firstname"]
-                    birthday = player["birthday"]
-                    player_to_return = cls(name, firstname, birthday, ident)
-        return player_to_return
+            with open(file_players) as file:
+                file_json = json.load(file)
+            if file_json.get("players") is not None:
+                for player in file_json["players"]:
+                    if player["player_uuid"] == player_id:
+                        player_uuid = player["player_uuid"]
+                        name = player["name"]
+                        firstname = player["firstname"]
+                        date_of_birth = player["date_of_birth"]
+                        national_identification = player["national_identification"]
+                        player_to_return = Player(
+                            name=name,
+                            firstname=firstname,
+                            player_uuid=player_uuid,
+                            date_of_birth=date_of_birth,
+                            national_identification=national_identification,
+                        )
+            return player_to_return
 
-    @classmethod
-    def restore_player(cls, player):
-        """
 
-        :param player:
-        :return: player_to_return
-        """
-        identifiant = re.search(SEARCHING_INE, player)
-        identifiant = identifiant.group(1)
-        all_players = cls.get_players_saved()
-        for player in all_players:
-            if player.identifiant == identifiant:
-                player_to_return = player
-                player_to_return.name = player.name + " (" + identifiant + ")"
-                break
-        return player_to_return
+# player_store = {}
+# nom = "Nom2"
+# prenom = "prenom 2"
+# date = "14/01/1989"
+# identifiant = "id12355"
+
+# player_one = Player(nom, prenom, date, identifiant)
+# player_one_identity = player_one.national_identification  # INE
+# dico_players = player_one.to_dict()
+
+# print(dico_players)  #   dictionnaire pour json
+# print(player_one.full_name())  # nom - prenom
+# print(
+#     player_one.national_identification_exists(player_one_identity)
+# )  # None si non existant sinon INE
+# # print(player_one.restore_player(player_one.full_name()))
+# dico_players.save_new_player(file_players)
+# dico_players.__getattribute__()  # sauvegarde du dictionnaire dans json

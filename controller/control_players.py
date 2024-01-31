@@ -2,52 +2,82 @@
     new_player with attributes
 
 """
+
+import uuid
+
 from model.player import Player
+from utils.settings import clear_console
 from view.playerview import PlayerView
 
 
-class PlayerManager:
+class PlayerManager(object):
     def __init__(self):
+        self.player_uuid = str(uuid.uuid4())
         self.player_view = PlayerView()
         self.all_players = []
 
+    def player_score(self):
+        """Default created player's score."""
+        self.score = 0.0
+
     def new_player(self):
-        another_add = True
-        new_player = None
-        while another_add:
-            self.all_players = Player.get_players_saved()
-            self.player_view.display_all_player_saved(self.all_players)
-            if self.all_players:
-                another_add = self.player_view.add_again()
-                if not another_add:
-                    break
-            name = self.player_view.ask_for_name()
-            if not name:
+        name = self.player_view.get_name()
+        if not name:
+            return None
+        firstname = self.player_view.get_firstname()
+        if not firstname:
+            return None
+        date_of_birth = self.player_view.get_birthdate()
+        if not date_of_birth:
+            return None
+        create_identifier = True
+        while create_identifier:
+            national_identification = self.player_view.ask_national_identification()
+            if not national_identification:
                 return None
-            firstname = self.player_view.ask_for_firstname()
-            if not firstname:
-                return None
-            birthday = self.player_view.ask_for_birthday()
-            if not birthday:
-                return None
-            create_identifiant = True
-            while create_identifiant:
-                identifiant = self.player_view.ask_national_identification()
-                if not identifiant:
-                    return None
-                control_identifiant = Player.identifiant_exists(identifiant)
-                if control_identifiant:
-                    self.player_view.display_creation_error(control_identifiant)
-                elif not control_identifiant:
-                    self.player_view.display_creation()
-                    create_identifiant = False
-            new_player = Player(name, firstname, birthday, identifiant)
-            new_player.save_new_player()
-            self.all_players = Player.get_players_saved()
-        return new_player
+            control_identifier = Player.national_identification_exists(
+                national_identification
+            )
+            if control_identifier:
+                self.player_view.display_creation_error(control_identifier)
+            elif not control_identifier:
+                self.player_view.display_creation()
+                player_uuid = self.player_uuid
+                create_identifier = False
+                score = self.player_score()  # default player score
+                # played_against = []
+        new_player = Player(
+            name, firstname, date_of_birth, national_identification, player_uuid, score
+        )
+        new_player.save_new_player()
+        print("Sauvegarde avec succes.")
+
+    def display_players(self):
+        players = Player.get_players_saved()
+        players = sorted(players, key=lambda player: player.name, reverse=False)
+        self.player_view.display_all_player_saved(players)
 
     def run_player(self):
-        all_player_saved = []
-        self.new_player()
-        all_player_saved = Player.get_players_saved()
-        return all_player_saved
+        # all_player_saved = []
+        menu = ""
+        while menu != "0":
+            clear_console()
+
+            menu = self.player_view.display_menu()
+            if menu == "1":
+                # nouveau joueur
+                self.new_player()
+            elif menu == "2":
+                self.display_players()
+
+            # elif menu == "3":
+            #     # Supprimer un joueur
+            #     self.delete_player()
+            # elif menu == "4":
+            #     # modifier joueur
+            #     self.modify_player()
+
+            elif menu == "0":
+                break
+            else:
+                print("Recommencez svp.")

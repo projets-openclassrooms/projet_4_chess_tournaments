@@ -1,15 +1,17 @@
-players_data = "data/players.json"
-tournaments_data = "data/tournaments.json"
-MAX_PLAYERS = 8
+from utils.settings import clear_console, colorise
 
 
 class MainMenu:
     def display_menu(self):
+        print("Saisie des informations du Club d'échecs.\n")
         menu = input(
-            "Quel menu souhaitez-vous sélectionner ?\n"
-            + "Taper 1 pour Gestion des joueurs\n"
-            + "Taper 2 pour Gestion du tournoi\n"
-            + "Taper 3 pour Gestion des rapports\n"
-            + "Ou taper 'q' pour quitter.\n"
-        ).upper()
+            colorise(
+                "Quel menu souhaitez-vous sélectionner ?\nSaisir le numéro souhaité :\n\n"
+                + " 1 - Gestion des joueurs,\n"
+                + " 2 - Gestion des tournois,\n"
+                + " 3 - Gestion des rapports,\n"
+                + " 0 - Quitter.\n"
+            )
+        )
+        clear_console()
         return menu
