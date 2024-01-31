@@ -159,7 +159,6 @@ class ReportManager:
             "Nombre de tours",
             "Lieu",
             "Description",
-
         ]
         data = []
         for i, tournament in enumerate(all_tournaments, start=1):
@@ -170,7 +169,6 @@ class ReportManager:
                 tournament.nb_turn,
                 tournament.location,
                 tournament.description,
-
             ]
             data.append(tournament_extract)
         file_name = REPORT_FILE + "all_tournaments.csv"

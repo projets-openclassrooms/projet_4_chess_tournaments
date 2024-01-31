@@ -189,7 +189,6 @@ class TournamentManager:
         # affichage liste des joueurs tournoi
         score2 = 0
 
-
         # input saisie des scores
         # (joueur,scores) = input()
         # demander si saisie terminee
@@ -211,7 +210,7 @@ class TournamentManager:
             }
 
             print(f"Pour le tour {tour + 1}")
-            print("tour + 1",tour + 1)
+            print("tour + 1", tour + 1)
             self.tournament_view.display_first_turn()
             if tour + 1 == 1:
                 matches = self.generate_random_match(tournaments_data.players)
@@ -245,7 +244,7 @@ class TournamentManager:
                     )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 2
-                print("tour + 2",tour + 2)
+                print("tour + 2", tour + 2)
                 tournaments_data.ending_date = (datetime.now()).strftime(
                     "%d-%m-%Y %H:%M:%S"
                 )
@@ -300,7 +299,7 @@ class TournamentManager:
                     )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 1
-                print("tour + 1 else ",tour + 1)
+                print("tour + 1 else ", tour + 1)
                 # print(tournaments_data.status)
                 tournaments_data.ending_date = (datetime.now()).strftime(
                     "%d-%m-%Y %H:%M:%S"
