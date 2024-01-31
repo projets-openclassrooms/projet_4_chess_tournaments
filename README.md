@@ -49,4 +49,29 @@ Vous pouvez enfin lancer le script:
 python main.py présent à la source du dossier de travail.
 
 ## Résultat
-Enjoy it.
+## Création d'un rapport Flake8 :
+flake8 .\model\ .\view\ .\CONSTANTES.py .\utils\ .\controller\ --max-line-length=119 --format=html --htmldir=flake-report --exclude=.env
+
+# Resultat
+Dernier rapport Flake8 généré : 
+Dernier rapport Flake8 - 0 erreurs
+
+## Navigation 
+#Utiliser les numéros pour accéder aux différentes fonctionnalités de l'application
+# menu principal
+
+![menu principal.png](img%2Fmenu%20principal.png)
+
+# Menu tournois :
+![menu tournois.png](img%2Fmenu%20tournois.png)
+
+## Utilisation
+
+Saisie des noms des joueurs (menu Gestion des joueurs)
+Saisie des tournois (menu Gestion des tournois)
+Edition des rapports (menu Gestion des rapports)
+Les 2 rapports "Liste de tous les joueurs." et "Liste de tous les tournois." sont récupérables au format csv.
+
+## License 
+
+# MIT
