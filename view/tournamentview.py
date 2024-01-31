@@ -29,7 +29,8 @@ class TournamentView:
     def display_first_turn(self) -> object:
         print(
             colorise(
-                "Point du gagnant : 1.\n"
+                "Saisie : \n"
+                + "Point du gagnant : 1 - "
                 + "Point du perdant : 0\n"
                 + "Egalité : 0.5\n"
                 + "Le reste sera saisi automatiquement,\n"

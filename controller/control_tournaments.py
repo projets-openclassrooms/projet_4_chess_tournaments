@@ -210,7 +210,7 @@ class TournamentManager:
             }
 
             print(f"Pour le tour {tour + 1}")
-            print("tour + 1", tour + 1)
+            /print("tour + 1", tour + 1)
             self.tournament_view.display_first_turn()
             if tour + 1 == 1:
                 matches = self.generate_random_match(tournaments_data.players)
@@ -244,7 +244,7 @@ class TournamentManager:
                     )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 2
-                print("tour + 2", tour + 2)
+                # print("tour + 2", tour + 2)
                 tournaments_data.ending_date = (datetime.now()).strftime(
                     "%d-%m-%Y %H:%M:%S"
                 )
@@ -313,11 +313,6 @@ class TournamentManager:
                     self.tournament_view.get_comment()
                     tournaments_data.status = STATUS_END
                     break
-                if tournaments_data.turn == tournaments_data.nb_turn:
-                    self.tournament_view.get_comment()
-                    tournaments_data.status = STATUS_END
-                    break
-
                 tournaments_data.save_tournament()
                 # attention id tournament
 
