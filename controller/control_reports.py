@@ -152,13 +152,25 @@ class ReportManager:
         """Export a list of all tournaments saved"""
 
         all_tournaments = self.tournaments.loads_tournament(status=STATUS_ALL)
-        title = ["Nom", "Lieu", "Date de début", "Description"]
+        title = [
+            "N°",
+            "Nom",
+            "Statuts",
+            "Nombre de tours",
+            "Lieu",
+            "Description",
+
+        ]
         data = []
-        for tournament in all_tournaments:
+        for i, tournament in enumerate(all_tournaments, start=1):
             tournament_extract = [
+                i,
                 tournament.name,
+                tournament.status,
+                tournament.nb_turn,
                 tournament.location,
                 tournament.description,
+
             ]
             data.append(tournament_extract)
         file_name = REPORT_FILE + "all_tournaments.csv"
