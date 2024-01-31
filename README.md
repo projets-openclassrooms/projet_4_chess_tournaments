@@ -22,7 +22,7 @@ Dernière version de Python https://www.python.org/download/
 
 Pour les tests , utilisation de l'IDE Pycharm.
 
-Placez vous dans le dossier de votre choix, puis faites :
+Dans le dossier de votre choix, faites :
 
 git clone https://github.com/projets-openclassrooms/projet_4_chess_tournaments.git
 
