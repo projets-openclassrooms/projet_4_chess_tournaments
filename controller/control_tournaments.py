@@ -210,7 +210,7 @@ class TournamentManager:
             }
 
             print(f"Pour le tour {tour + 1}")
-            /print("tour + 1", tour + 1)
+            # print("tour + 1", tour + 1)
             self.tournament_view.display_first_turn()
             if tour + 1 == 1:
                 matches = self.generate_random_match(tournaments_data.players)
