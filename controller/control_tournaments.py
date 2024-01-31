@@ -189,13 +189,14 @@ class TournamentManager:
         # affichage liste des joueurs tournoi
         score2 = 0
 
+
         # input saisie des scores
         # (joueur,scores) = input()
         # demander si saisie terminee
         # enregistrer resultat par serialisation
         # else tour n°2 proposer combinaisons de joueurs
         print(f"Début du tournoi {tournaments_data.name}")
-        self.tournament_view.display_points()
+        # self.tournament_view.display_points()
         print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
         # boucle tant que fin de saisie != Q
         clear_console()
@@ -203,13 +204,14 @@ class TournamentManager:
         for tour in range(tournaments_data.nb_turn):
             tour_obj = {
                 "name": f"Tour {tour + 1}",
-                "started": str(datetime.now()),
+                "started": datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
                 "matches": [],
                 "description": self.Tournaments.description,
                 "ended": None,
             }
 
             print(f"Pour le tour {tour + 1}")
+            print("tour + 1",tour + 1)
             self.tournament_view.display_first_turn()
             if tour + 1 == 1:
                 matches = self.generate_random_match(tournaments_data.players)
@@ -243,7 +245,17 @@ class TournamentManager:
                     )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 2
+                print("tour + 2",tour + 2)
+                tournaments_data.ending_date = (datetime.now()).strftime(
+                    "%d-%m-%Y %H:%M:%S"
+                )
+                # print(tournaments_data.ending_date)
+                tour_obj["ended"] = tournaments_data.ending_date
+                tournaments_data.status = STATUS_PENDING
                 tournaments_data.save_tournament()
+                demande = input('"Q" pour clore le round: ').upper()
+                if demande == "Q":
+                    break
                 # attention id tournament
             else:
                 historique_matches = self.get_historique_matches(
@@ -288,20 +300,24 @@ class TournamentManager:
                     )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 1
+                print("tour + 1 else ",tour + 1)
                 # print(tournaments_data.status)
-
-                if tournaments_data.turn == tournaments_data.nb_turn:
-                    self.Tournaments.ending_date = input("Fin de partie : ")
-                    fin = self.Tournaments.ending_date
+                tournaments_data.ending_date = (datetime.now()).strftime(
+                    "%d-%m-%Y %H:%M:%S"
+                )
+                tour_obj["ended"] = tournaments_data.ending_date
+                tournaments_data.save_tournament()
+                demande = input('"Q" pour clore le round: ').upper()
+                if demande == "Q":
+                    break
+                if tour + 1 == tournaments_data.nb_turn:
                     self.tournament_view.get_comment()
                     tournaments_data.status = STATUS_END
-                    tour_obj["ended"] = self.Tournaments.ending_date
-                    tournaments_data.ended.replace("null", str(fin))
-
-                    # tournaments_data.ended = self.Tournaments.ended
-                    tournaments_data.status.replace(STATUS_PENDING, STATUS_END)
-                # if not tournaments_data[tournoi_choisi - 1].get("ended"):
-                #     print("pas de fin")
+                    break
+                if tournaments_data.turn == tournaments_data.nb_turn:
+                    self.tournament_view.get_comment()
+                    tournaments_data.status = STATUS_END
+                    break
 
                 tournaments_data.save_tournament()
                 # attention id tournament
@@ -322,6 +338,7 @@ class TournamentManager:
         # print(players_classes)
         matches = []
         i = 0
+        # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
 
         while i < len(players_classes):
             player_pairs = [
@@ -339,7 +356,6 @@ class TournamentManager:
             i = i + 2
 
         # print(matches)
-        # algo pour que joueurs ne se rencontrent pas [(1,2),(3,4)]!=[(2,1),(4,5)]
 
         return matches
 

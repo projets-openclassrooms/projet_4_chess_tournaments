@@ -2,7 +2,6 @@
 export csv, txt, or html"""
 
 import csv
-import os
 
 from CONSTANTES import REPORT_FILE, STATUS_ALL
 from controller.control_players import PlayerManager
@@ -33,27 +32,23 @@ class ReportManager:
         self.report_tournaments.list_tournament()
 
         tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        tournament_index = int(input("Saisir le numéro du tournoi : "))
+        choix = tournaments_data[tournament_index - 1]
+        print(choix.name)
 
-        tournament_index = int(
-            input("Nom et Dates du tournoi à sélectionner\nSaisir numéro? ")
-        )
-        # for i, tournoi in enumerate(tournaments_data):
-        for turn in tournaments_data[tournament_index +1]["turn_list"]:
-            print("\t" + turn["name"] + turn["started"] + turn["ended"])
-            # if i + 1 == tournament_index:
-            #     if tournaments_data.ending_date is None:
-            #
-            #         print(
-            #             f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}"
-            #         )
-            #         print(
-            #             f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {'Pas fini.':<10}"
-            #         )
-            # else:
-            #     print(f"{'N°-'},{'Nom du tournoi'},{'Date début - '},{'Date de fin.'}")
-            #     print(
-            #         f"{i+1:<2} - {tournoi.name:<14}, {tournoi.starting_date:<10} - {tournoi.ending_date:<10}"
-            #     )
+        if choix.status is None:
+            for Round in choix.turn_list:
+                print(f"- Nom: {Round['name']}")
+                print(f"- Début : {Round['started']}")
+                break
+
+        else:
+            for Round in choix.turn_list:
+                print(f"- Nom: {Round['name']}")
+                print(f"- Début : {Round['started']}")
+                print(f"- Fin : {Round['ended']}")
+            clear_screen()
+            return self.run_report()
 
     def report_control(self):
         """
@@ -61,76 +56,72 @@ class ReportManager:
         :rtype: object
         :return boolean
         """
-        tournaments = self.tournaments.loads_tournament(status=STATUS_ALL)
+        self.report_tournaments.list_tournament()
 
-        # with open(file, "w"):
-        for i, tournament in enumerate(tournaments):
-            print(f"{i + 1}. {tournament.name}")
-
-        while True:
-            try:
-                choice = int(input("\nSélectionnez un tournoi par son numéro : "))
-                if 1 <= choice <= len(tournaments):
-                    return tournaments[choice - 1]
-                else:
-                    print("Veuillez choisir un numéro valide.")
-            except ValueError:
+        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        if len(tournaments_data) != 0:
+            tournament_index = int(input("Saisir le numéro du tournoi : "))
+            choix = tournaments_data[tournament_index - 1]
+            if 1 <= choix <= len(tournaments_data):
+                return choix
+            else:
                 print("Veuillez choisir un numéro valide.")
-
+        else:
+            self.report_view.display_empty()
+            self.report_tournaments.run_tournament()
         self.report_view.display_create_report()
 
-    def open_selected_report(self, tournament_index):
-        """
-        open files to open
-
-        :rtype: object
-
-        """
-        tournament_name = int(input("Entrer numéro du tournoi à afficher : "))
-        if tournament_name == tournament_index:
-            print(tournament_index)
-            return tournament_index
-
     def tournaments_matches_report(self):
+        self.report_tournaments.list_tournament()
+
         tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        tournament_index = int(input("Saisir le numéro du tournoi : "))
+        choix = tournaments_data[tournament_index - 1]
+        print(
+            f"{'Nom du tournoi -':<16}{' Lieu':<9}{' - Description - ':<14}{'nb_Rounds - ':<4}{'Etat - ':<8}"
+        )
+        print(
+            f"{choix.name:<14}{' - '}{choix.location:<8}{' - '}{choix.description:<12}\
+                {' - '}{choix.nb_turn:<4}{' - '}{choix.status:<12}"
+        )
+        print("--------------------------")
+        for Round in choix.turn_list:
+            print(f"- Nom: {Round['name']}")
+            print(f"- Début : {Round['started']}")
+            print(f"- Fin : {Round['ended']}")
+            print("- Matches :")
+            for match_1, match_2 in Round["matches"]:
+                print(
+                    Player.get_player_by_id(match_1[0]).name,
+                    "point :",
+                    match_1[1],
+                    colorise("Versus"),
+                    Player.get_player_by_id(match_2[0]).name,
+                    "point :",
+                    match_2[1],
+                )
+            print("--------------------------")
+
+    def all_players_tournament_report(self):
+        """Export a list of players from a selected tournament
+        in alphabetic order"""
+        self.report_tournaments.list_tournament()
+
+        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
+        tournament_index = int(input("Saisir le numéro du tournoi : "))
         for i, tournoi in enumerate(tournaments_data):
-            print(i + 1, tournoi)
-        tournoi_choisi = int(input("Choisir le numéro du tournois : "))
-        print(tournaments_data[tournoi_choisi-1])
-        for tour in tournaments_data[tournoi_choisi-1].turn_list:
-            print(tour)
+            if i + 1 == tournament_index:
+                players_by_id = tournoi.players
 
-            for Round in tour:
-                print(Round)
-                if Round is None:
-                    continue
-                for participant_id, score in Round:
-                    # Process participant_id and score
-                    participant_1_id = Player.get_player_by_id(participant_id).name
-                    participant_2_id = Player.get_player_by_id(Round[1][0]).name
-                    score_1 = Round[0][1]
-                    score_2 = Round[1][1]
+                print("Nom du tournoi : ", tournoi.name, colorise("\nJoueurs : "))
+                sorted_players = sorted(
+                    players_by_id, key=lambda classe: (classe.name, classe.firstname)
+                )
+                for player in sorted_players:
+                    print(player.name, player.firstname)
+            continue
 
-
-                    print(participant_1_id, score_1, "vs", participant_2_id, score_2)
-            # for Round in tournaments_data[tournoi_choisi - 1].turn_list:
-        #     if Round:
-        #
-        #     # if Round and Round.get("turn_list") == "matches":
-        #     #     print(f"Tour n°{Round}")
-        #         for participant_id, score in Round["matches"]:
-        #             # Process participant_id and score
-        #             participant_1_id = Player.get_player_by_id(participant_id).name
-        #             participant_2_id = Player.get_player_by_id(Round["matches"][1][0]).name
-        #             score_1 = Round["matches"][0][1]
-        #             score_2 = Round["matches"][1][1]
-        #
-        #             print(participant_1_id, score_1, "vs", participant_2_id, score_2)
-
-                else:
-                    print("Pas de matchs enregistrés.")
-                clear_screen()
-                continue
+        clear_screen()
 
     def save_players_report(self):
         """Export a list of all players saved"""
@@ -157,26 +148,25 @@ class ReportManager:
         # self.open_selected_report()
         self.report_view.display_create_report()
 
-    def all_players_tournament_report(self):
-        """Export a list of players from a selected tournament
-        in alphabetic order"""
-        self.report_tournaments.list_tournament()
+    def save_report_tournaments(self):
+        """Export a list of all tournaments saved"""
 
-        tournaments_data = self.tournaments.loads_tournament(status=STATUS_ALL)
-        tournament_index = int(input("Saisir le numéro du tournoi : "))
-        for i, tournoi in enumerate(tournaments_data):
-            if i + 1 == tournament_index:
-                players_by_id = tournoi.players
-
-                print("Nom du tournoi : ", tournoi.name, colorise("\nJoueurs : "))
-                sorted_players = sorted(
-                    players_by_id, key=lambda classe: (classe.name, classe.firstname)
-                )
-                for player in sorted_players:
-                    print(player.name, player.firstname)
-            continue
-
-        clear_screen()
+        all_tournaments = self.tournaments.loads_tournament(status=STATUS_ALL)
+        title = ["Nom", "Lieu", "Date de début", "Description"]
+        data = []
+        for tournament in all_tournaments:
+            tournament_extract = [
+                tournament.name,
+                tournament.location,
+                tournament.description,
+            ]
+            data.append(tournament_extract)
+        file_name = REPORT_FILE + "all_tournaments.csv"
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerow(title)
+            writer.writerows(data)
+        self.report_view.display_create_report()
 
     def run_report(self):
         """liste des joueurs par ordre alphabétique ;
@@ -194,13 +184,16 @@ class ReportManager:
                 self.save_players_report()
             elif selection == 2:
                 self.report_tournaments.list_tournament()
+                self.save_report_tournaments()
             elif selection == 3:
                 self.all_tournaments_by_name()
+
             elif selection == 4:
                 self.all_players_tournament_report()
+
             elif selection == 5:
                 self.tournaments_matches_report()
 
             else:
-                selection == 6
-                break
+                if selection == 6:
+                    break

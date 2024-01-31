@@ -12,7 +12,6 @@ class TournamentView:
     def __init__(self):
         pass
 
-
     def display_menu(self):
         menu = input(
             colorise(
@@ -28,19 +27,13 @@ class TournamentView:
         return menu
 
     def display_first_turn(self) -> object:
-        print (colorise(
-            "Point du gagnant : 1.\n"
-            + "Point du perdant : 0\n"
-            + "Egalité : 0.5\n"
-            + "Le reste sera saisi automatiquement,\n"
-
-        ))
-
-    def get_players(self):
-        return (
-            "Vous n'avez pas encore de joueur.\n"
-            + "Avant de démarrer un tournoi,\n"
-            + "Veuillez entrer des joueurs à enregistrer.\n"
+        print(
+            colorise(
+                "Point du gagnant : 1.\n"
+                + "Point du perdant : 0\n"
+                + "Egalité : 0.5\n"
+                + "Le reste sera saisi automatiquement,\n"
+            )
         )
 
     def get_name(self) -> object:
@@ -123,11 +116,12 @@ class TournamentView:
         """
         if len(tournaments) == 0:
             print("\nAucun tournoi\n")
+
         else:
             print(colorise("\nListe des tournois enregistrés :\n"))
             print(
                 "N° ",
-                f"{'Nom':<16}{'- Statut ':<14} - {'Nombre joueurs':<20} - {'Nombre de tours':<12} - {'Lieu':<12} - {'Description':<12}\n",
+                f"{'Nom':<16}{'- Statut ':<14} - {'Joueurs':<20} - {'Tours':<12} - {'Lieu':<12} - {'Detail':<12}\n",
             )
             i = 0
             for tournament in tournaments:
@@ -158,40 +152,10 @@ class TournamentView:
             print(f"{index}-{str(player)}")
             index += 1
 
-    def display_current_list(self, current_list):
-        """
-
-        :param current_list:
-        :return str (len(current_list)) + " joueur(s)
-        """
-        print("La liste en cours d'entrée actuelle est :")
-        if not current_list:
-            print("Votre liste est vide")
-        else:
-            print("Votre liste actuelle: ")
-            for player in current_list:
-                print(player)
-            print("Pour un total de: " + str(len(current_list)) + " joueur(s)\n")
-
     def incomplete_list(self, current_list):
         print(f"\n{current_list} joueurs inscrits.")
         if is_odd(current_list) and current_list < 8:
             print("votre liste n'est pas paire ou incomplète.\nA compléter svp.\n")
-
-    def quit_select_current(self, current_list):
-        """
-
-        :param current_list:
-        """
-        if current_list:
-            print("Votre liste est actuellement constituée de: ")
-            for player in current_list:
-                print(player)
-            print(f"\nsur: {len(current_list)} joueurs.")
-            if len(current_list) % 2 != 0:
-                print("Votre liste n'est pas paire, veuillez reprendre\n")
-        else:
-            print("Votre liste est vide, elle ne peut pas être vide")
 
     def display_saving_error(self):
         print("Le nom est déjà pris. Ressaisir un autre nom de tournoi svp.\n")
