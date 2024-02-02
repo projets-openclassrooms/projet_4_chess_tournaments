@@ -2,16 +2,20 @@
     new_player with attributes
 
 """
-
+import os
 import uuid
 
 from model.player import Player
 from utils.settings import clear_console
 from view.playerview import PlayerView
+from view.reportview import ReportView
+from view.tournamentview import TournamentView
 
 
 class PlayerManager(object):
     def __init__(self):
+        self.report_view = ReportView()
+        self.tournament_view = TournamentView()
         self.player_uuid = str(uuid.uuid4())
         self.player_view = PlayerView()
         self.all_players = []
@@ -69,15 +73,16 @@ class PlayerManager(object):
                 self.new_player()
             elif menu == "2":
                 self.display_players()
-
-            # elif menu == "3":
-            #     # Supprimer un joueur
-            #     self.delete_player()
-            # elif menu == "4":
-            #     # modifier joueur
-            #     self.modify_player()
-
+            elif menu == "3":
+                # Supprimer un joueur
+                self.delete_player()
+            elif menu == "4":
+                self.tournament_view.display_menu()
+            elif menu == "5":
+                self.report_view.get_type_report()
             elif menu == "0":
-                break
+                os.system(exit())
             else:
-                print("Recommencez svp.")
+                if menu not in ["0", "1", "2", "3", "4", "5"]:
+                    print("Saisie invalide. Svp entrer 0, 1, 2, 3, 4 ou 5.\n")
+                    print("Recommencez svp.")

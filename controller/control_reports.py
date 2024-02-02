@@ -2,6 +2,7 @@
 export csv, txt, or html"""
 
 import csv
+import os
 
 from CONSTANTES import REPORT_FILE, STATUS_ALL
 from controller.control_players import PlayerManager
@@ -9,7 +10,10 @@ from controller.control_tournaments import TournamentManager
 from model.player import Player
 from model.tournament import Tournament
 from utils.settings import clear_screen, colorise
+from view.playerview import PlayerView
 from view.reportview import ReportView
+from view.tournamentview import TournamentView
+
 
 # REPORT_FILE = "data/report/"
 
@@ -18,6 +22,8 @@ class ReportManager:
     # class ReportManager(Tournament):
     def __init__(self):
         # super().__init__()
+        self.player_view = PlayerView()
+        self.tournament_view = TournamentView()
         self.player = PlayerManager()
         self.report_view = ReportView()
         self.report_tournaments = TournamentManager()
@@ -197,13 +203,17 @@ class ReportManager:
                 self.save_report_tournaments()
             elif selection == 3:
                 self.all_tournaments_by_name()
-
             elif selection == 4:
                 self.all_players_tournament_report()
-
             elif selection == 5:
                 self.tournaments_matches_report()
-
+            elif selection == 6:
+                self.tournament_view.display_menu()
+            elif selection == 7:
+                self.player_view.display_menu()
+            elif selection == 0:
+                os.system(exit())
             else:
-                if selection == 6:
-                    break
+                if selection not in ["0", "1", "2", "3", "4", "5", "6", "7"]:
+                    print("Saisie invalide. Svp entrer 0, 1, 2, 3, 4, 5 6, ou 7.")
+                    print("Recommencez svp.")

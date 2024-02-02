@@ -1,3 +1,4 @@
+import os
 import random
 from datetime import datetime
 
@@ -112,9 +113,11 @@ class TournamentManager:
                 print(f"tournoi sélectionné : {tournament_to_choose.name}")
                 self.start_tournament(tournament_to_choose)
             elif menu == "0":
-                break
+                os.system(exit())
             else:
-                print("Recommencez svp.")
+                if menu not in ["0", "1", "2", "3", "4"]:
+                    print("Saisie invalide. Svp entrer 0, 1, 2, 3 ou 4.\n")
+                    print("Recommencez svp.")
 
     def list_tournament(self):
         tournaments = Tournament.loads_tournament()
@@ -198,9 +201,11 @@ class TournamentManager:
         # self.tournament_view.display_points()
         print(f"{tournaments_data.nb_turn} tours pour ce tournoi.")
         # boucle tant que fin de saisie != Q
+        self.list_players_tournament(tournaments_data)
         clear_console()
-
-        for tour in range(tournaments_data.nb_turn):
+        print(tournaments_data.turn)
+        start = tournaments_data.turn
+        for tour in range(start, tournaments_data.nb_turn):
             tour_obj = {
                 "name": f"Tour {tour + 1}",
                 "started": datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
@@ -208,7 +213,7 @@ class TournamentManager:
                 "description": self.Tournaments.description,
                 "ended": None,
             }
-
+            print("-"*16)
             print(f"Pour le tour {tour + 1}")
             # print("tour + 1", tour + 1)
             self.tournament_view.display_first_turn()
@@ -261,8 +266,8 @@ class TournamentManager:
                     tournaments_data.turn_list
                 )
                 # print("historique_matches", historique_matches)
-                # for i in range(0, len(historique_matches)):
-                #     historique_match = historique_matches[i]
+                for i in range(0, len(historique_matches)):
+                    historique_match = historique_matches[i]
                 # print(historique_match)
                 self.update_score_player(
                     tournaments_data.turn_list, tournaments_data.players
@@ -299,7 +304,6 @@ class TournamentManager:
                     )
                 tournaments_data.turn_list.append(tour_obj)
                 tournaments_data.turn = tour + 1
-                print("tour + 1 else ", tour + 1)
                 # print(tournaments_data.status)
                 tournaments_data.ending_date = (datetime.now()).strftime(
                     "%d-%m-%Y %H:%M:%S"
@@ -374,3 +378,10 @@ class TournamentManager:
                 found_player_1.score = found_player_1.score + match[0][1]
                 found_player_2 = [p for p in players if p.player_uuid == match[1][0]][0]
                 found_player_2.score = found_player_2.score + match[1][1]
+
+    def list_players_tournament(self, tournaments_data):
+        players_by_id = tournaments_data.players
+        print(colorise("\nParticipants :"))
+        sorted_players = sorted(players_by_id, key=lambda classe: (classe.name, classe.firstname))
+        for player in sorted_players:
+            print(player.name, player.firstname)
