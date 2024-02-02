@@ -39,7 +39,7 @@ class TournamentManager:
         nb_turn = self.tournament_view.get_nb_turn()
         players_saved = Player.get_players_saved()
         self.player_view.display_all_player_saved(players_saved)
-        choix = ""
+
         combien = int(input("Combien de participants? "))
 
         # initialise liste players du tournoi depuis players_saved
@@ -85,7 +85,7 @@ class TournamentManager:
         """
         Run the tournament management system.
 
-        Displays a menu to the user and allows them to select various options,
+        Displays  a menu to the user and allows them to select various options,
         such as creating a new tournament or resuming an existing one.
 
         :rtype: None
@@ -213,7 +213,7 @@ class TournamentManager:
                 "description": self.Tournaments.description,
                 "ended": None,
             }
-            print("-"*16)
+            print("-" * 16)
             print(f"Pour le tour {tour + 1}")
             # print("tour + 1", tour + 1)
             self.tournament_view.display_first_turn()
@@ -266,8 +266,8 @@ class TournamentManager:
                     tournaments_data.turn_list
                 )
                 # print("historique_matches", historique_matches)
-                for i in range(0, len(historique_matches)):
-                    historique_match = historique_matches[i]
+                # for i in range(0, len(historique_matches)):
+                #     historique_match = historique_matches[i]
                 # print(historique_match)
                 self.update_score_player(
                     tournaments_data.turn_list, tournaments_data.players
@@ -382,6 +382,8 @@ class TournamentManager:
     def list_players_tournament(self, tournaments_data):
         players_by_id = tournaments_data.players
         print(colorise("\nParticipants :"))
-        sorted_players = sorted(players_by_id, key=lambda classe: (classe.name, classe.firstname))
+        sorted_players = sorted(
+            players_by_id, key=lambda classe: (classe.name, classe.firstname)
+        )
         for player in sorted_players:
             print(player.name, player.firstname)

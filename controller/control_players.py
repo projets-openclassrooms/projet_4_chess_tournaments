@@ -2,11 +2,11 @@
     new_player with attributes
 
 """
+
 import os
 import uuid
 
 from model.player import Player
-from utils.settings import clear_console
 from view.playerview import PlayerView
 from view.reportview import ReportView
 from view.tournamentview import TournamentView
@@ -65,7 +65,6 @@ class PlayerManager(object):
         # all_player_saved = []
         menu = ""
         while menu != "0":
-            clear_console()
 
             menu = self.player_view.display_menu()
             if menu == "1":
@@ -86,3 +85,6 @@ class PlayerManager(object):
                 if menu not in ["0", "1", "2", "3", "4", "5"]:
                     print("Saisie invalide. Svp entrer 0, 1, 2, 3, 4 ou 5.\n")
                     print("Recommencez svp.")
+
+    def delete_player(self):
+        pass

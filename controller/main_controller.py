@@ -4,7 +4,6 @@ from CONSTANTES import DATA_FOLDER, REPORT_FILE
 from controller.control_players import PlayerManager
 from controller.control_reports import ReportManager
 from controller.control_tournaments import TournamentManager
-from utils.settings import clear_console
 from view.main_menu import MainMenu
 from view.tournamentview import TournamentView
 
@@ -39,13 +38,10 @@ class MainController:
         self.report = ReportManager()
 
     def run(self):
-        clear_console()
 
         # afficher le menu
         menu = ""
         while menu != "0":
-            clear_console()
-
             menu = self.main_view.display_menu()
             if menu == "1":
                 # menu joueur

@@ -14,7 +14,6 @@ from view.playerview import PlayerView
 from view.reportview import ReportView
 from view.tournamentview import TournamentView
 
-
 # REPORT_FILE = "data/report/"
 
 
