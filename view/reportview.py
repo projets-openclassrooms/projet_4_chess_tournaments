@@ -33,7 +33,9 @@ class ReportView:
                     + "- 3 Noms et dates d'un tournoi donné.\n"
                     + "- 4 Liste de joueurs d'un tournoi.\n"
                     + "- 5 Détails des tours d'un tournoi et matchs.\n"
-                    + "- 6 pour revenir en arrière.\n"
+                    + "- 6 Menu Tournois.\n"
+                    + "- 7 Menu Joueurs.\n"
+                    + "- 0 Quitter.\n"
                 )
             )
         )

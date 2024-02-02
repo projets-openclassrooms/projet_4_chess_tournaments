@@ -13,12 +13,13 @@ class PlayerView:
                 "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
                 + " 1 - Créer un nouveau joueur,\n"
                 + " 2 - Voir les joueurs,\n"
-                + " 0 - pour revenir en arrière.\n"
+                + " 3 - Supprimer un joueur\n"
+                + " 4 - Menu Tournois.\n"
+                + " 5 - Menu Rapports.\n"
+                + " 0 - Quitter.\n"
             )
         )
 
-        # + " 2 - Supprimer un joueur\n"
-        # + " 3 - Modifier un joueur\n"
         clear_screen()
         return menu
 

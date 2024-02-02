@@ -20,7 +20,7 @@ class TournamentView:
                 + " 2 - Afficher les tournois? \n"
                 + " 3 - Lancer un tournoi\n"
                 + " 4 - Reprendre un tournoi en cours?\n"
-                + " 0 - pour revenir en arrière.\n"
+                + " 0 - Quitter.\n"
             )
         )
         clear_screen()
@@ -29,7 +29,7 @@ class TournamentView:
     def display_first_turn(self) -> object:
         print(
             colorise(
-                "Saisie : \n"
+                "Pour rappel, saisir 1 ou 0 ou 0.5: \n"
                 + "Point du gagnant : 1 - "
                 + "Point du perdant : 0\n"
                 + "Egalité : 0.5\n"
