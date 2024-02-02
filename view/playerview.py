@@ -72,18 +72,6 @@ class PlayerView:
                 else:
                     return players_saved[choice - 1]
 
-    def ask_to_modify_player(self, players_saved):
-        i = 0
-        for player in players_saved:
-            i += 1
-            print(f"{i} - {player}")
-            while True:
-                choice = int(input("Saisir le numéro du joueur à modifier :\n"))
-                if not choice:
-                    print("Merci de saisir un chiffre svp.")
-                else:
-                    return players_saved[choice - 1]
-
     def get_name(self):
         name = ""
         while name != QUIT:
