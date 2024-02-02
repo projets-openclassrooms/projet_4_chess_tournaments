@@ -41,7 +41,8 @@ class TournamentManager:
         self.player_view.display_all_player_saved(players_saved)
 
         combien = int(input("Combien de participants? "))
-
+        if combien <= 9 and is_odd(combien):
+            combien = 8
         # initialise liste players du tournoi depuis players_saved
         players = []
         nb_players = len(players_saved)
@@ -52,14 +53,12 @@ class TournamentManager:
                 "Ajouter un joueur en indiquant son numéro ou Q pour quitter?"
             ).upper()
             i += 1
-
             if choix == "Q" or i == combien + 1:
                 break
             try:
                 index = int(choix) - 1
                 if 0 <= index < nb_players and players_saved[index] not in players:
                     players.append(players_saved[index])
-
                 elif is_odd(players):
                     self.tournament_view.incomplete_list(players)
                     return

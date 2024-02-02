@@ -73,18 +73,12 @@ class PlayerManager(object):
             elif menu == "2":
                 self.display_players()
             elif menu == "3":
-                # Supprimer un joueur
-                self.delete_player()
-            elif menu == "4":
                 self.tournament_view.display_menu()
-            elif menu == "5":
+            elif menu == "4":
                 self.report_view.get_type_report()
             elif menu == "0":
                 os.system(exit())
             else:
-                if menu not in ["0", "1", "2", "3", "4", "5"]:
-                    print("Saisie invalide. Svp entrer 0, 1, 2, 3, 4 ou 5.\n")
+                if menu not in ["0", "1", "2", "3", "4"]:
+                    print("Saisie invalide. Svp entrer 0, 1, 2, 3 ou 4.\n")
                     print("Recommencez svp.")
-
-    def delete_player(self):
-        pass
