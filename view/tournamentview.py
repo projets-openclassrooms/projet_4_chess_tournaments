@@ -83,7 +83,8 @@ class TournamentView:
         """
 
         turns = input(
-            "Combien de tours compte ce tournoi?\n-" + "par défaut (4 tours)\n"
+            "Combien de tours compte ce tournoi?\n-"
+            + "par défaut 4 tours pour 8 joueurs\n"
         )
         if turns != int(MIN_TURNS):
             turns = int(MIN_TURNS)

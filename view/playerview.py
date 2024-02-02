@@ -13,9 +13,8 @@ class PlayerView:
                 "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
                 + " 1 - Créer un nouveau joueur,\n"
                 + " 2 - Voir les joueurs,\n"
-                + " 3 - Supprimer un joueur\n"
-                + " 4 - Menu Tournois.\n"
-                + " 5 - Menu Rapports.\n"
+                + " 3 - Menu Tournois.\n"
+                + " 4 - Menu Rapports.\n"
                 + " 0 - Quitter.\n"
             )
         )
@@ -46,31 +45,6 @@ class PlayerView:
             elif len(players_saved) > 1:
                 print(f"Total : {str(len(players_saved))} joueurs.\n")
         separation()
-
-    def add_again(self):
-        again = ""
-        while again != "N" or again != "O":
-            save_new_player = input(
-                "Souhaitez-vous ajouter un nouveau joueur?(o/n)\n"
-            ).upper()
-            if save_new_player == "O":
-                return True
-            elif save_new_player == "N":
-                return False
-            else:
-                print(f"{save_new_player} n'est pas valide\n")
-
-    def ask_to_delete_player(self, players_saved):
-        i = 0
-        for player in players_saved:
-            i += 1
-            print(f"{i} - {player}")
-            while True:
-                choice = int(input("Saisir le numéro du joueur à supprimer :\n"))
-                if not choice:
-                    print("Merci de saisir un chiffre svp.")
-                else:
-                    return players_saved[choice - 1]
 
     def get_name(self):
         name = ""
