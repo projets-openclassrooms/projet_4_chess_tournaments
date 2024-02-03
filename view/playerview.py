@@ -13,8 +13,7 @@ class PlayerView:
                 "Quel menu souhaitez-vous sélectionner ?\nSaisir\n\n"
                 + " 1 - Créer un nouveau joueur,\n"
                 + " 2 - Voir les joueurs,\n"
-                + " 3 - Menu Tournois.\n"
-                + " 4 - Menu Rapports.\n"
+                + "\n"
                 + " 0 - Quitter.\n"
             )
         )
