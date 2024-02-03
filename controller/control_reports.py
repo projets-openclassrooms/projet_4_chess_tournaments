@@ -195,24 +195,26 @@ class ReportManager:
             selection = self.report_view.get_type_report()
 
             if selection == 1:
+                #affichage des joueurs
                 self.player.display_players()
                 self.save_players_report()
             elif selection == 2:
+                #affichage des tournois
                 self.report_tournaments.list_tournament()
                 self.save_report_tournaments()
             elif selection == 3:
+                #affichage des tournois par nom
                 self.all_tournaments_by_name()
             elif selection == 4:
+                # joueurs d'un tournoi selectionne
                 self.all_players_tournament_report()
             elif selection == 5:
+                #detail des matchs
                 self.tournaments_matches_report()
-            elif selection == 6:
-                self.tournament_view.display_menu()
-            elif selection == 7:
-                self.player_view.display_menu()
+
             elif selection == 0:
                 os.system(exit())
             else:
-                if selection not in ["0", "1", "2", "3", "4", "5", "6", "7"]:
-                    print("Saisie invalide. Svp entrer 0, 1, 2, 3, 4, 5 6, ou 7.")
+                if selection not in ["0", "1", "2", "3", "4", "5"]:
+                    print("Saisie invalide. Svp entrer 0, 1, 2, 3, 4, ou 5.")
                     print("Recommencez svp.")
