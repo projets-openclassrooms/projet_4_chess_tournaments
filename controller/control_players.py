@@ -72,13 +72,10 @@ class PlayerManager(object):
                 self.new_player()
             elif menu == "2":
                 self.display_players()
-            elif menu == "3":
-                self.tournament_view.display_menu()
-            elif menu == "4":
-                self.report_view.get_type_report()
+
             elif menu == "0":
                 os.system(exit())
             else:
-                if menu not in ["0", "1", "2", "3", "4"]:
-                    print("Saisie invalide. Svp entrer 0, 1, 2, 3 ou 4.\n")
+                if menu not in ["0", "1", "2"]:
+                    print("Saisie invalide. Svp entrer 0, 1, 2, .\n")
                     print("Recommencez svp.")
